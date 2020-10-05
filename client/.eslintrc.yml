@@ -35,4 +35,7 @@ rules:
   no-trailing-spaces: 0
   no-underscore-dangle: 0
   react/jsx-filename-extension: 0
+  react/jsx-props-no-spreading: 0
+  react/destructuring-assignment: 0
   import/no-useless-path-segments: 0
+  import/named: 0

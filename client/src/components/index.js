@@ -9,3 +9,4 @@
 | import { Comp1, Comp2, Comp3, Comp4 } from './components'
 | import { Route1, Route2, Route3, Route4 } from './routes'
 */
+export { default as LoginForm } from './loginForm/loginForm'
