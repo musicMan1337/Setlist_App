@@ -3,14 +3,12 @@ import { Route, Switch, Link } from 'react-router-dom';
 import { LoginPage, HomePage, SongsView, SetsView, GigsView } from '../routes';
 import PrivateRoute from '../routes/Utils/privateRoute';
 import { Button } from '../components/utils/utils';
-import config from '../config';
+// import config from '../config';
 
 const App = () => {
   // TODO - temp for checking api wiring
   const [wiring, setWiring] = useState('');
   const fetcher = async (path) => {
-    console.log(`Fetch: ${path}`);
-
     // const testData = await fetch(config.API_ENDPOINT + path, {
     //   method: 'GET',
     //   headers: {

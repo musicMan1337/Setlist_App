@@ -2,7 +2,7 @@ const path = require('path');
 
 const { format, transports, createLogger } = require('winston');
 
-const { NODE_ENV } = require('../../src/config');
+const { NODE_ENV, HEROKU } = require('../../src/config');
 
 const fileFormat = format.combine(
   format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
@@ -22,16 +22,19 @@ const logger = createLogger();
 
 const filename = path.resolve(__dirname, `logs/winston_logs.log`);
 
-logger.add(
-  new transports.File({
-    filename,
-    level: 'http',
-    maxsize: 20000000, // 20MB
-    tailable: true,
-    zippedArchive: true,
-    format: fileFormat
-  })
-);
+// need to disable for Heroku deployment
+if (NODE_ENV === 'development') {
+  logger.add(
+    new transports.File({
+      filename,
+      level: 'http',
+      maxsize: 20000000, // 20MB
+      tailable: true,
+      zippedArchive: true,
+      format: fileFormat
+    })
+  );
+}
 
 if (NODE_ENV === 'development') {
   logger.add(
