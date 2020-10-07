@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
-import { LoginPage, HomePage, SongsView, SetsView, GigsView } from '../routes';
+import * as u from '../components/utils/utils';
+import * as r from '../routes';
 import PrivateRoute from '../routes/Utils/privateRoute';
-import { Button } from '../components/utils/utils';
 // import config from '../config';
 
 const App = () => {
@@ -21,17 +21,17 @@ const App = () => {
   };
 
   const apiSwitch = ['/', '/songs', '/sets', '/gigs'].map((path) => (
-    <Button onClick={() => fetcher(path)} key={path}>
+    <u.Button onClick={() => fetcher(path)} key={path}>
       <h1>Api fetch: {path}</h1>
-    </Button>
+    </u.Button>
   ));
 
   // TODO - temp for checking route wiring
   const pathSwitch = ['/login', '/', '/songs', '/sets', '/gigs'].map((path) => (
     <Link to={path} key={path}>
-      <Button>
+      <u.Button>
         <h1>Path for: {path}</h1>
-      </Button>
+      </u.Button>
     </Link>
   ));
 
@@ -42,11 +42,11 @@ const App = () => {
       <h2>Path: {wiring}</h2>
       <div style={{ flexDirection: 'row' }}>{pathSwitch}</div>
       <Switch>
-        <Route path="/login" component={LoginPage} />
-        <PrivateRoute exact path="/" component={HomePage} />
-        <PrivateRoute path="/songs" component={SongsView} />
-        <PrivateRoute path="/sets" component={SetsView} />
-        <PrivateRoute path="/gigs" component={GigsView} />
+        <Route path="/login" component={r.LoginPage} />
+        <PrivateRoute exact path="/" component={r.HomePage} />
+        <PrivateRoute path="/songs" component={r.SongsView} />
+        <PrivateRoute path="/sets" component={r.SetsView} />
+        <PrivateRoute path="/gigs" component={r.GigsView} />
       </Switch>
     </div>
   );

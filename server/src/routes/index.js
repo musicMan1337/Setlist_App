@@ -10,6 +10,16 @@
 | }
 |
 | Why? Readability:
-| const { thingsRouter, stuffRouter, authRouter } = require('./routes')
+| const { thingsRouter, stuffRouter, userRouter } = require('./routes')
 */
+const usersRouter = require('./users/users.router');
+const songsRouter = require('./songs/songs.router');
+const setsRouter = require('./sets/sets.router');
+const gigsRouter = require('./gigs/gigs.router');
 
+module.exports = {
+  usersRouter,
+  songsRouter,
+  setsRouter,
+  gigsRouter
+};

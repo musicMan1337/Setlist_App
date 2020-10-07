@@ -4,6 +4,7 @@ module.exports = {
   CORS_ORIGIN_DEV: process.env.CORS_ORIGIN_DEV || 'http://localhost:3000',
   CORS_ORIGIN_PROD: process.env.CORS_ORIGIN_PROD,
   API_TOKEN: process.env.API_TOKEN,
+  JWT_SECRET: process.env.JWT_SECRET,
   DATABASE_URL: process.env.DATABASE_URL,
   TEST_DB_URL: process.env.TEST_DB_URL
 };
