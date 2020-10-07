@@ -1,6 +1,6 @@
 const auth = require('./auth')
 const validate = require('./body-validators')
-const errors = require('./errors')
+const errors = require('./error-handlers')
 const { app, Router ,jsonBodyParser } = require('./express-methods')
 
 module.exports = {

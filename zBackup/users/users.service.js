@@ -4,10 +4,7 @@ const UsersService = {
   },
 
   createUser(db, newUser) {
-    return db('users')
-      .insert(newUser)
-      .returning('*')
-      .then((rows) => rows[rows.length - 1]);
+    return db('users').insert(newUser, '*');
   }
 };
 

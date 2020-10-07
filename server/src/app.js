@@ -1,4 +1,3 @@
-require('dotenv').config();
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -11,10 +10,10 @@ const {
   setsRouter,
   gigsRouter
 } = require('./routes');
-const { app, errors } = require('../src/middlewares');
+const { app, errors } = require('./middlewares');
 
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'dev';
-const morganSkip = { skip: NODE_ENV === 'test' };
+const morganSkip = { skip: () => NODE_ENV === 'test' };
 const corsOrigin = {
   origin: NODE_ENV === 'production' ? CORS_ORIGIN_DEV : CORS_ORIGIN_PROD
 };
@@ -23,7 +22,7 @@ app.use(morgan(morganOption, morganSkip));
 app.use(cors(corsOrigin));
 app.use(helmet());
 
-app.get('/api/v1', (req, res) => {
+app.get('/', (req, res) => {
   res.send('Express boilerplate initialized!');
 });
 

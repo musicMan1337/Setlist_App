@@ -38,13 +38,13 @@ if (NODE_ENV === 'development') {
   );
 }
 
-
+if (NODE_ENV === 'development') {
   logger.add(
     new winston.transports.Console({
       level: 'silly',
       format: consoleFormat
     })
   );
-
+}
 
 module.exports = logger;

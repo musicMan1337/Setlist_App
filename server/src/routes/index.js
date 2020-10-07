@@ -12,10 +12,10 @@
 | Why? Readability:
 | const { thingsRouter, stuffRouter, userRouter } = require('./routes')
 */
-const usersRouter = require('./users/users.router');
-const songsRouter = require('./songs/songs.router');
-const setsRouter = require('./sets/sets.router');
-const gigsRouter = require('./gigs/gigs.router');
+const usersRouter = require('./users.router');
+const songsRouter = require('./songs.router');
+const setsRouter = require('./sets.router');
+const gigsRouter = require('./gigs.router');
 
 module.exports = {
   usersRouter,

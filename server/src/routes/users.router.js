@@ -1,13 +1,19 @@
-const UsersService = require('./users.service');
-const { auth, validate, Router, jsonBodyParser } = require('../../middlewares');
+const CRUDService = require('../services/crud.service');
+const {
+  auth,
+  validate,
+  Router,
+  jsonBodyParser
+} = require('../../src/middlewares');
 
-const userRouter = Router()
+const userRouter = Router();
+const TABLE_NAME = 'users'
 
 userRouter
   .route('/login')
   .all(jsonBodyParser, validate.loginBody)
   .get((req, res, next) =>
-    UsersService.getByName(req.app.get('db'), res.loginUser.user_name)
+    CRUDService.getByName(req.app.get('db'), TABLE_NAME, res.loginUser.user_name)
       .then((dbUser) => {
         if (!dbUser) {
           return res.status(400).json({ error: `Incorrect 'User Name'` });
@@ -21,7 +27,7 @@ userRouter
   .get(auth.passwordCheck)
 
   .post(auth.hashPassword, (req, res, next) =>
-    UsersService.createUser(req.app.get('db'), res.loginUser)
+    CRUDService.createEntry(req.app.get('db'), res.loginUser)
       .then((newUser) => {
         const { user_name, id } = newUser;
 
