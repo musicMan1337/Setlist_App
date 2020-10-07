@@ -1,44 +1,51 @@
 const func = () => {
-  const { gig_name, start_time, another } = {gig_name: 'name'};
-  const newGig = { gig_name, start_time };;
+  const { gig_name, start_time, another } = { gig_name: 'name', another: 'one' }
+  const newGig = { gig_name, another }
 
   const fields = Object.entries(newGig)
-  const keyError = fields.find(([key, value]) => (value === undefined && key))
+  const keyError = fields.find(([key, value]) => value === undefined && key)
 
   if (keyError) return console.log('error: ', keyError)
-  return console.log('pass');
+  return console.log('pass')
 }
 
 func()
 
-const next = (res) => {
-  console.log(res.song);
+const next = res => {
+  console.log(res.song)
 }
 
-// const checkIfExists = async (res={}) => {
+// const checkIfExists = async (res = {}) => {
 //   try {
-//     const song = {song: 'song_name'}
-//     // x++
-//     if (!song) return console.log('error');
-//     res.song = song;
-//   } catch (error) {
-//     next(error);
-//   }
+//     const store = ['one', 'two', 'three']
+//     const song = store.find(item => item === '')
 
-//   return next(res);
-// };
+//     x++
+//     if (!song) return console.log('error')
+
+//     res.song = song
+//     console.log(res);
+//     next(res)
+//   } catch (error) {
+//     console.log(error);
+//     next(error)
+//   }
+// }
 
 checkIfExists()
 
-async function checkIfExists(res={}) {
+async function checkIfExists(res = {}) {
   try {
-    const song = {song: 'song_name'}
-    // x++
-    if (!song) return console.log('error');
-    res.song = song;
-  } catch (error) {
-    next(error);
-  }
+    const store = ['one', 'two', 'three']
+    const song = store.find((item) => item === '')
 
-  return next(res);
-};
+    if (!song) return console.log('error')
+
+    res.song = song
+    console.log(res);
+    next(res)
+  } catch (error) {
+    console.log(error);
+    next(error)
+  }
+}

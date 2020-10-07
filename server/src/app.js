@@ -10,7 +10,7 @@ const {
   setsRouter,
   gigsRouter
 } = require('./routes');
-const { app, errors } = require('./middlewares');
+const { app, error } = require('./middlewares');
 
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'dev';
 const morganSkip = { skip: () => NODE_ENV === 'test' };
@@ -30,16 +30,16 @@ app.get('/', (req, res) => {
 | ROUTES HERE -------------------------
 */
 
-app.use('/api/v1/users', usersRouter);
-app.use('/api/v1/songs', songsRouter);
-app.use('/api/v1/sets', setsRouter);
-app.use('/api/v1/gigs', gigsRouter);
+app.use('/setapp/v1/users', usersRouter);
+app.use('/setapp/v1/songs', songsRouter);
+app.use('/setapp/v1/sets', setsRouter);
+app.use('/setapp/v1/gigs', gigsRouter);
 
 /*
 |--------------------------------------
 */
 
-app.use(errors.notFound);
-app.use(errors.errorHandler);
+app.use(error.notFound);
+app.use(error.errorHandler);
 
 module.exports = app;
