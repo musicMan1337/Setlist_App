@@ -1,27 +1,20 @@
-const express = require('express');
-
 const GigsService = require('./gigs.service');
-const bodyVal = require('../../middlewares/body.val');
+const { validate, Router, jsonBodyParser } = require('../../middlewares');
 
-const gigsRouter = express.Router();
-const jsonBodyParser = express.json();
+const gigsRouter = Router();
 
 gigsRouter
   .route('/')
   .all(jsonBodyParser)
   .get((req, res, next) =>
     GigsService.getAllGigs(req.app.get('db'))
-      .then((gigs) => {
-        res.json(GigsService.serializeGigs(gigs));
-      })
+      .then((gigs) => res.json(GigsService.serializeGigs(gigs)))
       .catch(next)
   )
 
-  .post(bodyVal.gigBody, (req, res, next) =>
+  .post(validate.gigBody, (req, res, next) =>
     GigsService.createGig(req.app.get('db'), res.newgig)
-      .then((gig) => {
-        res.status(201).json(GigsService.serializeGig(gig));
-      })
+      .then((gig) => res.status(201).json(GigsService.serializeGig(gig)))
       .catch(next)
   );
 
@@ -47,12 +40,10 @@ gigsRouter
     )
   )
 
-  .patch(bodyVal.gigBody, (req, res) =>
-    GigsService.updateGig(
-      req.app.get('db'),
-      res.gig.id,
-      res.newgig
-    ).then(() => res.json({ message: `gig "${res.gig.gig_name}" deleted` }))
+  .patch(validate.gigBody, (req, res) =>
+    GigsService.updateGig(req.app.get('db'), res.gig.id, res.newgig).then(() =>
+      res.json({ message: `gig "${res.gig.gig_name}" deleted` })
+    )
   );
 
 module.exports = gigsRouter;

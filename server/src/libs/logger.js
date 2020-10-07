@@ -1,8 +1,10 @@
 const path = require('path');
 
-const { format, transports, createLogger } = require('winston');
+const winston = require('winston');
 
 const { NODE_ENV } = require('../../src/config');
+
+const { format } = winston
 
 const fileFormat = format.combine(
   format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
@@ -18,14 +20,14 @@ const consoleFormat = format.combine(
   )
 );
 
-const logger = createLogger();
+const logger = winston.createLogger();
 
 const filename = path.resolve(__dirname, `logs/winston_logs.log`);
 
 // disable for Heroku deployment
 if (NODE_ENV === 'development') {
   logger.add(
-    new transports.File({
+    new winston.transports.File({
       filename,
       level: 'http',
       maxsize: 20000000, // 20MB
@@ -36,13 +38,13 @@ if (NODE_ENV === 'development') {
   );
 }
 
-if (NODE_ENV === 'development') {
+
   logger.add(
-    new transports.Console({
+    new winston.transports.Console({
       level: 'silly',
       format: consoleFormat
     })
   );
-}
+
 
 module.exports = logger;

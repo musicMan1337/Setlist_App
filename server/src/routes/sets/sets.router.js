@@ -1,27 +1,20 @@
-const express = require('express');
-
 const SetsService = require('./sets.service');
-const bodyVal = require('../../middlewares/body.val');
+const { validate, Router, jsonBodyParser } = require('../../middlewares');
 
-const setsRouter = express.Router();
-const jsonBodyParser = express.json();
+const setsRouter = Router();
 
 setsRouter
   .route('/')
   .all(jsonBodyParser)
   .get((req, res, next) =>
     SetsService.getAllSets(req.app.get('db'))
-      .then((sets) => {
-        res.json(SetsService.serializeSets(sets));
-      })
+      .then((sets) => res.json(SetsService.serializeSets(sets)))
       .catch(next)
   )
 
-  .post(bodyVal.setBody, (req, res, next) =>
+  .post(validate.setBody, (req, res, next) =>
     SetsService.createSet(req.app.get('db'), res.newset)
-      .then((set) => {
-        res.status(201).json(SetsService.serializeSet(set));
-      })
+      .then((set) => res.status(201).json(SetsService.serializeSet(set)))
       .catch(next)
   );
 
@@ -47,12 +40,10 @@ setsRouter
     )
   )
 
-  .patch(bodyVal.setBody, (req, res) =>
-    SetsService.updateset(
-      req.app.get('db'),
-      res.set.id,
-      res.newset
-    ).then(() => res.json({ message: `Set "${res.set.set_name}" deleted` }))
+  .patch(validate.setBody, (req, res) =>
+    SetsService.updateset(req.app.get('db'), res.set.id, res.newset).then(() =>
+      res.json({ message: `Set "${res.set.set_name}" deleted` })
+    )
   );
 
-module.exports = setsRouter
+module.exports = setsRouter;

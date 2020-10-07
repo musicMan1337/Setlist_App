@@ -1,35 +1,35 @@
-const express = require('express');
+const UsersService = require('./users.service');
+const { auth, validate, Router, jsonBodyParser } = require('../../middlewares');
 
-const AuthService = require('./users.service');
-const bodyVal = require('../../middlewares/body.val');
-const auth = require('../../middlewares/auth');
-
-const userRouter = express.Router();
-const jsonBodyParser = express.json();
+const userRouter = Router()
 
 userRouter
   .route('/login')
-  .all(jsonBodyParser, bodyVal.loginBody)
-  .get((req, res, next) => {
-    AuthService.getByName(req.app.get('db'), res.loginUser.user_name)
+  .all(jsonBodyParser, validate.loginBody)
+  .get((req, res, next) =>
+    UsersService.getByName(req.app.get('db'), res.loginUser.user_name)
       .then((dbUser) => {
         if (!dbUser) {
-          return res
-            .status(400)
-            .json({ error: `Incorrect 'User Name'` });
+          return res.status(400).json({ error: `Incorrect 'User Name'` });
         }
 
-        AuthService.comparePasswords()
-
-        const sub = dbUser.user_name;
-        const payload = { user_id: dbUser.id };
-        return res.json({
-          authToken: AuthService.createJwt(sub, payload)
-        });
+        res.dbUser = dbUser;
+        return next();
       })
-      .catch(next);
-  })
+      .catch(next)
+  )
+  .get(auth.passwordCheck)
 
-  .post((req, res, next) => {});
+  .post(auth.hashPassword, (req, res, next) =>
+    UsersService.createUser(req.app.get('db'), res.loginUser)
+      .then((newUser) => {
+        const { user_name, id } = newUser;
+
+        const token = auth.createJwtService(user_name, id);
+        return token;
+      })
+      .then((token) => res.json({ authToken: token }))
+      .catch(next)
+  );
 
 module.exports = userRouter;

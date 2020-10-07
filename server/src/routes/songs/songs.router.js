@@ -1,27 +1,20 @@
-const express = require('express');
-
 const SongsService = require('./songs.service');
-const bodyVal = require('../../middlewares/body.val');
+const { validate, Router, jsonBodyParser } = require('../../middlewares');
 
-const songsRouter = express.Router();
-const jsonBodyParser = express.json();
+const songsRouter = Router();
 
 songsRouter
   .route('/')
   .all(jsonBodyParser)
   .get((req, res, next) =>
     SongsService.getAllSongs(req.app.get('db'))
-      .then((songs) => {
-        res.json(SongsService.serializeSongs(songs));
-      })
+      .then((songs) => res.json(SongsService.serializeSongs(songs)))
       .catch(next)
   )
 
-  .post(bodyVal.songBody, (req, res, next) =>
+  .post(validate.songBody, (req, res, next) =>
     SongsService.createSong(req.app.get('db'), res.newSong)
-      .then((song) => {
-        res.status(201).json(SongsService.serializeSong(song));
-      })
+      .then((song) => res.status(201).json(SongsService.serializeSong(song)))
       .catch(next)
   );
 
@@ -47,7 +40,7 @@ songsRouter
     )
   )
 
-  .patch(bodyVal.songBody, (req, res) =>
+  .patch(validate.songBody, (req, res) =>
     SongsService.updateSong(
       req.app.get('db'),
       res.song.id,
