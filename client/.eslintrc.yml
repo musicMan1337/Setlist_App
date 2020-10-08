@@ -7,28 +7,33 @@ env:
   jest: true
 parserOptions:
   ecmaVersion: 11
-  sourceType: "module"
+  sourceType: module
+settings:
+  import/resolver:
+    node:
+      extensions:
+        - .js
+        - .scss
+      paths:
+        - ./
 extends:
-  - "eslint:recommended"
-  - "plugin:react/recommended"
-  - "plugin:jsx-a11y/recommended"
-  - "plugin:react-hooks/recommended"
-  - "airbnb"
-  - "airbnb/hooks"
-  - "prettier"
-  - "prettier/react"
+  - eslint:recommended
+  - plugin:react/recommended
+  - plugin:jsx-a11y/recommended
+  - plugin:react-hooks/recommended
+  - airbnb
+  - airbnb/hooks
+  - prettier
+  - prettier/react
 ignorePatterns:
-  - "/*"
-  - "!src/"
-  - "index.js"
-  - "css-reset"
-  - "setupTests.js"
+  - ./*
+  - '!src/'
 rules:
   camelcase: 0
   comma-dangle: 0
   linebreak-style:
-    - "error"
-    - "unix"
+    - error
+    - unix
   no-plusplus: 0
   no-return-assign: 0
   no-param-reassign: 0
@@ -37,5 +42,4 @@ rules:
   react/jsx-filename-extension: 0
   react/jsx-props-no-spreading: 0
   react/destructuring-assignment: 0
-  import/no-useless-path-segments: 0
-  import/named: 0
+  # import/named: 0

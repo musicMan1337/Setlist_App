@@ -4,14 +4,13 @@ const { validate, Router, jsonBodyParser } = require('../../src/middlewares');
 const setsRouter = Router();
 const TABLE_NAME = 'sets';
 
+setsRouter.all(jsonBodyParser);
+
 setsRouter
   .route('/')
-  .all(jsonBodyParser)
   .get((req, res, next) =>
     CRUDService.getAllData(req.app.get('db'), TABLE_NAME)
-      .then((sets) =>
-        res.json(SerializeService.serializeData(TABLE_NAME, sets))
-      )
+      .then((sets) => res.json(SerializeService.serializeData(TABLE_NAME, sets)))
       .catch(next)
   )
 
@@ -23,7 +22,7 @@ setsRouter
 
 setsRouter
   .route('/:id')
-  .all(jsonBodyParser, (req, res, next) => {
+  .all((req, res, next) => {
     try {
       const set = CRUDService.getById(
         req.app.get('db'),
@@ -39,12 +38,15 @@ setsRouter
 
     return next();
   })
+
   .get((_, res) => res.json(SerializeService.serializeSet(res.set)))
 
   .delete((req, res) =>
-    CRUDService.deleteById(req.app.get('db'), TABLE_NAME, res.set.id).then(() =>
-      res.status(204).json({ message: `Set "${res.set.set_name}" deleted` })
-    )
+    CRUDService.deleteById(req.app.get('db'), TABLE_NAME, res.set.id).then(() => {
+      const { set_name } = res.set;
+
+      res.status(204).json({ message: `Set "${set_name}" deleted` });
+    })
   )
 
   .patch(validate.setBody, (req, res) =>
@@ -53,7 +55,7 @@ setsRouter
       TABLE_NAME,
       res.set.id,
       res.newset
-    ).then(() => res.json({ message: `Set "${res.set.set_name}" deleted` }))
+    ).then(([set]) => res.status(201).json(set))
   );
 
 module.exports = setsRouter;

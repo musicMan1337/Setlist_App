@@ -10,3 +10,4 @@
 | import { Route1, Route2, Route3, Route4 } from './routes'
 */
 export { default as LoginForm } from './loginForm/loginForm'
+export { default as Header } from './header/header'

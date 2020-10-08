@@ -11,12 +11,12 @@ const CRUDService = {
     return db(table).where({ id }).del();
   },
 
-  createEntry(db, table, newSong) {
-    return db(table).insert(newSong, '*');
+  createEntry(db, table, newEntry) {
+    return db(table).insert(newEntry, '*')
   },
 
-  updateEntry(db, table, id, newSong) {
-    return db(table).where({ id }).update(newSong, '*');
+  updateEntry(db, table, id, newEntry) {
+    return db(table).where({ id }).update(newEntry, '*');
   },
 
   // special case for user login

@@ -45,7 +45,7 @@ const setBody = (req, res, next) => {
   return next();
 };
 
-// TODO
+// TODO - Feature request
 const gigBody = (req, res, next) => {
   // const { song_title, composer, arranger, user_id } = req.body;
   // const newGig = { song_title, composer, arranger, user_id };

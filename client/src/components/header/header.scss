@@ -1,0 +1,32 @@
+@import 'src/styles/mixins/fluid-type.scss';
+
+.main-header {
+  width: 100%;
+
+  .nav-bar {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+
+    > * {
+      flex-direction: row;
+    }
+
+    .nav-links {
+      margin-right: 10px;
+
+      > * {
+        display: inline;
+      }
+    }
+
+    .avatar-div .user-avatar {
+      margin-right: 10px;
+    }
+  }
+
+  .headline {
+    margin: 10px;
+    @include fluid-type(font-size, 320px, 1400px, 30px, 50px);
+  }
+}

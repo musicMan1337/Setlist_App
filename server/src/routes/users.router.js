@@ -1,4 +1,4 @@
-const CRUDService = require('../services/crud.service');
+const CRUDService = require('../../src/services/crud.service');
 const {
   auth,
   validate,
@@ -10,9 +10,9 @@ const userRouter = Router();
 const TABLE_NAME = 'users';
 
 const getUserMiddleware = (req, res, next) =>
-  CRUDService.getByName(req.app.get('db'), TABLE_NAME, res.loginUser.user_name)
+  CRUDService.getByName(req.app.get('db'), res.loginUser.user_name)
     .then((dbUser) => {
-      if (!res.dbUser) {
+      if (!dbUser) {
         return res.status(400).json({ error: `Incorrect 'User Name'` });
       }
 
@@ -21,35 +21,32 @@ const getUserMiddleware = (req, res, next) =>
     })
     .catch(next);
 
-userRouter
-  .route('/login')
-  .all(jsonBodyParser, validate.loginBody)
-  .get(getUserMiddleware, auth.passwordCheck)
+userRouter.all(jsonBodyParser, validate.loginBody);
 
-  .post(auth.hashPassword, (req, res, next) =>
-    CRUDService.createEntry(req.app.get('db'), res.loginUser)
-      .then((newUser) => {
-        const { user_name, id } = newUser;
+userRouter.route('/login').post(getUserMiddleware, auth.passwordCheck);
 
-        const token = auth.createJwtService(user_name, id);
+userRouter.route('/register').post(auth.hashPassword, (req, res, next) => {
+  CRUDService.createEntry(req.app.get('db'), TABLE_NAME, res.loginUser)
+    .then(([newUser]) => {
+      const { user_name, id } = newUser;
 
-        res.user_name = user_name;
-        return token;
-      })
-      .then((token) =>
-        res.status(201).json({ authToken: token, user_name: res.user_name })
-      )
-      .catch(next)
-  )
+      const token = auth.createJwtService(user_name, id);
 
-  .delete(getUserMiddleware, (req, res) =>
-    CRUDService.deleteById(req.app.get('db'), TABLE_NAME, res.dbUser.id).then(
-      () => {
-        const { user_name } = res.dbUser;
-
-        res.status(204).json({ message: `User "${user_name}" deleted` });
-      }
+      res.user_name = user_name;
+      return token;
+    })
+    .then((token) =>
+      res.status(201).json({ authToken: token, user_name: res.user_name })
     )
-  );
+    .catch(next);
+});
+
+userRouter.route('/delete').delete(getUserMiddleware, (req, res) =>
+  CRUDService.deleteById(req.app.get('db'), TABLE_NAME, res.dbUser.id).then(() => {
+    const { user_name } = res.dbUser;
+
+    res.status(204).json({ message: `User "${user_name}" deleted` });
+  })
+);
 
 module.exports = userRouter;

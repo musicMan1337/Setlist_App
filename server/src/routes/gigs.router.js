@@ -4,9 +4,10 @@ const { validate, Router, jsonBodyParser } = require('../../src/middlewares');
 const gigsRouter = Router();
 const TABLE_NAME = 'gigs';
 
+gigsRouter.all(jsonBodyParser);
+
 gigsRouter
   .route('/')
-  .all(jsonBodyParser)
   .get((req, res, next) =>
     CRUDService.getAllData(req.app.get('db'), TABLE_NAME)
       .then((gigs) => res.json(SerializeService.serializeData(TABLE_NAME, gigs)))
@@ -21,7 +22,7 @@ gigsRouter
 
 gigsRouter
   .route('/:id')
-  .all(jsonBodyParser, (req, res, next) => {
+  .all((req, res, next) => {
     try {
       const gig = CRUDService.getById(
         req.app.get('db'),
@@ -55,7 +56,7 @@ gigsRouter
       TABLE_NAME,
       res.gig.id,
       res.newgig
-    ).then(() => res.json({ message: `gig "${res.gig.gig_name}" deleted` }))
+    ).then(([gig]) => res.status(201).json(gig))
   );
 
 module.exports = gigsRouter;

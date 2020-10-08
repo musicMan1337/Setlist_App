@@ -1,37 +1,59 @@
 import React, { useState } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
-import * as u from '../components/utils/utils';
-import * as r from '../routes';
-import PrivateRoute from '../routes/Utils/privateRoute';
-// import config from '../config';
+
+import {
+  LoginPage,
+  HomePage,
+  SongsView,
+  SetsView,
+  GigsView,
+  PrivateRoute
+} from 'src/routes';
+import { Button } from 'src/components/utils';
+import config from 'src/config';
 
 const App = () => {
-  // TODO - temp for checking api wiring
-  const [wiring, setWiring] = useState('');
+  // temp for checking api wiring
+  const [wiring, setWiring] = useState([]);
   const fetcher = async (path) => {
-    // const testData = await fetch(config.API_ENDPOINT + path, {
-    //   method: 'GET',
-    //   headers: {
-    //     'content-type': 'application/json'
-    //   }
-    // }).then((res) => res.json());
+    let testData = null;
 
-    return setWiring(path)
-    // return setWiring(JSON.parse(testData))
+    if (path === '/users/login') {
+      const body = {
+        user_name: 'John Smith',
+        password: 'so_secret'
+      };
+      testData = await fetch(config.API_ENDPOINT + path, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      }).then((res) => res.json());
+    } else {
+      testData = await fetch(config.API_ENDPOINT + path, {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json'
+        }
+      }).then((res) => res.json());
+    }
+
+    return setWiring(JSON.stringify(testData));
   };
 
-  const apiSwitch = ['/', '/songs', '/sets', '/gigs'].map((path) => (
-    <u.Button onClick={() => fetcher(path)} key={path}>
+  const apiSwitch = ['/users/login/', '/songs', '/sets', '/gigs'].map((path) => (
+    <Button onClick={() => fetcher(path)} key={path}>
       <h1>Api fetch: {path}</h1>
-    </u.Button>
+    </Button>
   ));
 
   // TODO - temp for checking route wiring
   const pathSwitch = ['/login', '/', '/songs', '/sets', '/gigs'].map((path) => (
     <Link to={path} key={path}>
-      <u.Button>
+      <Button>
         <h1>Path for: {path}</h1>
-      </u.Button>
+      </Button>
     </Link>
   ));
 
@@ -42,11 +64,11 @@ const App = () => {
       <h2>Path: {wiring}</h2>
       <div style={{ flexDirection: 'row' }}>{pathSwitch}</div>
       <Switch>
-        <Route path="/login" component={r.LoginPage} />
-        <PrivateRoute exact path="/" component={r.HomePage} />
-        <PrivateRoute path="/songs" component={r.SongsView} />
-        <PrivateRoute path="/sets" component={r.SetsView} />
-        <PrivateRoute path="/gigs" component={r.GigsView} />
+        <Route path="/login" component={LoginPage} />
+        <PrivateRoute exact path="/" component={HomePage} />
+        <PrivateRoute path="/songs" component={SongsView} />
+        <PrivateRoute path="/sets" component={SetsView} />
+        <PrivateRoute path="/gigs" component={GigsView} />
       </Switch>
     </div>
   );
