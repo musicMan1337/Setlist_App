@@ -6,6 +6,6 @@ CREATE TABLE songs (
   composer VARCHAR(50),
   arranger VARCHAR(50),
   description VARCHAR(1000),
-  user_id INTEGER REFERENCES users(id) NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   PRIMARY KEY (id)
 );

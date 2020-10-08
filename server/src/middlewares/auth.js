@@ -24,7 +24,8 @@ const passwordCheck = async (req, res, next) => {
       return res.status(401).json({ error: 'Unauthorized request' });
 
     const token = createJwtService(user_name, id);
-    return res.json({ authToken: token });
+
+    return res.status(200).json({ authToken: token, user_name });
   } catch (error) {
     return next(error);
   }

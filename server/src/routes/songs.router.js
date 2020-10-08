@@ -1,9 +1,5 @@
 const { CRUDService, SerializeService } = require('../../src/services');
-const {
-  validate,
-  Router,
-  jsonBodyParser
-} = require('../../src/middlewares');
+const { validate, Router, jsonBodyParser } = require('../../src/middlewares');
 
 const songsRouter = Router();
 const TABLE_NAME = 'songs';
@@ -13,13 +9,17 @@ songsRouter
   .all(jsonBodyParser)
   .get((req, res, next) =>
     CRUDService.getAllData(req.app.get('db'), TABLE_NAME)
-      .then((songs) => res.json(SerializeService.serializeData(TABLE_NAME, songs)))
+      .then((songs) =>
+        res.json(SerializeService.serializeData(TABLE_NAME, songs))
+      )
       .catch(next)
   )
 
   .post(validate.songBody, (req, res, next) =>
     CRUDService.createEntry(req.app.get('db'), TABLE_NAME, res.newSong)
-      .then((song) => res.status(201).json(SerializeService.serializeSong(song)))
+      .then((song) =>
+        res.status(201).json(SerializeService.serializeSong(song))
+      )
       .catch(next)
   );
 
@@ -48,7 +48,9 @@ songsRouter
       req.app.get('db'),
       TABLE_NAME,
       res.song.id
-    ).then(() => res.json({ message: `Song "${res.song.song_name}" deleted` }))
+    ).then(() =>
+      res.status(204).json({ message: `Song "${res.song.song_name}" deleted` })
+    )
   )
 
   .patch(validate.songBody, (req, res) =>

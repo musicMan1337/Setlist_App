@@ -1,9 +1,5 @@
 const { CRUDService, SerializeService } = require('../../src/services');
-const {
-  validate,
-  Router,
-  jsonBodyParser
-} = require('../../src/middlewares');
+const { validate, Router, jsonBodyParser } = require('../../src/middlewares');
 
 const setsRouter = Router();
 const TABLE_NAME = 'sets';
@@ -13,7 +9,9 @@ setsRouter
   .all(jsonBodyParser)
   .get((req, res, next) =>
     CRUDService.getAllData(req.app.get('db'), TABLE_NAME)
-      .then((sets) => res.json(SerializeService.serializeData(TABLE_NAME, sets)))
+      .then((sets) =>
+        res.json(SerializeService.serializeData(TABLE_NAME, sets))
+      )
       .catch(next)
   )
 
@@ -45,7 +43,7 @@ setsRouter
 
   .delete((req, res) =>
     CRUDService.deleteById(req.app.get('db'), TABLE_NAME, res.set.id).then(() =>
-      res.json({ message: `set "${res.set.set_name}" deleted` })
+      res.status(204).json({ message: `Set "${res.set.set_name}" deleted` })
     )
   )
 

@@ -1,9 +1,5 @@
 const { CRUDService, SerializeService } = require('../../src/services');
-const {
-  validate,
-  Router,
-  jsonBodyParser
-} = require('../../src/middlewares');
+const { validate, Router, jsonBodyParser } = require('../../src/middlewares');
 
 const gigsRouter = Router();
 const TABLE_NAME = 'gigs';
@@ -33,7 +29,8 @@ gigsRouter
         req.body.gig_id
       );
 
-      if (!gig) return res.status(404).json({ message: `gig doesn't exist` });
+      if (!gig) return res.status(404).json({ message: `Gig doesn't exist` });
+
       res.gig = gig;
     } catch (error) {
       next(error);
@@ -41,12 +38,15 @@ gigsRouter
 
     return next();
   })
-  .get((_, res) => res.json(SerializeService.serializeGig(res.gig)))
+
+  .get((_req, res) => res.json(SerializeService.serializeGig(res.gig)))
 
   .delete((req, res) =>
-    CRUDService.deleteById(req.app.get('db'), TABLE_NAME, res.gig.id).then(() =>
-      res.json({ message: `gig "${res.gig.gig_name}" deleted` })
-    )
+    CRUDService.deleteById(req.app.get('db'), TABLE_NAME, res.gig.id).then(() => {
+      const { gig_name } = res.gig;
+
+      res.status(204).json({ message: `Gig "${gig_name}" deleted` });
+    })
   )
 
   .patch(validate.gigBody, (req, res) =>

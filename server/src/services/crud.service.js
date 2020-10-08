@@ -22,7 +22,7 @@ const CRUDService = {
   // special case for user login
   getByName(db, user_name) {
     return db('users').where({ user_name }).first();
-  },
+  }
 };
 
 module.exports = CRUDService;
