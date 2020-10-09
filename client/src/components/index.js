@@ -11,3 +11,4 @@
 */
 export { default as LoginForm } from './loginForm/loginForm'
 export { default as Header } from './header/header'
+export { default as HomeCard } from './homeCard/homeCard'

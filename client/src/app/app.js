@@ -9,7 +9,9 @@ import {
   GigsView,
   PrivateRoute
 } from 'src/routes';
-import { Button } from 'src/components/utils';
+
+import { Header } from 'src/components';
+import { Button } from 'src/components/utils/tools';
 import config from 'src/config';
 
 const App = () => {
@@ -42,11 +44,13 @@ const App = () => {
     return setWiring(JSON.stringify(testData));
   };
 
-  const apiSwitch = ['/users/login/', '/songs', '/sets', '/gigs'].map((path) => (
-    <Button onClick={() => fetcher(path)} key={path}>
-      <h1>Api fetch: {path}</h1>
-    </Button>
-  ));
+  const apiSwitch = ['/users/login/', '/songs', '/sets', '/gigs'].map(
+    (path) => (
+      <Button onClick={() => fetcher(path)} key={path}>
+        <h1>Api fetch: {path}</h1>
+      </Button>
+    )
+  );
 
   // TODO - temp for checking route wiring
   const pathSwitch = ['/login', '/', '/songs', '/sets', '/gigs'].map((path) => (
@@ -59,7 +63,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <header>TODO-create Header component</header>
+      <Header />
       <div style={{ flexDirection: 'row' }}>{apiSwitch}</div>
       <h2>Path: {wiring}</h2>
       <div style={{ flexDirection: 'row' }}>{pathSwitch}</div>

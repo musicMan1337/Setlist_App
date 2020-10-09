@@ -1,0 +1,12 @@
+@import 'src/styles/mixins/fluid-type';
+
+.card-hr {
+  margin: 0 0 8px;
+}
+
+.button {
+  padding: 0 5px;
+  border-radius: 2px;
+  margin: 5px;
+  @include fluid-type(font-size, 320px, 1400px, 16px, 30px);
+}

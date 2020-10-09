@@ -39,7 +39,7 @@ setsRouter
     return next();
   })
 
-  .get((_, res) => res.json(SerializeService.serializeSet(res.set)))
+  .get((_req, res) => res.json(SerializeService.serializeSet(res.set)))
 
   .delete((req, res) =>
     CRUDService.deleteById(req.app.get('db'), TABLE_NAME, res.set.id).then(() => {

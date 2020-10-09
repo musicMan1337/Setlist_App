@@ -1,12 +1,14 @@
-import React from 'react'
-import { LoginForm } from '../../components'
+import React from 'react';
 
-const LoginPage = ({ location, history }) => {
+import { LoginForm } from 'src/components';
+import { MainContainer } from 'src/components/utils/containers/containers';
+
+const LoginPage = () => {
   return (
-    <LoginForm
-      // content={}
-    />
-  )
-}
+    <MainContainer>
+      <LoginForm />
+    </MainContainer>
+  );
+};
 
-export default LoginPage
+export default LoginPage;

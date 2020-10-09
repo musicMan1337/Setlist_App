@@ -19,7 +19,9 @@ const Header = () => {
         </div>
       </nav>
 
-      <h1 className="headline">SET-LIST APP (LOGIN)</h1>
+      <Link to="/">
+        <h1 className="headline">SET-LIST APP</h1>
+      </Link>
     </header>
   );
 };

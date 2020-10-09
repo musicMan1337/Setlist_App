@@ -1,4 +1,5 @@
 const CRUDService = {
+
   getAllData(db, table) {
     return db(table).select('*');
   },

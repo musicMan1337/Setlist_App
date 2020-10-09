@@ -1,0 +1,11 @@
+.login-form {
+  width: 80%;
+
+  .form-label {
+    flex-direction: row;
+
+    input {
+      margin-left: 5px;
+    }
+  }
+}

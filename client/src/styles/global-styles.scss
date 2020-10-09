@@ -1,9 +1,6 @@
-@import 'src/styles/css-reset/css_reset.scss';
-
+@import 'src/styles/css-reset/css_reset';
 @import 'src/styles/variables/font-bank';
-
 @import 'src/styles/mixins/fluid-type';
-@import 'src/styles/mixins/breakpoint.scss';
 
 .sr-only {
   clip: rect(1px, 1px, 1px, 1px);
@@ -33,60 +30,6 @@ body {
   @include fluid-type(font-size, 320px, 1400px, 16px, 30px);
 }
 
-.app-wrapper {
+.App {
   @include fluid-type(margin-left margin-right, 320px, 1400px, 10px, 100px);
-}
-
-.content-container {
-  width: 100%;
-  margin-bottom: 50px; /* TODO Footer */
-  align-content: center;
-}
-
-.song-set-gig-container {
-  display: none;
-  flex-direction: row;
-  align-items: flex-start;
-}
-
-@include breakpoint(tablet) {
-  .content-container {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-
-  .song-set-gig-mobile-container {
-    display: none !important;
-  }
-
-  .song-set-gig-container {
-    display: flex !important;
-  }
-
-  .song-container {
-    display: grid !important
-  }
-}
-
-.song-set-gig-mobile-list, .set-gig-list {
-  width: auto;
-  padding: 0 10px;
-  @include fluid-type(margin-left margin-right, 320px, 767px, 10px, 50px)
-}
-
-.set-gig-list {
-  overflow-y: hidden;
-  flex: 1;
-}
-
-.button {
-  padding: 0 5px;
-  border-radius: 2px;
-  margin: 5px;
-  @include fluid-type(font-size, 320px, 1400px, 16px, 30px);
-}
-
-.card-hr {
-  margin: 0 0 8px;
 }

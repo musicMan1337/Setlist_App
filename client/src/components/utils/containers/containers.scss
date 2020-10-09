@@ -1,0 +1,33 @@
+@import 'src/styles/mixins/breakpoint';
+
+.main-container {
+  width: 100%;
+  margin-bottom: 50px;
+  align-content: center;
+}
+
+.set-gig-container {
+  display: none;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+@include breakpoint(tablet) {
+  .main-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .song-set-gig-mobile-container {
+    display: none !important;
+  }
+
+  .set-gig-container {
+    display: flex !important;
+  }
+
+  .song-container {
+    display: grid !important
+  }
+}

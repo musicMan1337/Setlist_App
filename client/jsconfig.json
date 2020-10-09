@@ -9,9 +9,4 @@
     }
   },
   "include": ["src/**/*"]
-  // "exclude": [
-  //   "build",
-  //   "public",
-  //   "node_modules"
-  // ]
 }

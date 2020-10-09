@@ -75,3 +75,12 @@ const errorHandler = {
 const check = errorHandler.generator((res = {}))
 
 console.log(check);
+
+
+const valid = () => {
+  const a = true
+  const b = true
+  return a && b
+}
+
+if (valid()) console.log('yes');

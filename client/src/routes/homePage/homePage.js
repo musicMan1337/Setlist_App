@@ -1,11 +1,16 @@
-import React from 'react'
+import React from 'react';
+
+import {HomeCard} from 'src/components';
+import { MainContainer } from 'src/components/utils/containers';
+import { SONGS, SETS, GIGS } from 'src/constants/routes.constants';
 
 const HomePage = () => {
-  return (
-    <div>
-      HomePage
-    </div>
-  )
-}
+  const renderCards = () =>
+    [SONGS, SETS, GIGS].map(([route, title]) => (
+      <HomeCard key={title} route={route} title={title} />
+    ));
 
-export default HomePage
+  return <MainContainer>{renderCards()}</MainContainer>;
+};
+
+export default HomePage;

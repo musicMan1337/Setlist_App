@@ -4,10 +4,8 @@ import PropTypes from 'prop-types';
 import './utils.scss';
 
 export const Button = ({ className, type, ...props }) => {
-  Button.defaultProps = { className: '', type: 'button' };
-
   /* eslint-disable react/button-has-type */
-  // niche bug with eslint
+  // niche bug with eslint dynamic types
   return (
     <button
       className={['button', className].join(' ')}
@@ -17,11 +15,12 @@ export const Button = ({ className, type, ...props }) => {
   );
 };
 
-export const three = () => {
-  return 3;
+export const MainContainer = () => {
+  return <main className="main-container" />
 };
 
+Button.defaultProps = { className: '', type: 'button' };
 Button.propTypes = {
   className: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.oneOf(['button', 'submit'])
 };
