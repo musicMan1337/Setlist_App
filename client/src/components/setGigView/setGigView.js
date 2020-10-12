@@ -20,27 +20,38 @@ const SetGigView = ({ page }) => {
   // TODO - useState "expanded-card" toggle
   // TODO - useState "choose-set" toggle
 
-  const { songs, sets, songs_sets } = useContext(DatabaseContext);
+  const { songs, sets, handleUserUpdate } = useContext(DatabaseContext);
 
   let context;
   switch (page) {
     case SETS:
-      context = { listTable: songs, boardTable: sets, songSetTable: songs_sets, setGigTable: {}, buttonText: 'Add to Set' };
+      context = {
+        listTable: songs,
+        boardTable: sets,
+        buttonText: 'Add to Set',
+        handleUserUpdate
+      };
       break;
 
     // TODO - Feature: Gigs
     // case GIGS:
-    //   context = { listTable: sets, boardTable: gigs, buttonText: 'Add to Gig' };
+    //   context = { listTable: sets, boardTable: gigs, buttonText: 'Add to Gig', handleUserUpdate };
     //   break;
 
     default:
+      context = {
+        listTable: songs,
+        boardTable: sets,
+        buttonText: 'Add to Set',
+        handleUserUpdate
+      };
       break;
   }
 
   return (
     <SetGigContainer>
-      <SGList {...context}/>
-      <SGBoards {...context}/>
+      <SGList {...context} />
+      <SGBoards {...context} />
     </SetGigContainer>
   );
 };

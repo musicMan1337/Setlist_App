@@ -3,6 +3,7 @@ const xss = require('xss');
 const SerializeService = {
   serializeSong(song) {
     return {
+      id: song.id,
       song_title: xss(song.song_title),
       composer: xss(song.composer),
       arranger: xss(song.arranger),
@@ -13,14 +14,17 @@ const SerializeService = {
 
   serializeSet(set) {
     return {
+      id: set.id,
       set_name: xss(set.set_name),
       description: xss(set.description),
-      user_id: set.user_id
+      user_id: set.user_id,
+      songs: set.songs.map(song => xss(song.song_title))
     };
   },
 
   serializeGig(gig) {
     return {
+      id: gig.id,
       gig_name: xss(gig.gig_name),
       venue: xss(gig.venue),
       gig_date: gig.gig_date,

@@ -7,6 +7,7 @@ const { NODE_ENV, CORS_ORIGIN_DEV, CORS_ORIGIN_PROD } = require('./config');
 const {
   usersRouter,
   songsRouter,
+  songsSetsRouter,
   setsRouter,
   gigsRouter
 } = require('./routes');
@@ -32,6 +33,7 @@ app.get('/', (_req, res) => {
 
 app.use('/setapp/v1/user', usersRouter);
 app.use('/setapp/v1/songs', songsRouter);
+app.use('/setapp/v1/songs_sets', songsSetsRouter);
 app.use('/setapp/v1/sets', setsRouter);
 app.use('/setapp/v1/gigs', gigsRouter);
 

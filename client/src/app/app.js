@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 
 import {
@@ -16,6 +16,14 @@ import { Button } from 'src/components/utils/tools';
 import DatabaseContextProvider from 'src/context/databaseContext';
 
 const App = () => {
+  const [userName, setUserName] = useState('');
+  const [userId, setUserId] = useState(1);
+
+  const handleLoginSuccess = (user_name, id) => {
+    setUserName(user_name);
+    setUserId(id);
+  };
+
   // TODO - temp for checking route wiring
   const pathSwitch = ['/login', '/', '/songs', '/sets', '/gigs'].map((path) => (
     <Link to={path} key={path}>
@@ -27,12 +35,16 @@ const App = () => {
 
   return (
     <div className="app">
-      <Header />
+      <Header userName={userName} />
       <div style={{ flexDirection: 'row' }}>{pathSwitch}</div>
       <MainContainer>
-        <DatabaseContextProvider>
+        <DatabaseContextProvider userId={userId}>
           <Switch>
-            <Route path="/login" component={LoginPage} />
+            <Route
+              path="/login"
+              loginSuccess={handleLoginSuccess}
+              component={LoginPage}
+            />
             <PrivateRoute exact path="/" component={HomePage} />
             <PrivateRoute path="/songs" component={SongsPage} />
             <PrivateRoute path="/sets" component={SetsPage} />

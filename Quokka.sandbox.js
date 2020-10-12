@@ -108,18 +108,36 @@
 
 // console.log(composer || 'hey')
 
-const page = 'sets';
+// const page = 'sets';
 
-  let renderCards;
+//   let renderCards;
 
-  switch(page) {
-    case 'songs':
-      console.log('page');
-      break
+//   switch(page) {
+//     case 'songs':
+//       console.log('page');
+//       break
 
-    case 'sets':
+//     case 'sets':
 
-    case 'gigs':
+//     case 'gigs':
 
-    default: break
-  }
+//     default: break
+//   }
+
+const setContructor = (set, songs, linkages) => {
+  linkages = linkages.filter(ids => ids.set_id === set.id)
+  songs = songs.filter(song => linkages.includes(song.id))
+
+  console.log(songs);
+  console.log(linkages);
+}
+
+const set = { id: 1, set_name: 'set 1' }
+const songs = [
+  { id: 1, song_title: 'song 1' },
+  { id: 2, song_title: 'song 2' },
+  { id: 3, song_title: 'song 3' },
+]
+const linkages = [{song_id: 1, set_id: 1}, {song_id: 2, set_id: 1}, {song_id: 3, set_id: 2}]
+
+setContructor(set, songs, linkages)

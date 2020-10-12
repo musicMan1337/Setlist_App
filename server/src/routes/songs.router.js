@@ -1,21 +1,23 @@
-const { CRUDService, SerializeService } = require('../../src/services');
 const { validate, Router, jsonBodyParser } = require('../../src/middlewares');
+const { CRUDService, SerializeService } = require('../../src/services');
+const { SONGS_TABLE } = require('../../src/constants/table.constants');
 
 const songsRouter = Router();
-const TABLE_NAME = 'songs';
 
 songsRouter.all(jsonBodyParser);
 
 songsRouter
   .route('/')
   .get((req, res, next) =>
-    CRUDService.getAllData(req.app.get('db'), TABLE_NAME)
-      .then((songs) => res.json(SerializeService.serializeData(TABLE_NAME, songs)))
+    CRUDService.getAllData(req.app.get('db'), SONGS_TABLE)
+      .then((songs) =>
+        res.json(SerializeService.serializeData(SONGS_TABLE, songs))
+      )
       .catch(next)
   )
 
   .post(validate.songBody, (req, res, next) =>
-    CRUDService.createEntry(req.app.get('db'), TABLE_NAME, res.newSong)
+    CRUDService.createEntry(req.app.get('db'), SONGS_TABLE, res.newSong)
       .then(([song]) => res.status(201).json(SerializeService.serializeSong(song)))
       .catch(next)
   );
@@ -23,36 +25,31 @@ songsRouter
 songsRouter
   .route('/:id')
   .all((req, res, next) => {
-    try {
-      const song = CRUDService.getById(
-        req.app.get('db'),
-        TABLE_NAME,
-        req.body.song_id
-      );
-
-      if (!song) return res.status(404).json({ message: `Song doesn't exist` });
-      res.song = song;
-    } catch (error) {
-      next(error);
-    }
-
-    return next();
+    CRUDService.getById(req.app.get('db'), SONGS_TABLE, req.params.id)
+      .then((song) => {
+        if (!song) return res.status(404).json({ message: `Song doesn't exist` });
+        res.song = song;
+        return next()
+      })
+      .catch(next);
   })
 
-  .get((_, res) => res.json(SerializeService.serializeSong(res.song)))
+  .get((_req, res) => res.json(SerializeService.serializeSong(res.song)))
 
   .delete((req, res) =>
-    CRUDService.deleteById(req.app.get('db'), TABLE_NAME, res.song.id).then(() => {
-      const { song_name } = res.song;
+    CRUDService.deleteById(req.app.get('db'), SONGS_TABLE, res.song.id).then(
+      () => {
+        const { song_name } = res.song;
 
-      res.status(204).json({ message: `Song "${song_name}" deleted` });
-    })
+        res.status(204).json({ message: `Song "${song_name}" deleted` });
+      }
+    )
   )
 
   .patch(validate.songBody, (req, res) =>
     CRUDService.updateEntry(
       req.app.get('db'),
-      TABLE_NAME,
+      SONGS_TABLE,
       res.song.id,
       res.newSong
     ).then(([song]) => res.status(201).json(song))

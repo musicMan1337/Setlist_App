@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import './header.scss'
+import './header.scss';
 
-const Header = () => {
+const Header = ({ userName }) => {
   return (
     <header className="main-header">
       <nav className="nav-bar">
@@ -14,7 +15,8 @@ const Header = () => {
         </p>
 
         <div className="avatar-div">
-          <img src="#" alt="avatar" className="user-avatar" />
+          {/* <img src="#" alt="avatar" className="user-avatar" /> */}
+          <span>{userName} | </span>
           <Link to="/login">Logout</Link>
         </div>
       </nav>
@@ -27,3 +29,9 @@ const Header = () => {
 };
 
 export default Header;
+
+Header.defaultProps = { userName: 'no user' }
+
+Header.propTypes = {
+  userName: PropTypes.string
+};

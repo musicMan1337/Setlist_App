@@ -25,7 +25,7 @@ const passwordCheck = async (req, res, next) => {
 
     const token = createJwtService(user_name, id);
 
-    return res.status(200).json({ authToken: token, user_name });
+    return res.status(200).json({ authToken: token, user_name, id});
   } catch (error) {
     return next(error);
   }

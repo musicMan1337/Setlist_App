@@ -32,6 +32,8 @@ const MobileView = ({ page }) => {
           key={set.set_name}
           title={set.set_name}
           description={set.description}
+          isSet
+          songTitles={set.songs}
         />
       ));
       break;

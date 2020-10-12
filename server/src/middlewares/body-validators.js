@@ -34,6 +34,20 @@ const songBody = (req, res, next) => {
   return next();
 };
 
+const songSetBody = (req, res, next) => {
+  console.log(req.body);
+  const { song_id, set_id } = req.body;
+  const newLinkage = { song_id, set_id };
+
+  console.log(newLinkage);
+
+  const keyError = ValidationMethods.checkFields(newLinkage);
+  if (keyError) return ValidationMethods.errorResponse(res, keyError);
+
+  res.newLinkage = newLinkage;
+  return next();
+};
+
 const setBody = (req, res, next) => {
   const { set_name, description, user_id } = req.body;
   const newSet = { set_name, description, user_id };
@@ -61,5 +75,6 @@ module.exports = {
   loginBody,
   songBody,
   setBody,
+  songSetBody,
   gigBody
 };

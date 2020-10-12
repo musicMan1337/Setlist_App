@@ -6,44 +6,26 @@ import './sgBoards.scss';
 import { Board } from 'src/components/utils/lists';
 import { Button } from 'src/components/utils/tools';
 
-const SGBoards = ({
-  listTable,
-  boardTable,
-  songSetTable,
-  setGigTable,
-  buttonText
-}) => {
+const SGBoards = ({ boardTable, buttonText }) => {
   const renderBoards = boardTable.map((item) => {
     if (buttonText.includes('Set')) {
       const set = item;
-
-      console.log('table', songSetTable);
-
-      // manual table-join
-      const links = songSetTable.filter(
-        (ids) => ids.set_id === set.set_id && ids.song_id
-      );
-      const songTitles = listTable.filter(
-        (song) => links.includes(song.song_id) && song.song_title
-      );
-
       return (
         <div className="set-gig-board">
           <header>{set.set_name}</header>
           <Board>
-            {/* TODO - implement linkage table and map titles */}
-            <li>
-              <h3>Song Title</h3>
-            </li>
-            <li>
-              <h3>Song Title</h3>
-            </li>
-            <Button>Delete?</Button>
+            {set.songs.map((songTitle) => (
+              <li>
+                <h3>{songTitle}</h3>
+              </li>
+            ))}
+            <Button>Delete Set?</Button>
           </Board>
         </div>
       );
     }
-    return null
+    return null;
+    // TODO - Feature: Gigs
     // const gig = item;
 
     // manual table-join
@@ -78,9 +60,6 @@ const SGBoards = ({
 export default SGBoards;
 
 SGBoards.propTypes = {
-  listTable: PropTypes.arrayOf(PropTypes.object).isRequired,
   boardTable: PropTypes.arrayOf(PropTypes.object).isRequired,
-  songSetTable: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setGigTable: PropTypes.arrayOf(PropTypes.object).isRequired,
   buttonText: PropTypes.oneOf(['Add to Set', 'Add to Gig']).isRequired
 };
