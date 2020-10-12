@@ -2,7 +2,7 @@ import React from 'react';
 
 import './lists.scss';
 
-export const SongSetGigMobileList = ({...props}) => {
+export const MobileList = ({...props}) => {
   return <ul className="song-set-gig-mobile-list" {...props} />
 };
 

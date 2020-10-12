@@ -20,6 +20,7 @@ export const Button = ({ className, type, ...props }) => {
 };
 
 Button.defaultProps = { className: '', type: 'button' };
+
 Button.propTypes = {
   className: PropTypes.string,
   type: PropTypes.oneOf(['button', 'submit'])

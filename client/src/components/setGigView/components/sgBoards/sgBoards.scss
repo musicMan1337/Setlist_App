@@ -1,0 +1,59 @@
+@import 'src/styles/mixins/fluid-type';
+
+.set-gig-boards-container {
+  height: 50vh;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 100%;
+  @include fluid-type(width, 700px, 1400px, 300px, 500px);
+}
+
+.set-gig-boards {
+  height: 100%;
+  flex-direction: row;
+  overflow-x: auto;
+  // width: 100%;
+
+  > * {
+    flex: 0 0 auto; // 'rigid' lists
+  }
+
+  &::after {
+    content: '';
+    flex: 0 0 10px;
+  }
+}
+
+.set-gig-board {
+  margin: 0 15px;
+  height: calc(100% - 25px);
+  align-self: center;
+
+  > * {
+    padding: 0 10px;
+    background-color: #e2e4e6;
+  }
+
+  header {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+
+  .button {
+    font-size: 15px;
+    color: #888;
+  }
+
+  ul {
+    border-radius: 5px;
+    overflow-y: auto;
+
+    li {
+      background-color: #fff;
+      padding: 0 10px;
+      margin: 5px 0;
+      border-radius: 3px;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    }
+  }
+}

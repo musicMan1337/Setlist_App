@@ -1,1 +1,1 @@
-export { SongSetGigMobileList, SetGigList, Board } from './lists';
+export { MobileList, SetGigList, Board } from './lists';

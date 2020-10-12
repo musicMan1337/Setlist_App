@@ -12,3 +12,6 @@
 export { default as LoginForm } from './loginForm/loginForm'
 export { default as Header } from './header/header'
 export { default as HomeCard } from './homeCard/homeCard'
+export { default as MobileView } from './mobileView/mobileView'
+export { default as SongsView } from './songsView/songsView'
+export { default as SetGigView } from './setGigView/setGigView'

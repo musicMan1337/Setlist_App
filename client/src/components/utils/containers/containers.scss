@@ -1,4 +1,5 @@
 @import 'src/styles/mixins/breakpoint';
+@import 'src/styles/mixins/fluid-type';
 
 .main-container {
   width: 100%;
@@ -7,6 +8,7 @@
 }
 
 .set-gig-container {
+  width: 100%;
   display: none;
   flex-direction: row;
   align-items: flex-start;
@@ -19,7 +21,7 @@
     align-items: flex-start;
   }
 
-  .song-set-gig-mobile-container {
+  .mobile-container {
     display: none !important;
   }
 
@@ -30,4 +32,14 @@
   .song-container {
     display: grid !important
   }
+}
+
+.song-container {
+  display: none;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-flow: row;
+  justify-content: center;
+  align-content: center;
+  @include fluid-type(grid-column-gap grid-row-gap, 700px, 1400px, 30px, 60px);
 }

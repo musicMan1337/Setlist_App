@@ -6,7 +6,7 @@
 
 .button {
   padding: 0 5px;
-  border-radius: 2px;
+  border-radius: 5px;
   margin: 5px;
   @include fluid-type(font-size, 320px, 1400px, 16px, 30px);
 }

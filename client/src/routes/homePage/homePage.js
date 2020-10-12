@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {HomeCard} from 'src/components';
-import { MainContainer } from 'src/components/utils/containers';
+import { HomeCard } from 'src/components';
 import { SONGS, SETS, GIGS } from 'src/constants/routes.constants';
 
 const HomePage = () => {
@@ -10,7 +9,7 @@ const HomePage = () => {
       <HomeCard key={title} route={route} title={title} />
     ));
 
-  return <MainContainer>{renderCards()}</MainContainer>;
+  return <>{renderCards()}</>;
 };
 
 export default HomePage;

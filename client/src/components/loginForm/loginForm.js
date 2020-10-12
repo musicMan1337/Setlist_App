@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react';
 
-import './loginForm.scss'
+import './loginForm.scss';
 
 import { Button } from 'src/components/utils/tools';
 
@@ -52,7 +52,6 @@ const LoginForm = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
-
       {submitButton}
     </form>
   );

@@ -1,6 +1,7 @@
 @import 'src/styles/css-reset/css_reset';
 @import 'src/styles/variables/font-bank';
 @import 'src/styles/mixins/fluid-type';
+@import 'src/styles/mixins/scrollbars-buffed';
 
 .sr-only {
   clip: rect(1px, 1px, 1px, 1px);
@@ -30,6 +31,7 @@ body {
   @include fluid-type(font-size, 320px, 1400px, 16px, 30px);
 }
 
-.App {
+.app {
   @include fluid-type(margin-left margin-right, 320px, 1400px, 10px, 100px);
+  @include scrollbars-buffed(.5em);
 }

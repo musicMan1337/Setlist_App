@@ -1,8 +1,6 @@
 export {
   MainContainer,
-  SongSetGigMobileContainer,
+  MobileContainer,
   SongContainer,
-  SetGigContainer,
-  SetGigBoardsContainer,
-  SetGigBoards
+  SetGigContainer
 } from './containers';
