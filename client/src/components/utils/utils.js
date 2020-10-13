@@ -7,9 +7,9 @@ export const CardHr = () => {
   return <hr className="card-hr" />
 };
 
+/* eslint-disable react/button-has-type */
+// niche bug with eslint dynamic types
 export const Button = ({ className, type, value, ...props }) => {
-  /* eslint-disable react/button-has-type */
-  // niche bug with eslint dynamic types
   return (
     <button
       className={['button', className].join(' ')}

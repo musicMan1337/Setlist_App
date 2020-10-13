@@ -1,5 +1,5 @@
 BEGIN;
 
-TRUNCATE songs;
+TRUNCATE users;
 
 COMMIT;

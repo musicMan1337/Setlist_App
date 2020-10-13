@@ -4,6 +4,19 @@ const { SONGS_SETS_TABLE } = require('../constants/table.constants');
 
 const songsSetsRouter = Router();
 
+const parseParams = (req, res, next) => {
+  const [song_id, set_id] = req.params.id.split('-');
+
+  if (!set_id)
+    return res.status(400).json({
+      error: `Missing IDs in request params`
+    });
+
+  res.song_id = song_id;
+  res.set_id = set_id;
+  return next();
+};
+
 songsSetsRouter.all(jsonBodyParser);
 
 songsSetsRouter
@@ -19,5 +32,13 @@ songsSetsRouter
       .then(([newLinkage]) => res.status(201).json({ linkage: newLinkage }))
       .catch(next)
   );
+
+songsSetsRouter.route('/:id').delete(parseParams, (req, res) =>
+  CRUDService.deleteSSLink(req.app.get('db'), res.song_id, res.set_id).then(() => {
+    const { set_name } = res.set;
+
+    res.status(204).json({ message: `Set "${set_name}" deleted` });
+  })
+);
 
 module.exports = songsSetsRouter;

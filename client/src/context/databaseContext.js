@@ -25,7 +25,10 @@ const DatabaseContextProvider = ({ userId, ...props }) => {
         fetchEndpoints.map(async (endpoint) => {
           const data = await fetch(endpoint);
           const json = await data.json();
-          return json;
+
+          // TODO - implement Server-side user_id filter
+          const filter = json.filter((obj) => obj.user_id === userId);
+          return filter;
         })
       );
 

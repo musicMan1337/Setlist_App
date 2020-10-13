@@ -1,19 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './sgList.scss';
+import './sgList.scss'
 
 import { CardHr, Button } from 'src/components/utils';
 
 import PostService from 'src/services/post.service';
 
 const SGList = ({ listTable, boardTable, buttonText, handleUserUpdate }) => {
-  const handleSubmit = async (e, firstId) => {
+  const handleSubmit = (e, firstId) => {
     e.preventDefault();
-    const { sets, gigs } = e.target;
 
-    if (sets) await PostService.updateSongSet(firstId, Number(sets.value));
-    if (gigs) await PostService.updateSetGig(firstId, Number(gigs.value));
+    const { sets, gigs } = e.target;
+    console.log(firstId, Number(sets.value));
+
+    if (sets) PostService.updateSongSet(firstId, Number(sets.value));
+    if (gigs) PostService.updateSetGig(firstId, Number(gigs.value));
 
     handleUserUpdate();
   };

@@ -3,14 +3,16 @@ import config from 'src/config';
 const { API_ENDPOINT } = config;
 
 const PatchService = {
-  updateSomething(table, body) {
-    return fetch(API_ENDPOINT + table, {
+  async updateSomething(table, body) {
+    const res = await fetch(API_ENDPOINT + table, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json'
       },
       body: JSON.stringify(body)
     });
+
+    return !res.ok ? res.json().then((e) => Promise.reject(e)) : res.json();
   }
 };
 

@@ -13,9 +13,9 @@ const SGBoards = ({ boardTable, buttonText }) => {
         <div key={set.set_name} className="set-gig-board">
           <header>{set.set_name}</header>
           <ul className="board">
-            {set.songs.map((songTitle) => (
-              <li key={songTitle}>
-                <h3>{songTitle}</h3>
+            {set.songs.map((song) => (
+              <li key={song.song_title}>
+                <h3>{song.song_title}</h3>
               </li>
             ))}
             <Button>Delete Set?</Button>

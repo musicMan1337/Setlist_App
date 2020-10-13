@@ -35,7 +35,9 @@ app.use('/setapp/v1/user', usersRouter);
 app.use('/setapp/v1/songs', songsRouter);
 app.use('/setapp/v1/songs_sets', songsSetsRouter);
 app.use('/setapp/v1/sets', setsRouter);
-app.use('/setapp/v1/gigs', gigsRouter);
+
+// TODO - Feature: Gigs
+// app.use('/setapp/v1/gigs', gigsRouter);
 
 /*
 |--------------------------------------

@@ -9,7 +9,7 @@ import { SONGS, SETS, GIGS } from 'src/constants/routes.constants';
 import MobileCard from './components/mobileCard/mobileCard';
 
 const MobileView = ({ page }) => {
-  const { songs, sets } = useContext(DatabaseContext);
+  const { songs, sets, handleUserUpdate } = useContext(DatabaseContext);
 
   let renderCards;
   switch (page) {
@@ -17,8 +17,10 @@ const MobileView = ({ page }) => {
       renderCards = songs.map((song) => (
         <MobileCard
           key={song.song_title}
+          id={song.id}
           title={song.song_title}
           description={song.description}
+          handleUserUpdate={handleUserUpdate}
           isSong
           composer={song.composer}
           arranger={song.arranger}
@@ -30,10 +32,11 @@ const MobileView = ({ page }) => {
       renderCards = sets.map((set) => (
         <MobileCard
           key={set.set_name}
+          id={set.id}
           title={set.set_name}
           description={set.description}
           isSet
-          songTitles={set.songs}
+          songs={set.songs}
         />
       ));
       break;

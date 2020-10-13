@@ -35,11 +35,8 @@ const songBody = (req, res, next) => {
 };
 
 const songSetBody = (req, res, next) => {
-  console.log(req.body);
   const { song_id, set_id } = req.body;
   const newLinkage = { song_id, set_id };
-
-  console.log(newLinkage);
 
   const keyError = ValidationMethods.checkFields(newLinkage);
   if (keyError) return ValidationMethods.errorResponse(res, keyError);

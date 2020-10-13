@@ -12,47 +12,104 @@ gigsRouter.all(jsonBodyParser);
 
 gigsRouter
   .route('/')
-  .get((req, res, next) =>
-    CRUDService.getAllData(req.app.get('db'), GIGS_TABLE)
-      .then((gigs) => res.json(SerializeService.serializeData(GIGS_TABLE, gigs)))
-      .catch(next)
-  )
+  .get(async (req, res, next) => {
+    try {
+      const emptyGigs = await CRUDService.getAllData(
+        req.app.get('db'),
+        GIGS_TABLE
+      );
 
-  .post(validate.gigBody, (req, res, next) =>
-    CRUDService.createEntry(req.app.get('db'), GIGS_TABLE, res.newgig)
-      .then((gig) => res.status(201).json(CRUDService.serializeGig(gig)))
-      .catch(next)
-  );
+      // get sets assigned to gigs
+      const halfGigs = await Promise.all(
+        emptyGigs.map(async (gig) => {
+          gig.sets = await QueryService.getGigSetsTitles(
+            req.app.get('db'),
+            gig.id
+          );
+          return gig;
+        })
+      );
+
+      // get songs assigned to sets
+      const fullGigs = await Promise.all(
+        halfGigs.sets.map(async (set) => {
+          set.songs = await QueryService.getSetSongTitles(
+            req.app.get('db'),
+            set.id
+          );
+          return set;
+        })
+      );
+
+      res.json(SerializeService.serializeData(GIGS_TABLE, fullGigs));
+    } catch (error) {
+      next(error);
+    }
+  })
+
+  .post(validate.gigBody, async (req, res, next) => {
+    try {
+      const gig = await CRUDService.createEntry(
+        req.app.get('db'),
+        GIGS_TABLE,
+        res.newgig
+      );
+
+      res.status(201).json(CRUDService.serializeGig(gig));
+    } catch (error) {
+      next(error);
+    }
+  });
 
 gigsRouter
   .route('/:id')
-  .all((req, res, next) => {
-    CRUDService.getById(req.app.get('db'), GIGS_TABLE, req.params.id)
-      .then((gig) => {
-        if (!gig) return res.status(404).json({ message: `Gig doesn't exist` });
-        res.gig = gig;
-        return next()
-      })
-      .catch(next);
+  .all(async (req, res, next) => {
+    try {
+      const gig = await CRUDService.getById(
+        req.app.get('db'),
+        GIGS_TABLE,
+        req.params.id
+      );
+
+      if (!gig) return res.status(404).json({ message: `Gig doesn't exist` });
+
+      gig.sets = await QueryService.getGigSetsTitles(req.app.get('db'), gig.id);
+
+      gig.sets.songs = await Promise.all(
+        gig.sets.map(async (set) => {
+          set.songs = await QueryService.getSetSongTitles(
+            req.app.get('db'),
+            set.id
+          );
+          return set;
+        })
+      );
+
+      res.gig = gig;
+    } catch (error) {
+      next(error);
+    }
+    return next();
   })
 
   .get((_req, res) => res.json(SerializeService.serializeGig(res.gig)))
 
-  .delete((req, res) =>
-    CRUDService.deleteById(req.app.get('db'), GIGS_TABLE, res.gig.id).then(() => {
-      const { gig_name } = res.gig;
+  .delete(async (req, res) => {
+    await CRUDService.deleteById(req.app.get('db'), GIGS_TABLE, res.gig.id);
 
-      res.status(204).json({ message: `Gig "${gig_name}" deleted` });
-    })
-  )
+    const { gig_name } = res.gig;
+    res.status(204).json({ message: `Gig "${gig_name}" deleted` });
+  })
 
-  .patch(validate.gigBody, (req, res) =>
-    CRUDService.updateEntry(
+  .patch(validate.gigBody, async (req, res) => {
+    const [gig] = await CRUDService.updateEntry(
       req.app.get('db'),
       GIGS_TABLE,
       res.gig.id,
       res.newgig
-    ).then(([gig]) => res.status(201).json(gig))
-  );
+    );
+
+    res.status(201).json(gig);
+  });
 
 module.exports = gigsRouter;

@@ -7,16 +7,16 @@ import {
 const { API_ENDPOINT } = config;
 
 const PostService = {
-  createSomething(table, body) {
-    return fetch(API_ENDPOINT + table, {
+  async createSomething(table, body) {
+    const res = await fetch(API_ENDPOINT + table, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
       },
       body: JSON.stringify(body)
-    }).then((res) =>
-      !res.ok ? res.json().then((e) => Promise.reject(e)) : res.json()
-    );
+    });
+
+    return !res.ok ? res.json().then((e) => Promise.reject(e)) : res.json();
   },
 
   updateSongSet(song_id, set_id) {

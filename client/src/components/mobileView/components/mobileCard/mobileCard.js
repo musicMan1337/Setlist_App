@@ -1,17 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { CardHr } from 'src/components/utils/tools/tools';
+import './mobileCard.scss';
+
+import { SONGS, SETS, SONGS_SETS_LINK } from 'src/constants/routes.constants';
+import DeleteService from 'src/services/delete.service';
+
+import { Button, CardHr } from 'src/components/utils';
 
 const MobileCard = ({
+  id,
   title,
   description,
+  handleUserUpdate,
   isSong,
   composer,
   arranger,
   isSet,
-  songTitles
+  songs
 }) => {
+  const handleDelete = async (table, itemId, linkId) => {
+    await DeleteService.deleteSomething(table, itemId, linkId);
+
+    handleUserUpdate();
+  };
+
   const renderSongInfo = (
     <p className="comp-arr">
       <span className="composer">Composer: {composer || 'N/A'} | </span>
@@ -19,13 +32,21 @@ const MobileCard = ({
     </p>
   );
 
-  const renderSongTitles = songTitles.map((songTitle) => (
-    <p key={songTitle}>{songTitle}</p>
+  const renderSongTitles = songs.map((song) => (
+    <div key={song.song_title} className="mobile-song-title">
+      <p className="song-title">{song.song_title}</p>
+      <Button onClick={() => handleDelete(SONGS_SETS_LINK, song.id, id)}>Remove?</Button>
+    </div>
   ));
 
+  const dbTable = isSong ? SONGS[0] : SETS[0]
+
   return (
-    <li className="modile-card">
-      <h3>{title}</h3>
+    <li className="mobile-card">
+      <div className="mobile-card-title">
+        <h3>{title}</h3>
+        <Button onClick={() => handleDelete(dbTable, id)}>Delete?</Button>
+      </div>
       <CardHr />
       <article className="expanded-card">
         {isSong && renderSongInfo}
@@ -44,15 +65,17 @@ MobileCard.defaultProps = {
   composer: null,
   arranger: null,
   isSet: false,
-  songTitles: []
+  songs: []
 };
 
 MobileCard.propTypes = {
+  id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  handleUserUpdate: PropTypes.func.isRequired,
   isSong: PropTypes.bool,
   composer: PropTypes.string,
   arranger: PropTypes.string,
   isSet: PropTypes.bool,
-  songTitles: PropTypes.arrayOf(PropTypes.string)
+  songs: PropTypes.arrayOf(PropTypes.object)
 };
