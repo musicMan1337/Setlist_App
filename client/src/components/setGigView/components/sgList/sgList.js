@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { SetGigList } from 'src/components/utils/lists';
-import { CardHr, Button } from 'src/components/utils/tools';
+import './sgList.scss'
+
+import { CardHr, Button } from 'src/components/utils';
+
 import PostService from 'src/services/post.service';
 
 const SGList = ({ listTable, boardTable, buttonText, handleUserUpdate }) => {
@@ -35,7 +37,9 @@ const SGList = ({ listTable, boardTable, buttonText, handleUserUpdate }) => {
           <form onSubmit={(e) => handleSubmit(e, song.id)}>
             <select id="sets">
               {sets.map((set) => (
-                <option value={set.id}>{set.set_name}</option>
+                <option key={set.set_name} value={set.id}>
+                  {set.set_name}
+                </option>
               ))}
             </select>
             <Button type="submit">{buttonText}</Button>
@@ -60,14 +64,7 @@ const SGList = ({ listTable, boardTable, buttonText, handleUserUpdate }) => {
     // );
   });
 
-  return (
-    <SetGigList>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <Button>{buttonText}</Button>
-      </form>
-      {renderListItems}
-    </SetGigList>
-  );
+  return <ul className="set-gig-list">{renderListItems}</ul>;
 };
 
 export default SGList;

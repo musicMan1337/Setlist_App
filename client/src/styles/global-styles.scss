@@ -1,7 +1,10 @@
 @import 'src/styles/css-reset/css_reset';
+
 @import 'src/styles/variables/font-bank';
+
 @import 'src/styles/mixins/fluid-type';
 @import 'src/styles/mixins/scrollbars-buffed';
+@import 'src/styles/mixins/breakpoint';
 
 .sr-only {
   clip: rect(1px, 1px, 1px, 1px);
@@ -32,6 +35,23 @@ body {
 }
 
 .app {
+  height: 100vh;
+  overflow: hidden;
   @include fluid-type(margin-left margin-right, 320px, 1400px, 10px, 100px);
   @include scrollbars-buffed(.5em);
+}
+
+// hide or show different unique displays
+@include breakpoint(tablet) {
+  .mobile-container {
+    display: none !important;
+  }
+
+  .set-gig-container {
+    display: flex !important;
+  }
+
+  .song-container {
+    display: grid !important
+  }
 }

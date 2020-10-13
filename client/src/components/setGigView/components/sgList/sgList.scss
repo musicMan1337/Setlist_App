@@ -1,0 +1,10 @@
+@import 'src/styles/mixins/fluid-type';
+
+.set-gig-list {
+  padding: 0 10px;
+  height: 100%;
+  width: auto;
+  flex: 1;
+  overflow-y: auto;
+  @include fluid-type(margin-left margin-right, 320px, 767px, 10px, 50px);
+}

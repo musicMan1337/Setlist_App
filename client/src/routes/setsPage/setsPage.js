@@ -1,6 +1,5 @@
 import React from 'react';
 
-import './setsPage.scss';
 import { SETS } from 'src/constants/routes.constants';
 
 import { MobileView, SetGigView } from 'src/components';
@@ -11,7 +10,7 @@ const SetsPage = () => {
   return (
     <>
       <MobileView page={SETS} />
-      <SetGigView page={SETS}/>
+      <SetGigView page={SETS} />
     </>
   );
 };

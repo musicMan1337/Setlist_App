@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './tools.scss';
+import './utils.scss'
 
 export const CardHr = () => {
   return <hr className="card-hr" />

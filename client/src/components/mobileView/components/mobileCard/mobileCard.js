@@ -19,7 +19,9 @@ const MobileCard = ({
     </p>
   );
 
-  const renderSongTitles = songTitles.map((songTitle) => <p>{songTitle}</p>);
+  const renderSongTitles = songTitles.map((songTitle) => (
+    <p key={songTitle}>{songTitle}</p>
+  ));
 
   return (
     <li className="modile-card">

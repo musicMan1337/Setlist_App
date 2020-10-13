@@ -13,7 +13,11 @@ const DatabaseContextProvider = ({ userId, ...props }) => {
 
   useEffect(() => {
     const fetcher = async () => {
-      if (userId === 0) return;
+      if (userId === 0) {
+        setSongs([]);
+        setSets([]);
+        return;
+      }
       const { API_ENDPOINT } = config;
       const fetchEndpoints = [API_ENDPOINT + SONGS[0], API_ENDPOINT + SETS[0]];
 

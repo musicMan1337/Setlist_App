@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
+import './mobileView.scss'
+
 import { DatabaseContext } from 'src/context/databaseContext';
 import { SONGS, SETS, GIGS } from 'src/constants/routes.constants';
 
-import { MobileContainer } from 'src/components/utils/containers';
-import { MobileList } from 'src/components/utils/lists';
 import MobileCard from './components/mobileCard/mobileCard';
 
 const MobileView = ({ page }) => {
@@ -56,9 +56,9 @@ const MobileView = ({ page }) => {
   }
 
   return (
-    <MobileContainer>
-      <MobileList>{renderCards}</MobileList>
-    </MobileContainer>
+    <div className="mobile-container">
+      <ul className="mobile-list">{renderCards}</ul>
+    </div>
   );
 };
 

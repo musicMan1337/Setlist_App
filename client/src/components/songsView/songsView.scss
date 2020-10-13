@@ -1,0 +1,11 @@
+@import 'src/styles/mixins/fluid-type';
+
+.song-container {
+  display: none;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-flow: row;
+  justify-content: center;
+  align-content: center;
+  @include fluid-type(grid-column-gap grid-row-gap, 700px, 1400px, 30px, 60px);
+}

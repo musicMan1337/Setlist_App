@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
+import './setGigView.scss'
+
 import { DatabaseContext } from 'src/context/databaseContext';
 import { SETS, GIGS } from 'src/constants/routes.constants';
 
-import { SetGigContainer } from 'src/components/utils/containers';
 import { SGList, SGBoards } from './components';
 
 const SetGigView = ({ page }) => {
@@ -49,10 +50,10 @@ const SetGigView = ({ page }) => {
   }
 
   return (
-    <SetGigContainer>
+    <div className="set-gig-container">
       <SGList {...context} />
       <SGBoards {...context} />
-    </SetGigContainer>
+    </div>
   );
 };
 

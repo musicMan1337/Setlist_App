@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 
+import './songsView.scss'
+
 import { DatabaseContext } from 'src/context/databaseContext';
-import { SongContainer } from 'src/components/utils/containers';
-import { CardHr } from 'src/components/utils/tools';
+import { CardHr } from 'src/components/utils';
 
 const SongView = () => {
   const { songs } = useContext(DatabaseContext);
@@ -20,7 +21,7 @@ const SongView = () => {
     </div>
   ));
 
-  return <SongContainer>{renderCards}</SongContainer>;
+  return <div className="song-container">{renderCards}</div>;
 };
 
 export default SongView;

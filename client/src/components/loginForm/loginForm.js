@@ -5,7 +5,7 @@ import TokenService from 'src/services/token.service';
 
 import './loginForm.scss';
 
-import { Button } from 'src/components/utils/tools';
+import { Button } from 'src/components/utils';
 
 const LoginForm = ({ loginSuccess }) => {
   const [username, setUsername] = useState('');
@@ -47,7 +47,7 @@ const LoginForm = ({ loginSuccess }) => {
 
     try {
       const { authToken, user_name, id } = await
-      e.button.value === 'register'
+      e.target.button.value === 'register'
         ? UserService.userRegistration
         : UserService.userLogin;
 

@@ -3,24 +3,23 @@ import PropTypes from 'prop-types';
 
 import './sgBoards.scss';
 
-import { Board } from 'src/components/utils/lists';
-import { Button } from 'src/components/utils/tools';
+import { Button } from 'src/components/utils';
 
 const SGBoards = ({ boardTable, buttonText }) => {
   const renderBoards = boardTable.map((item) => {
     if (buttonText.includes('Set')) {
       const set = item;
       return (
-        <div className="set-gig-board">
+        <div key={set.set_name} className="set-gig-board">
           <header>{set.set_name}</header>
-          <Board>
+          <ul className="board">
             {set.songs.map((songTitle) => (
-              <li>
+              <li key={songTitle}>
                 <h3>{songTitle}</h3>
               </li>
             ))}
             <Button>Delete Set?</Button>
-          </Board>
+          </ul>
         </div>
       );
     }
@@ -38,14 +37,14 @@ const SGBoards = ({ boardTable, buttonText }) => {
     //   return (
     //     <div className="set-gig-board">
     //       <header>{gig.gig_name}</header>
-    //       <Board>
+    //       <ul className="board">
     //         {setTitles.map((title) => (
     //           <li key={title}>
     //             <h3>{title}</h3>
     //           </li>
     //         ))}
     //         <Button>Delete?</Button>
-    //       </Board>
+    //       </ul>
     //     </div>
     //   );
   });
