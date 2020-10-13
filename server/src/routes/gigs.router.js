@@ -32,12 +32,17 @@ gigsRouter
 
       // get songs assigned to sets
       const fullGigs = await Promise.all(
-        halfGigs.sets.map(async (set) => {
-          set.songs = await QueryService.getSetSongTitles(
-            req.app.get('db'),
-            set.id
+        halfGigs.map(async (gig) => {
+          gig.sets = await Promise.all(
+            gig.sets.map(async (set) => {
+              set.songs = await QueryService.getSetSongTitles(
+                req.app.get('db'),
+                set.id
+              );
+              return set;
+            })
           );
-          return set;
+          return gig;
         })
       );
 

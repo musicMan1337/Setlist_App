@@ -28,6 +28,6 @@ VALUES
 INSERT INTO sets_gigs (gig_id, set_id)
 VALUES
   (1, 1),
-  (1, 2),
+  (1, 2);
 
 COMMIT;
