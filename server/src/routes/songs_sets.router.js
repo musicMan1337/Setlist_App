@@ -1,6 +1,11 @@
-const { validate, Router, jsonBodyParser } = require('../middlewares');
-const { CRUDService } = require('../services');
-const { SONGS_SETS_TABLE } = require('../constants/table.constants');
+const { CRUDService } = require('../../src/services');
+const { SONGS_SETS_TABLE } = require('../../src/constants/table.constants');
+const {
+  auth,
+  validate,
+  Router,
+  jsonBodyParser
+} = require('../../src/middlewares');
 
 const songsSetsRouter = Router();
 
@@ -17,28 +22,42 @@ const parseParams = (req, res, next) => {
   return next();
 };
 
-songsSetsRouter.all(jsonBodyParser);
+songsSetsRouter.use(jsonBodyParser, auth.requireAuth);
 
 songsSetsRouter
   .route('/')
-  .get((req, res, next) =>
-    CRUDService.getAllData(req.app.get('db'), SONGS_SETS_TABLE)
-      .then((linkages) => res.json(linkages))
-      .catch(next)
-  )
-
-  .post(validate.songSetBody, (req, res, next) =>
-    CRUDService.createEntry(req.app.get('db'), SONGS_SETS_TABLE, res.newLinkage)
-      .then(([newLinkage]) => res.status(201).json({ linkage: newLinkage }))
-      .catch(next)
-  );
-
-songsSetsRouter.route('/:id').delete(parseParams, (req, res) =>
-  CRUDService.deleteSSLink(req.app.get('db'), res.song_id, res.set_id).then(() => {
-    const { set_name } = res.set;
-
-    res.status(204).json({ message: `Set "${set_name}" deleted` });
+  .get(async (req, res, next) => {
+    try {
+      const linkages = await CRUDService.getAllData(
+        req.app.get('db'),
+        SONGS_SETS_TABLE
+      );
+      res.status(200).json({ linkages });
+    } catch (error) {
+      next(error);
+    }
   })
-);
+
+  .post(validate.songSetBody, async (req, res, next) => {
+    try {
+      const [linkage] = await CRUDService.createEntry(
+        req.app.get('db'),
+        SONGS_SETS_TABLE,
+        res.newLinkage
+      );
+      res.status(201).json({ linkage });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+songsSetsRouter.route('/:id').delete(parseParams, async (req, res, next) => {
+  try {
+    await CRUDService.deleteSSLink(req.app.get('db'), res.song_id, res.set_id);
+    res.status(204).json({ message: 'Linkage deleted!' });
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = songsSetsRouter;

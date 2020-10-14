@@ -1,5 +1,10 @@
-const { validate, Router, jsonBodyParser } = require('../../src/middlewares');
 const { GIGS_TABLE } = require('../../src/constants/table.constants');
+const {
+  auth,
+  validate,
+  Router,
+  jsonBodyParser
+} = require('../../src/middlewares');
 const {
   CRUDService,
   QueryService,
@@ -8,7 +13,7 @@ const {
 
 const gigsRouter = Router();
 
-gigsRouter.all(jsonBodyParser);
+gigsRouter.use(jsonBodyParser, auth.requireAuth);
 
 gigsRouter
   .route('/')
@@ -16,7 +21,8 @@ gigsRouter
     try {
       const emptyGigs = await CRUDService.getAllData(
         req.app.get('db'),
-        GIGS_TABLE
+        GIGS_TABLE,
+        res.user.id
       );
 
       // get sets assigned to gigs
@@ -54,13 +60,15 @@ gigsRouter
 
   .post(validate.gigBody, async (req, res, next) => {
     try {
-      const gig = await CRUDService.createEntry(
+      res.newgig.user_id = res.user.id;
+
+      const [gig] = await CRUDService.createEntry(
         req.app.get('db'),
         GIGS_TABLE,
         res.newgig
       );
 
-      res.status(201).json(CRUDService.serializeGig(gig));
+      res.status(201).json(SerializeService.serializeGig(gig));
     } catch (error) {
       next(error);
     }
@@ -73,7 +81,8 @@ gigsRouter
       const gig = await CRUDService.getById(
         req.app.get('db'),
         GIGS_TABLE,
-        req.params.id
+        req.params.id,
+        res.user.id
       );
 
       if (!gig) return res.status(404).json({ message: `Gig doesn't exist` });
@@ -97,10 +106,15 @@ gigsRouter
     return next();
   })
 
-  .get((_req, res) => res.json(SerializeService.serializeGig(res.gig)))
+  .get((_req, res) => res.status(201).json(SerializeService.serializeGig(res.gig)))
 
   .delete(async (req, res) => {
-    await CRUDService.deleteById(req.app.get('db'), GIGS_TABLE, res.gig.id);
+    await CRUDService.deleteById(
+      req.app.get('db'),
+      GIGS_TABLE,
+      res.gig.id,
+      res.user.id
+    );
 
     const { gig_name } = res.gig;
     res.status(204).json({ message: `Gig "${gig_name}" deleted` });
@@ -111,10 +125,11 @@ gigsRouter
       req.app.get('db'),
       GIGS_TABLE,
       res.gig.id,
+      res.user.id,
       res.newgig
     );
 
-    res.status(201).json(gig);
+    return res.status(201).json(SerializeService.serializeGig(gig));
   });
 
 module.exports = gigsRouter;

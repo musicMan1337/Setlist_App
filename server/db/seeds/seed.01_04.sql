@@ -3,9 +3,9 @@ BEGIN;
 TRUNCATE users RESTART IDENTITY CASCADE;
 
 INSERT INTO users (user_name, password)
-VALUES
-  ('John Smith', 'so_secret'),
-  ('Jane Williams', 'secretslug');
+VALUES -- user/password are the same
+  ('user1', '$2a$05$LpPv8kQLYOxQxSuZZDwh5OtJSzCeJrMUorlb8li6A0pruYYwukLM6'),
+  ('user2', '$2a$05$hhJ6TRwjQVde7zMNXVTeau.i3ubS/L02i36T2rlWyrO74Nzj9jPky');
 
 INSERT INTO songs (
     song_title,

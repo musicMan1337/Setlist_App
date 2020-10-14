@@ -1,23 +1,23 @@
 const CRUDService = {
 
-  getAllData(db, table) {
-    return db(table).select('*');
+  getAllData(db, table, user_id) {
+    return db(table).select('*').where({ user_id });
   },
 
-  getById(db, table, id) {
-    return db(table).where({ id }).first();
+  getById(db, table, id, user_id) {
+    return db(table).where({ id, user_id }).first();
   },
 
-  deleteById(db, table, id) {
-    return db(table).where({ id }).del();
+  deleteById(db, table, id, user_id) {
+    return db(table).where({ id, user_id }).del();
   },
 
   createEntry(db, table, newEntry) {
     return db(table).insert(newEntry, '*')
   },
 
-  updateEntry(db, table, id, newEntry) {
-    return db(table).where({ id }).update(newEntry, '*');
+  updateEntry(db, table, id, user_id, newEntry,) {
+    return db(table).where({ id, user_id }).update(newEntry, '*');
   },
 
   // case for user login

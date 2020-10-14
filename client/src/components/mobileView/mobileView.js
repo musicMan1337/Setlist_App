@@ -35,6 +35,7 @@ const MobileView = ({ page }) => {
           id={set.id}
           title={set.set_name}
           description={set.description}
+          handleUserUpdate={handleUserUpdate}
           isSet
           songs={set.songs}
         />
@@ -46,8 +47,7 @@ const MobileView = ({ page }) => {
     //   renderCards = gigs.map((gig) => (
     //     <MobileCard
     //       key={gig.gig_name}
-    //       title={gig.gig_name}
-    //       description={gig.description}
+    //       handleUserUpdate={handleUserUpdate}
     //     />
     //   ));
     //   break;

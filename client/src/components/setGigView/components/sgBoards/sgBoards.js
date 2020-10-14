@@ -3,9 +3,23 @@ import PropTypes from 'prop-types';
 
 import './sgBoards.scss';
 
+import { SETS, SONGS_SETS_LINK } from 'src/constants/routes.constants';
+
+import { DeleteService } from 'src/services';
+
 import { Button } from 'src/components/utils';
 
-const SGBoards = ({ boardTable, buttonText }) => {
+const SGBoards = ({ boardTable, buttonText, handleUserUpdate }) => {
+  const handleDelete = async (table, id, linkId = null) => {
+    try {
+      DeleteService.deleteSomething(table, id, linkId);
+
+      handleUserUpdate();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const renderBoards = boardTable.map((item) => {
     if (buttonText.includes('Set')) {
       const set = item;
@@ -14,11 +28,20 @@ const SGBoards = ({ boardTable, buttonText }) => {
           <header>{set.set_name}</header>
           <ul className="board">
             {set.songs.map((song) => (
-              <li key={song.song_title}>
-                <h3>{song.song_title}</h3>
-              </li>
+              <div key={song.song_title}>
+                <li>
+                  <h3>{song.song_title}</h3>
+                </li>
+                <Button
+                  onClick={() => handleDelete(SONGS_SETS_LINK, song.id, set.id)}
+                >
+                  Remove
+                </Button>
+              </div>
             ))}
-            <Button>Delete Set?</Button>
+            <Button onClick={() => handleDelete(SETS[0], set.id)}>
+              Delete Set?
+            </Button>
           </ul>
         </div>
       );
@@ -60,5 +83,6 @@ export default SGBoards;
 
 SGBoards.propTypes = {
   boardTable: PropTypes.arrayOf(PropTypes.object).isRequired,
-  buttonText: PropTypes.oneOf(['Add to Set', 'Add to Gig']).isRequired
+  buttonText: PropTypes.oneOf(['Add to Set', 'Add to Gig']).isRequired,
+  handleUserUpdate: PropTypes.func.isRequired
 };

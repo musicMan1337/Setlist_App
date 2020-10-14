@@ -1,0 +1,13 @@
+@import 'src/styles/mixins/breakpoint';
+
+.home-page-container {
+  margin-top: 15px;
+  justify-content: center;
+  align-content: center;
+}
+
+@include breakpoint(tablet) {
+  .home-page-container {
+    width: 100%;
+  }
+}

@@ -31,7 +31,7 @@ app.get('/', (_req, res) => {
 | ROUTES HERE -------------------------
 */
 
-app.use('/setapp/v1/user', usersRouter);
+app.use('/setapp/v1/users', usersRouter);
 app.use('/setapp/v1/songs', songsRouter);
 app.use('/setapp/v1/songs_sets', songsSetsRouter);
 app.use('/setapp/v1/sets', setsRouter);

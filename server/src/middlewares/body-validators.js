@@ -24,8 +24,8 @@ const loginBody = (req, res, next) => {
 };
 
 const songBody = (req, res, next) => {
-  const { song_title, composer, arranger, description, user_id } = req.body;
-  const newSong = { song_title, composer, arranger, description, user_id };
+  const { song_title, composer, arranger, description } = req.body;
+  const newSong = { song_title, composer, arranger, description };
 
   const keyError = ValidationMethods.checkFields(newSong);
   if (keyError) return ValidationMethods.errorResponse(res, keyError);
@@ -46,8 +46,8 @@ const songSetBody = (req, res, next) => {
 };
 
 const setBody = (req, res, next) => {
-  const { set_name, description, user_id } = req.body;
-  const newSet = { set_name, description, user_id };
+  const { set_name, description } = req.body;
+  const newSet = { set_name, description };
 
   const keyError = ValidationMethods.checkFields(newSet);
   if (keyError) return ValidationMethods.errorResponse(res, keyError);
@@ -58,8 +58,8 @@ const setBody = (req, res, next) => {
 
 // TODO - Feature request
 const gigBody = (req, res, next) => {
-  // const { song_title, composer, arranger, user_id } = req.body;
-  // const newGig = { song_title, composer, arranger, user_id };
+  // const { song_title, composer, arranger } = req.body;
+  // const newGig = { song_title, composer, arranger };
 
   // const keyError = ValidationMethods.checkFields(newGig);
   // if (keyError) return ValidationMethods.errorResponse(res, keyError);

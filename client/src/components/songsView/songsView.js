@@ -1,12 +1,26 @@
 import React, { useContext } from 'react';
 
-import './songsView.scss'
+import './songsView.scss';
 
 import { DatabaseContext } from 'src/context/databaseContext';
-import { CardHr } from 'src/components/utils';
+import { SONGS } from 'src/constants/routes.constants';
+
+import { DeleteService } from 'src/services';
+
+import { CardHr, Button } from 'src/components/utils';
 
 const SongView = () => {
-  const { songs } = useContext(DatabaseContext);
+  const { songs, handleUserUpdate } = useContext(DatabaseContext);
+
+  const handleDelete = async (table, id) => {
+    try {
+      DeleteService.deleteSomething(table, id);
+
+      handleUserUpdate();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const renderCards = songs.map((song) => (
     <div key={song.song_title} className="song-card">
@@ -18,6 +32,9 @@ const SongView = () => {
         <h5>Description:</h5>
         <p>{song.description}</p>
       </article>
+      <Button onClick={() => handleDelete(SONGS[0], song.id)}>
+        Delete Song?
+      </Button>
     </div>
   ));
 

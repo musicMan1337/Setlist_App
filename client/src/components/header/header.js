@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 
 import './header.scss';
 
-import TokenService from 'src/services/token.service';
+import { TokenService } from 'src/services';
 
 const Header = ({ userName, logout }) => {
   // TODO - clear auth and name in app.js state
   const clearUser = () => {
-    TokenService.clearAuthToken()
-    logout()
-  }
+    TokenService.clearAuthToken();
+    logout();
+  };
 
   const renderNav = (
     <nav className="nav-bar">
@@ -23,7 +23,10 @@ const Header = ({ userName, logout }) => {
 
       <div className="avatar-div">
         {/* <img src="#" alt="avatar" className="user-avatar" /> */}
-        {userName} |<Link onClick={() => clearUser()} to="/login">| Logout</Link>
+        {userName} |
+        <Link onClick={() => clearUser()} to="/login">
+          | Logout
+        </Link>
       </div>
     </nav>
   );

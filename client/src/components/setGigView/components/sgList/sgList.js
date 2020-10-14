@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import './sgList.scss';
 
-import { CardHr, Button } from 'src/components/utils';
+import { PostService } from 'src/services';
 
-import PostService from 'src/services/post.service';
+import { CardHr, Button } from 'src/components/utils';
 
 const SGList = ({ listTable, boardTable, buttonText, handleUserUpdate }) => {
   const handleSubmit = async (e, firstId) => {

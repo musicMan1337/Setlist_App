@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './mobileCard.scss';
 
 import { SONGS, SETS, SONGS_SETS_LINK } from 'src/constants/routes.constants';
-import DeleteService from 'src/services/delete.service';
+import { DeleteService } from 'src/services';
 
 import { Button, CardHr } from 'src/components/utils';
 
@@ -35,11 +35,13 @@ const MobileCard = ({
   const renderSongTitles = songs.map((song) => (
     <div key={song.song_title} className="mobile-song-title">
       <p className="song-title">{song.song_title}</p>
-      <Button onClick={() => handleDelete(SONGS_SETS_LINK, song.id, id)}>Remove?</Button>
+      <Button onClick={() => handleDelete(SONGS_SETS_LINK, song.id, id)}>
+        Remove?
+      </Button>
     </div>
   ));
 
-  const dbTable = isSong ? SONGS[0] : SETS[0]
+  const dbTable = isSong ? SONGS[0] : SETS[0];
 
   return (
     <li className="mobile-card">

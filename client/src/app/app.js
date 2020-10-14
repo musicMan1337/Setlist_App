@@ -1,34 +1,48 @@
-import React, { useState } from 'react';
-import { Route, Switch, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Switch, Link } from 'react-router-dom';
 
-import './app.scss'
+import './app.scss';
 
+import DatabaseContextProvider from 'src/context/databaseContext';
+import { TokenService, UserService } from 'src/services';
+
+import { Button } from 'src/components/utils';
+import { Header } from 'src/components';
 import {
   LoginPage,
   HomePage,
   SongsPage,
   SetsPage,
   GigsPage,
-  PrivateRoute
+  PrivateRoute,
+  PublicRoute
 } from 'src/routes';
 
-import { Header } from 'src/components';
-import { Button } from 'src/components/utils';
-import DatabaseContextProvider from 'src/context/databaseContext';
-
 const App = () => {
-  const [userName, setUserName] = useState('fake-user');
-  const [userId, setUserId] = useState(1);
+  const [userName, setUserName] = useState('');
 
-  const handleLoginSuccess = (user_name, id) => {
+  useEffect(() => {
+    const getUserName = async (authToken) => {
+      try {
+        const { username } = await UserService.authLogin(authToken);
+
+        setUserName(username);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const authToken = TokenService.getAuthToken();
+    if (authToken) getUserName(authToken);
+  }, []);
+
+  const handleLoginSuccess = (user_name) => {
     setUserName(user_name);
-    setUserId(id);
   };
 
   const handleLogout = () => {
-    setUserName('')
-    setUserId(0)
-  }
+    setUserName('');
+  };
 
   // TODO - temp for checking route wiring
   const pathSwitch = ['/login', '/', '/songs', '/sets', '/gigs'].map((path) => (
@@ -44,13 +58,12 @@ const App = () => {
       <Header userName={userName} logout={handleLogout} />
       <div style={{ flexDirection: 'row' }}>{pathSwitch}</div>
       <main className="main-container">
-        <DatabaseContextProvider userId={userId}>
+        <DatabaseContextProvider userName={userName}>
           <Switch>
-            <Route
+            <PublicRoute
               path="/login"
-              render={(props) => (
-                <LoginPage loginSuccess={handleLoginSuccess} {...props} />
-              )}
+              component={LoginPage}
+              loginSuccess={handleLoginSuccess}
             />
             <PrivateRoute exact path="/" component={HomePage} />
             <PrivateRoute path="/songs" component={SongsPage} />

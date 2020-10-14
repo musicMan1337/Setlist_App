@@ -4,39 +4,60 @@ import {
   SETS_GIGS_LINK
 } from 'src/constants/routes.constants';
 
+import { TokenService } from 'src/services';
+
 const { API_ENDPOINT } = config;
+
+const getHeaders = () => {
+  const authToken = TokenService.getAuthToken();
+
+  return {
+    'content-type': 'application/json',
+    Authorization: `Bearer ${authToken}`
+  };
+};
 
 const PostService = {
   async createSomething(table, body) {
-    const res = await fetch(API_ENDPOINT + table, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    });
-
-    return !res.ok ? res.json().then((e) => Promise.reject(e)) : res.json();
+    try {
+      const headers = getHeaders();
+      console.log(headers);
+      await fetch(API_ENDPOINT + table, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body)
+      });
+    } catch (error) {
+      console.log(error);
+    }
   },
 
-  updateSongSet(song_id, set_id) {
-    return fetch(API_ENDPOINT + SONGS_SETS_LINK, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({ song_id, set_id })
-    });
+  async updateSongSet(song_id, set_id) {
+    try {
+      const headers = getHeaders();
+
+      await fetch(API_ENDPOINT + SONGS_SETS_LINK, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ song_id, set_id })
+      });
+    } catch (error) {
+      console.log(error);
+    }
   },
 
-  updateSetGig(set_id, gig_id) {
-    return fetch(API_ENDPOINT + SETS_GIGS_LINK, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(set_id, gig_id)
-    });
+  async updateSetGig(set_id, gig_id) {
+    try {
+      const headers = getHeaders();
+
+      await fetch(API_ENDPOINT + SETS_GIGS_LINK, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ set_id, gig_id })
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 

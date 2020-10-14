@@ -9,47 +9,63 @@ const {
 
 const userRouter = Router();
 
-const getUserMiddleware = (req, res, next) =>
-  CRUDService.getByName(req.app.get('db'), res.loginUser.user_name)
-    .then((dbUser) => {
-      if (!dbUser) {
-        return res.status(400).json({ error: `Incorrect 'User Name'` });
-      }
+const getUserMiddleware = async (req, res, next) => {
+  try {
+    const dbUser = await CRUDService.getByName(
+      req.app.get('db'),
+      res.loginUser.user_name
+    );
 
-      res.dbUser = dbUser;
-      return next();
-    })
-    .catch(next);
+    if (!dbUser) {
+      return res.status(400).json({ error: `Incorrect 'User Name'` });
+    }
 
-userRouter.all(jsonBodyParser, validate.loginBody);
+    res.dbUser = dbUser;
+  } catch (error) {
+    next(error);
+  }
 
-userRouter.route('/login').post(getUserMiddleware, auth.passwordCheck);
+  return next();
+};
 
-userRouter.route('/register').post(auth.hashPassword, (req, res, next) => {
-  CRUDService.createEntry(req.app.get('db'), USERS_TABLE, res.loginUser)
-    .then(([newUser]) => {
+userRouter.use(jsonBodyParser);
+
+userRouter
+  .route('/login')
+  .get(auth.requireAuth, (req, res, next) =>
+    res.status(201).json({ username: res.user.user_name })
+  )
+
+  .post(validate.loginBody, getUserMiddleware, auth.passwordCheck);
+
+userRouter
+  .route('/register')
+  .post(validate.loginBody, auth.hashPassword, async (req, res, next) => {
+    try {
+      const [newUser] = await CRUDService.createEntry(
+        req.app.get('db'),
+        USERS_TABLE,
+        res.loginUser
+      );
+
       const { user_name, id } = newUser;
-
       const token = auth.createJwtService(user_name, id);
 
-      res.newUser = newUser;
-      return token;
-    })
-    .then((token) => {
-      const { user_name, id } = res.newUser;
-      res.status(201).json({ authToken: token, user_name, id });
-    })
-    .catch(next);
-});
-
-userRouter.route('/delete').delete(getUserMiddleware, (req, res) =>
-  CRUDService.deleteById(req.app.get('db'), USERS_TABLE, res.dbUser.id).then(
-    () => {
-      const { user_name } = res.dbUser;
-
-      res.status(204).json({ message: `User "${user_name}" deleted` });
+      res.status(201).json({ authToken: token, user_name });
+    } catch (error) {
+      next(error);
     }
-  )
-);
+  });
+
+userRouter.route('/delete').delete(auth.requireAuth, async (req, res, next) => {
+  try {
+    await CRUDService.deleteById(req.app.get('db'), USERS_TABLE, res.dbUser.id);
+
+    const { user_name } = res.dbUser;
+    res.status(204).json({ message: `User "${user_name}" deleted` });
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = userRouter;

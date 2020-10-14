@@ -27,6 +27,7 @@
 
   .headline {
     margin: 10px;
+    text-decoration: underline;
     @include fluid-type(font-size, 320px, 1400px, 30px, 50px);
   }
 }

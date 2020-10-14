@@ -6,6 +6,8 @@
 //   }
 //   const newGig = { gig_name, start_time, another }
 
+const auth = require("./server/src/middlewares/auth");
+
 //   console.log(newGig.another === '');
 
 //   const fields = Object.entries(newGig)
@@ -142,9 +144,28 @@
 
 // setContructor(set, songs, linkages)
 
-const parseParams = (id) => {
-  const [one, two] = id.split('-');
-  console.log(two);
-}
+// const parseParams = (id) => {
+//   const [one, two] = id.split('-');
+//   console.log(two);
+// }
 
-parseParams('1-2')
+// parseParams('1-2')
+
+// const bool = (string) => {
+//   if (!string) console.log('false');
+//   if (string) console.log('true');
+// }
+
+// bool('')
+
+// guess not 🤷‍♂️
+// const headers = {
+//   'content-type': 'application/json',
+//   Authorization: `Bearer ${authToken}`
+// };
+
+// const api = (authToken) => {
+//   console.log(headers);
+// }
+
+// api('token')

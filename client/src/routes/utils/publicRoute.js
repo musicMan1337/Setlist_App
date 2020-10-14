@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import TokenService from '../../services/token.service';
 
-const PrivateRoute = ({ component, path, ...props }) => {
+const PublicRoute = ({ component, loginSuccess, path, ...props }) => {
   const Component = component;
 
   return (
@@ -13,23 +13,24 @@ const PrivateRoute = ({ component, path, ...props }) => {
       path={path}
       render={(routeProps) =>
         TokenService.hasAuthToken() ? (
-          <Component {...routeProps} />
-        ) : (
           <Redirect
             to={{
-              pathname: '/login',
+              pathname: '/',
               state: { from: routeProps.location }
             }}
           />
+        ) : (
+          <Component loginSuccess={loginSuccess} {...routeProps} />
         )
       }
     />
   );
 };
 
-export default PrivateRoute;
+export default PublicRoute;
 
-PrivateRoute.propTypes = {
+PublicRoute.propTypes = {
   component: PropTypes.func.isRequired,
+  loginSuccess: PropTypes.func.isRequired,
   path: PropTypes.string.isRequired
 };
