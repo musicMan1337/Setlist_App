@@ -1,6 +1,14 @@
+@import 'src/styles/variables/colors';
+
 @import 'src/styles/mixins/breakpoint';
+@import 'src/styles/mixins/fluid-type';
 
 .home-form-container {
+  padding: 0 10px;
+  margin-bottom: 15px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  background-color: $card-color;
 
   .home-form {
     width: 100%;

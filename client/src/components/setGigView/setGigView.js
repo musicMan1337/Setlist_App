@@ -9,17 +9,7 @@ import { SETS, GIGS } from 'src/constants/routes.constants';
 import { SGList, SGBoards } from './components';
 
 const SetGigView = ({ page }) => {
-  // TODO - Component "set-gig-card"
-  // TODO - Component "set-gig-board"
-  // TODO - Component "choose-set"
-  // TODO - Component "set-gig-boards"
-
-  // TODO - map() render "set-gig-card"
-  // TODO - map() render "choose-set"
-  // TODO - map() render "set-gig-board"
-
   // TODO - useState "expanded-card" toggle
-  // TODO - useState "choose-set" toggle
 
   const { songs, sets, handleUserUpdate } = useContext(DatabaseContext);
 
@@ -40,12 +30,6 @@ const SetGigView = ({ page }) => {
     //   break;
 
     default:
-      context = {
-        listTable: songs,
-        boardTable: sets,
-        buttonText: 'Add to Set',
-        handleUserUpdate
-      };
       break;
   }
 

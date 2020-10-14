@@ -24,7 +24,7 @@ const SGList = ({ listTable, boardTable, buttonText, handleUserUpdate }) => {
     const sets = boardTable;
 
     return (
-      <li key={song.song_title} className="set-gig-card">
+      <li key={song.id} className="set-gig-card">
         <h3>{song.song_title}</h3>
         <CardHr />
         <article className="expanded-card">
@@ -35,7 +35,7 @@ const SGList = ({ listTable, boardTable, buttonText, handleUserUpdate }) => {
           <form onSubmit={(e) => handleSubmit(e, song.id)}>
             <select id="sets">
               {sets.map((set) => (
-                <option key={set.set_name} value={set.id}>
+                <option key={set.id} value={set.id}>
                   {set.set_name}
                 </option>
               ))}
@@ -50,7 +50,7 @@ const SGList = ({ listTable, boardTable, buttonText, handleUserUpdate }) => {
     // TODO - Feature: Gigs
     // const set = item;
     // return (
-    //   <li key={set.set_name} className="set-gig-card">
+    //   <li key={set.id} className="set-gig-card">
     //     <h3>{set.set_name}</h3>
     //     <CardHr />
     //     <article className="expanded-card">

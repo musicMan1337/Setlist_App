@@ -26,9 +26,12 @@ const App = () => {
       try {
         const { username } = await UserService.authLogin(authToken);
 
-        setUserName(username);
+        if (!username) return TokenService.clearAuthToken();
+
+        return setUserName(username);
       } catch (error) {
-        console.log(error);
+        TokenService.clearAuthToken();
+        return console.log(error);
       }
     };
 
@@ -44,19 +47,9 @@ const App = () => {
     setUserName('');
   };
 
-  // TODO - temp for checking route wiring
-  const pathSwitch = ['/login', '/', '/songs', '/sets', '/gigs'].map((path) => (
-    <Link to={path} key={path}>
-      <Button>
-        <p>Path for: {path}</p>
-      </Button>
-    </Link>
-  ));
-
   return (
     <div className="app">
       <Header userName={userName} logout={handleLogout} />
-      <div style={{ flexDirection: 'row' }}>{pathSwitch}</div>
       <main className="main-container">
         <DatabaseContextProvider userName={userName}>
           <Switch>

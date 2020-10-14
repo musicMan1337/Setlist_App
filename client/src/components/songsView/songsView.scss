@@ -1,3 +1,4 @@
+@import 'src/styles/variables/colors';
 @import 'src/styles/mixins/fluid-type';
 
 .song-container {
@@ -8,4 +9,13 @@
   justify-content: center;
   align-content: center;
   @include fluid-type(grid-column-gap grid-row-gap, 700px, 1400px, 30px, 60px);
+}
+
+.song-card {
+  margin-top: 15px;
+  width: 95%;
+  margin-bottom: 15px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  background-color: $card-color;
 }

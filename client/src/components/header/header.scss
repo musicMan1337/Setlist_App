@@ -1,12 +1,15 @@
-@import 'src/styles/mixins/fluid-type.scss';
+@import 'src/styles/variables/colors';
+@import 'src/styles/mixins/fluid-type';
 
 .main-header {
-  width: 100%;
 
   .nav-bar {
-    width: 100%;
+    width: 100vw;
+    padding: 10px;
+    overflow: hidden;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
+    background-color: $nav-color;
 
     > * {
       flex-direction: row;

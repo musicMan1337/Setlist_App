@@ -3,12 +3,12 @@ BEGIN;
 TRUNCATE gigs RESTART IDENTITY CASCADE;
 
 INSERT INTO gigs (
-    venue,
-    gig_date,
-    start_time,
-    end_time,
-    user_id
-  )
+  venue,
+  gig_date,
+  start_time,
+  end_time,
+  user_id
+)
 VALUES
   (
     'Venue 1',

@@ -45,7 +45,7 @@ const SetForm = () => {
 
   return (
     <div className="home-form-container">
-      <h2>Sets</h2>
+      <h2>New Set</h2>
       <form className="home-form" onSubmit={(e) => handleSubmit(e)}>
         {renderFields}
         <Button type="submit">Create!</Button>

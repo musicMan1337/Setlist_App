@@ -16,6 +16,7 @@ const Header = ({ userName, logout }) => {
   const renderNav = (
     <nav className="nav-bar">
       <p className="nav-links">
+        <Link to="/">Home | </Link>
         <Link to="/songs">Songs | </Link>
         <Link to="/sets">Set-Lists | </Link>
         <Link to="/gigs">Gigs </Link>

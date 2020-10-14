@@ -16,7 +16,7 @@ const MobileView = ({ page }) => {
     case SONGS:
       renderCards = songs.map((song) => (
         <MobileCard
-          key={song.song_title}
+          key={song.id}
           id={song.id}
           title={song.song_title}
           description={song.description}
@@ -31,13 +31,14 @@ const MobileView = ({ page }) => {
     case SETS:
       renderCards = sets.map((set) => (
         <MobileCard
-          key={set.set_name}
+          key={set.id}
           id={set.id}
           title={set.set_name}
           description={set.description}
           handleUserUpdate={handleUserUpdate}
           isSet
           songs={set.songs}
+          allSongs={songs}
         />
       ));
       break;
@@ -46,7 +47,7 @@ const MobileView = ({ page }) => {
     // case GIGS:
     //   renderCards = gigs.map((gig) => (
     //     <MobileCard
-    //       key={gig.gig_name}
+    //       key={gig.id}
     //       handleUserUpdate={handleUserUpdate}
     //     />
     //   ));

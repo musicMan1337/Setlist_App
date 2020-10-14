@@ -23,7 +23,7 @@ const SongView = () => {
   };
 
   const renderCards = songs.map((song) => (
-    <div key={song.song_title} className="song-card">
+    <div key={song.id} className="song-card">
       <h3>{song.song_title}</h3>
       <CardHr />
       <article className="song-info">

@@ -24,11 +24,11 @@ const SGBoards = ({ boardTable, buttonText, handleUserUpdate }) => {
     if (buttonText.includes('Set')) {
       const set = item;
       return (
-        <div key={set.set_name} className="set-gig-board">
+        <div key={set.id} className="set-gig-board">
           <header>{set.set_name}</header>
           <ul className="board">
             {set.songs.map((song) => (
-              <div key={song.song_title}>
+              <div key={song.id}>
                 <li>
                   <h3>{song.song_title}</h3>
                 </li>

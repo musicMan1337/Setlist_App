@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './mobileCard.scss';
 
 import { SONGS, SETS, SONGS_SETS_LINK } from 'src/constants/routes.constants';
-import { DeleteService } from 'src/services';
+import { DeleteService, PostService } from 'src/services';
 
 import { Button, CardHr } from 'src/components/utils';
 
@@ -17,10 +17,21 @@ const MobileCard = ({
   composer,
   arranger,
   isSet,
-  songs
+  songs,
+  allSongs
 }) => {
   const handleDelete = async (table, itemId, linkId) => {
     await DeleteService.deleteSomething(table, itemId, linkId);
+
+    handleUserUpdate();
+  };
+
+  const handleSubmit = async (e, secondId) => {
+    e.preventDefault();
+    const { song, set } = e.target;
+
+    if (song) await PostService.updateSongSet(Number(song.value), secondId);
+    if (set) await PostService.updateSetGig(Number(set.value), secondId);
 
     handleUserUpdate();
   };
@@ -33,13 +44,26 @@ const MobileCard = ({
   );
 
   const renderSongTitles = songs.map((song) => (
-    <div key={song.song_title} className="mobile-song-title">
+    <div key={song.id} className="mobile-song-title">
       <p className="song-title">{song.song_title}</p>
       <Button onClick={() => handleDelete(SONGS_SETS_LINK, song.id, id)}>
         Remove?
       </Button>
     </div>
   ));
+
+  const renderAddSong = (
+    <form className="add-song" onSubmit={(e) => handleSubmit(e, id)}>
+      <select id="song">
+        {allSongs.map((song) => (
+          <option key={song.id} value={song.id}>
+            {song.song_title}
+          </option>
+        ))}
+      </select>
+      <Button type="submit">Add Song</Button>
+    </form>
+  );
 
   const dbTable = isSong ? SONGS[0] : SETS[0];
 
@@ -53,6 +77,7 @@ const MobileCard = ({
       <article className="expanded-card">
         {isSong && renderSongInfo}
         {isSet && renderSongTitles}
+        {isSet && renderAddSong}
         <h5>Description:</h5>
         <p>{description}</p>
       </article>
@@ -67,7 +92,8 @@ MobileCard.defaultProps = {
   composer: null,
   arranger: null,
   isSet: false,
-  songs: []
+  songs: [],
+  allSongs: []
 };
 
 MobileCard.propTypes = {
@@ -79,5 +105,6 @@ MobileCard.propTypes = {
   composer: PropTypes.string,
   arranger: PropTypes.string,
   isSet: PropTypes.bool,
-  songs: PropTypes.arrayOf(PropTypes.object)
+  songs: PropTypes.arrayOf(PropTypes.object),
+  allSongs: PropTypes.arrayOf(PropTypes.object)
 };

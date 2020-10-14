@@ -50,7 +50,7 @@ const SongForm = () => {
 
   return (
     <div className="home-form-container">
-      <h2>Songs</h2>
+      <h2>New Song</h2>
       <form className="home-form" onSubmit={(e) => handleSubmit(e)}>
         {renderFields}
         <Button type="submit">Create!</Button>
