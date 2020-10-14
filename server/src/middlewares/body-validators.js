@@ -1,3 +1,5 @@
+const { SerializeService } = require('../services')
+
 const ValidationMethods = {
   checkFields(object) {
     const fields = Object.entries(object);
@@ -14,10 +16,12 @@ const ValidationMethods = {
 
 const loginBody = (req, res, next) => {
   const { user_name, password } = req.body;
-  const loginUser = { user_name, password };
+  const rawUser = { user_name, password };
 
-  const keyError = ValidationMethods.checkFields(loginUser);
+  const keyError = ValidationMethods.checkFields(rawUser);
   if (keyError) return ValidationMethods.errorResponse(res, keyError);
+
+  const loginUser = SerializeService.body.user(rawUser)
 
   res.loginUser = loginUser;
   return next();
@@ -25,10 +29,12 @@ const loginBody = (req, res, next) => {
 
 const songBody = (req, res, next) => {
   const { song_title, composer, arranger, description } = req.body;
-  const newSong = { song_title, composer, arranger, description };
+  const rawSong = { song_title, composer, arranger, description };
 
-  const keyError = ValidationMethods.checkFields(newSong);
+  const keyError = ValidationMethods.checkFields(rawSong);
   if (keyError) return ValidationMethods.errorResponse(res, keyError);
+
+  const newSong = SerializeService.body.song(rawSong)
 
   res.newSong = newSong;
   return next();
@@ -47,10 +53,12 @@ const songSetBody = (req, res, next) => {
 
 const setBody = (req, res, next) => {
   const { set_name, description } = req.body;
-  const newSet = { set_name, description };
+  const rawSet = { set_name, description };
 
-  const keyError = ValidationMethods.checkFields(newSet);
+  const keyError = ValidationMethods.checkFields(rawSet);
   if (keyError) return ValidationMethods.errorResponse(res, keyError);
+
+  const newSet = SerializeService.body.set(rawSet)
 
   res.newSet = newSet;
   return next();
@@ -59,10 +67,12 @@ const setBody = (req, res, next) => {
 // TODO - Feature request
 const gigBody = (req, res, next) => {
   // const { song_title, composer, arranger } = req.body;
-  // const newGig = { song_title, composer, arranger };
+  // const rawGig = { song_title, composer, arranger };
 
-  // const keyError = ValidationMethods.checkFields(newGig);
+  // const keyError = ValidationMethods.checkFields(rawGig);
   // if (keyError) return ValidationMethods.errorResponse(res, keyError);
+
+  // const newGig = SerializeService.body.gig(rawGig)
 
   // res.newGig = newGig;
   return next();

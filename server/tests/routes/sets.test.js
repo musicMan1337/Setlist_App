@@ -17,4 +17,14 @@ describe('Route: Sets router', () => {
   afterEach('cleanup', () => db.cleanTables(db))
 
   after('disconnect from db', () => db.destroy())
+
+  describe('GET /sets', () => {});
+
+  describe('GET /sets/:id', () => {});
+
+  describe('POST /sets', () => {});
+
+  describe('PATCH /sets/:id', () => {});
+
+  describe('DELETE /sets/:id', () => {});
 })

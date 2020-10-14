@@ -1,3 +1,5 @@
+const LOGIN = 'users/login';
+const REGISTER = 'users/register';
 const USERS_TABLE = 'users';
 const SONGS_TABLE = 'songs';
 const SETS_TABLE = 'sets';
@@ -9,6 +11,8 @@ const COMPOSERS_TABLE = 'composers';
 const ARRANGER_TABLE = 'arranger';
 
 module.exports = {
+  LOGIN,
+  REGISTER,
   USERS_TABLE,
   SONGS_TABLE,
   SETS_TABLE,

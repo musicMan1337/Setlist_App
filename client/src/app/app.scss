@@ -3,13 +3,13 @@
 .main-container {
   width: 85vw;
   margin-bottom: 50px;
+  justify-content: center;
   align-content: center;
 }
 
 @include breakpoint(tablet) {
   .main-container {
     flex-direction: row;
-    justify-content: space-between;
     align-items: flex-start;
   }
 }

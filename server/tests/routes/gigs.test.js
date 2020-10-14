@@ -17,4 +17,14 @@ describe('Route: Gigs router', () => {
   afterEach('cleanup', () => db.cleanTables(db))
 
   after('disconnect from db', () => db.destroy())
+
+  describe('GET /gigs', () => {});
+
+  describe('GET /gigs/:id', () => {});
+
+  describe('POST /gigs', () => {});
+
+  describe('PATCH /gigs/:id', () => {});
+
+  describe('DELETE /gigs/:id', () => {});
 })

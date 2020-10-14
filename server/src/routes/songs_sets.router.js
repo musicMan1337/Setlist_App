@@ -28,11 +28,11 @@ songsSetsRouter
   .route('/')
   .get(async (req, res, next) => {
     try {
-      const linkages = await CRUDService.getAllData(
+      const linkages = await CRUDService.getAllLinks(
         req.app.get('db'),
         SONGS_SETS_TABLE
       );
-      res.status(200).json({ linkages });
+      res.status(200).json(linkages);
     } catch (error) {
       next(error);
     }

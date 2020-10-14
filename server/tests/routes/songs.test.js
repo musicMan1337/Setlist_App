@@ -17,4 +17,14 @@ describe('Route: Songs router', () => {
   afterEach('cleanup', () => db.cleanTables(db))
 
   after('disconnect from db', () => db.destroy())
+
+  describe('GET /songs (with auth)', () => {});
+
+  describe('GET /songs/:id', () => {});
+
+  describe('POST /songs', () => {});
+
+  describe('PATCH /songs/:id', () => {});
+
+  describe('DELETE /songs/:id', () => {});
 })

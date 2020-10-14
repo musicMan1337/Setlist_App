@@ -1,5 +1,9 @@
+@import 'src/styles/variables/colors';
+
 .login-form {
-  width: 100%;
+  padding: 0 15px;
+  border-radius: 10px;
+  background-color: $card-color;
 
   .form-label {
     flex-direction: row;

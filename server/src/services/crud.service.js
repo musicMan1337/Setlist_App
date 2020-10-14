@@ -1,5 +1,4 @@
 const CRUDService = {
-
   getAllData(db, table, user_id) {
     return db(table).select('*').where({ user_id });
   },
@@ -8,16 +7,16 @@ const CRUDService = {
     return db(table).where({ id, user_id }).first();
   },
 
+  createEntry(db, table, newEntry) {
+    return db(table).insert(newEntry, '*');
+  },
+
+  updateEntry(db, table, id, user_id, newEntry) {
+    return db(table).where({ id, user_id }).update(newEntry, '*');
+  },
+
   deleteById(db, table, id, user_id) {
     return db(table).where({ id, user_id }).del();
-  },
-
-  createEntry(db, table, newEntry) {
-    return db(table).insert(newEntry, '*')
-  },
-
-  updateEntry(db, table, id, user_id, newEntry,) {
-    return db(table).where({ id, user_id }).update(newEntry, '*');
   },
 
   // case for user login
@@ -32,6 +31,11 @@ const CRUDService = {
 
   deleteSGLink(db, set_id, gig_id) {
     return db('sets_gigs').where({ set_id, gig_id }).del();
+  },
+
+  // for testing linkage tables
+  getAllLinks(db, table) {
+    return db(table).select('*');
   }
 };
 

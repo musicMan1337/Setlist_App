@@ -37,6 +37,7 @@ const App = () => {
 
     const authToken = TokenService.getAuthToken();
     if (authToken) getUserName(authToken);
+    TokenService.clearAuthToken();
   }, []);
 
   const handleLoginSuccess = (user_name) => {

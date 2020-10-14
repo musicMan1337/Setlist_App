@@ -1,6 +1,42 @@
 const xss = require('xss');
 
 const SerializeService = {
+  // serialize submissions...
+  body: {
+    user(user) {
+      return {
+        user_name: xss(user.user_name),
+        password: xss(user.password)
+      };
+    },
+
+    song(song) {
+      return {
+        song_title: xss(song.song_title),
+        composer: xss(song.composer),
+        arranger: xss(song.arranger),
+        description: xss(song.description)
+      };
+    },
+
+    set(set) {
+      return {
+        set_name: xss(set.set_name),
+        description: xss(set.description)
+      };
+    },
+
+    gig(gig) {
+      return {
+        venue: xss(gig.venue),
+        gig_date: gig.gig_date,
+        start_time: gig.start_time,
+        end_time: gig.end_time
+      };
+    }
+  },
+
+  // serialize fetched data...
   serializeSong(song) {
     return {
       id: song.id,
@@ -44,6 +80,7 @@ const SerializeService = {
     };
   },
 
+  // Routes can pipe multiple entries for seralization
   serializeData(table, data) {
     switch (table) {
       case 'songs':

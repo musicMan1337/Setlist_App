@@ -12,11 +12,17 @@ describe('Route: Users router', () => {
     app.set('db', db);
   });
 
-  before('cleanup', () => db.cleanTables(db))
+  before('cleanup', () => db.cleanTables(db));
 
-  afterEach('cleanup', () => db.cleanTables(db))
+  afterEach('cleanup', () => db.cleanTables(db));
 
-  after('disconnect from db', () => db.destroy())
+  after('disconnect from db', () => db.destroy());
 
-  describe('GET')
+  describe('GET /login (with auth)', () => {});
+
+  describe('POST /login', () => {});
+
+  describe('POST /register', () => {});
+
+  describe('DELETE /delete', () => {});
 });

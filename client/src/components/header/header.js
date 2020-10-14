@@ -14,7 +14,7 @@ const Header = ({ userName, logout }) => {
   };
 
   const renderNav = (
-    <nav className="nav-bar">
+    <>
       <p className="nav-links">
         <Link to="/">Home | </Link>
         <Link to="/songs">Songs | </Link>
@@ -29,12 +29,14 @@ const Header = ({ userName, logout }) => {
           | Logout
         </Link>
       </div>
-    </nav>
+    </>
   );
 
   return (
     <header className="main-header">
-      {userName ? renderNav : <Link to="/login">Login</Link>}
+      <nav className="nav-bar">
+        {userName ? renderNav : <Link to="/login">Login</Link>}
+      </nav>
 
       <Link to="/">
         <h1 className="headline">SET-LIST APP</h1>
