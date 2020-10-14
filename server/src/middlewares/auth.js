@@ -19,7 +19,7 @@ const passwordCheck = async (req, res, next) => {
   try {
     const plaintextPassword = req.body.password;
     const { password, user_name, id } = res.dbUser;
-
+console.log(res.dbUser)
     const passwordsMatch = await bcrypt.compare(plaintextPassword, password);
 
     if (!passwordsMatch)

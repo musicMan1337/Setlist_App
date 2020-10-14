@@ -16,6 +16,8 @@ plugins:
 globals:
   expect: readonly
   supertest: readonly
+  NODE_ENV: readonly
+  TEST_DB_URL: readonly
 ignorePatterns:
   - '/*'
   - '!db/'

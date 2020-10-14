@@ -22,7 +22,7 @@ const CRUDService = {
 
   // case for user login
   getByName(db, user_name) {
-    return db('users').where({ user_name }).first(['id', 'user_name']);
+    return db('users').where({ user_name }).first('*');
   },
 
   // cases for linkage tables
