@@ -21,7 +21,7 @@ const PostService = {
   async createSomething(table, body) {
     try {
       const headers = getHeaders();
-      console.log(headers);
+
       await fetch(API_ENDPOINT + table, {
         method: 'POST',
         headers,

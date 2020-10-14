@@ -43,11 +43,12 @@ setsRouter
 
   .post(validate.setBody, async (req, res, next) => {
     try {
-      res.newset.user_id = res.user.id;
+      res.newSet.user_id = res.user.id;
+
       const set = await CRUDService.createEntry(
         req.app.get('db'),
         SETS_TABLE,
-        res.newset
+        res.newSet
       );
 
       res.status(201).json(SerializeService.serializeSet(set));
@@ -86,11 +87,11 @@ setsRouter
     await CRUDService.deleteById(
       req.app.get('db'),
       SETS_TABLE,
-      res.set.id,
+      res.setList.id,
       res.user.id
     );
 
-    const { set_name } = res.set;
+    const { set_name } = res.setList;
     res.status(204).json({ message: `Set "${set_name}" deleted` });
   })
 
@@ -98,9 +99,9 @@ setsRouter
     const [set] = await CRUDService.updateEntry(
       req.app.get('db'),
       SETS_TABLE,
-      res.set.id,
+      res.setList.id,
       res.user.id,
-      res.newset
+      res.newSet
     );
 
     return res.status(201).json(SerializeService.serializeSet(set));

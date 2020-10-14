@@ -4,7 +4,7 @@ TRUNCATE users RESTART IDENTITY CASCADE;
 
 INSERT INTO users (user_name, password)
 VALUES -- user/password are the same
-  ('user1', '$2a$05$LpPv8kQLYOxQxSuZZDwh5OtJSzCeJrMUorlb8li6A0pruYYwukLM6'),
+  ('admin', '$2a$05$7/XBYpTYlzlhKzC9pB9He.DGZiQzAmuFkJ668VU2Ou/PeHAzkjXny'),
   ('user2', '$2a$05$hhJ6TRwjQVde7zMNXVTeau.i3ubS/L02i36T2rlWyrO74Nzj9jPky');
 
 INSERT INTO songs (

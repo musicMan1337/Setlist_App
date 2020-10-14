@@ -12,7 +12,7 @@ import { Button } from 'src/components/utils';
 const SGBoards = ({ boardTable, buttonText, handleUserUpdate }) => {
   const handleDelete = async (table, id, linkId = null) => {
     try {
-      DeleteService.deleteSomething(table, id, linkId);
+      await DeleteService.deleteSomething(table, id, linkId);
 
       handleUserUpdate();
     } catch (error) {

@@ -14,7 +14,7 @@ const SongView = () => {
 
   const handleDelete = async (table, id) => {
     try {
-      DeleteService.deleteSomething(table, id);
+      await DeleteService.deleteSomething(table, id);
 
       handleUserUpdate();
     } catch (error) {
