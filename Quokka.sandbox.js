@@ -6,8 +6,6 @@
 //   }
 //   const newGig = { gig_name, start_time, another }
 
-const auth = require("./server/src/middlewares/auth");
-
 //   console.log(newGig.another === '');
 
 //   const fields = Object.entries(newGig)
@@ -169,3 +167,8 @@ const auth = require("./server/src/middlewares/auth");
 // }
 
 // api('token')
+
+// const songs = []
+// if (!songs) {
+//   console.log('bool');
+// }

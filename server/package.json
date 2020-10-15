@@ -11,7 +11,7 @@
     "migrate:prod": "heroku run npm run migrate",
     "lint": "eslint src/ ; exit 0",
     "lint:fix": "eslint --fix src/",
-    "test": "mocha --require tests/testGlobals.js --recursive tests/",
+    "test": "mocha --require tests/test-globals.js --recursive tests/",
     "coverage": "nyc npm run test",
     "predeploy": "npm audit",
     "deploy": "git push heroku master"

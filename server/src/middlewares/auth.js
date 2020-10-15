@@ -65,6 +65,7 @@ const requireAuth = async (req, res, next) => {
 
     res.user = user;
   } catch (error) {
+    // error.message =
     next(error);
   }
 

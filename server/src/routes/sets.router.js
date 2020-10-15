@@ -25,6 +25,11 @@ setsRouter
         res.user.id
       );
 
+      if (emptySets.length === 0) {
+        res.status(502).json([]);
+        return;
+      }
+
       const fullSets = await Promise.all(
         emptySets.map(async (set) => {
           set.songs = await QueryService.getSetSongTitles(

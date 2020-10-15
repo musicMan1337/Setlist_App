@@ -25,6 +25,11 @@ gigsRouter
         res.user.id
       );
 
+      if (emptyGigs.length === 0) {
+        res.status(502).json([]);
+        return;
+      }
+
       // get sets assigned to gigs
       const halfGigs = await Promise.all(
         emptyGigs.map(async (gig) => {

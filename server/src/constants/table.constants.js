@@ -1,3 +1,4 @@
+const API = '/setapp/v1';
 const LOGIN = 'users/login';
 const REGISTER = 'users/register';
 const USERS_TABLE = 'users';
@@ -11,6 +12,7 @@ const COMPOSERS_TABLE = 'composers';
 const ARRANGER_TABLE = 'arranger';
 
 module.exports = {
+  API,
   LOGIN,
   REGISTER,
   USERS_TABLE,

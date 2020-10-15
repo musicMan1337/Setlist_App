@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Switch, Link } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 
 import './app.scss';
 
 import DatabaseContextProvider from 'src/context/databaseContext';
 import { TokenService, UserService } from 'src/services';
 
-import { Button } from 'src/components/utils';
 import { Header } from 'src/components';
 import {
   LoginPage,

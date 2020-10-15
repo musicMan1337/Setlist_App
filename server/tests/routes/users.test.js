@@ -1,5 +1,6 @@
 const knex = require('knex');
 const app = require('../../src/app');
+const helpers = require('../test-helpers');
 
 describe('Route: Users router', () => {
   let db;
@@ -18,11 +19,34 @@ describe('Route: Users router', () => {
 
   after('disconnect from db', () => db.destroy());
 
-  describe('GET /login (with auth)', () => {});
+  const seedAllTablesHook = () =>
+    beforeEach('seed data', () => helpers.seedAllTables(db));
 
-  describe('POST /login', () => {});
+  describe('GET /login (with auth)', () => {
+    context('Given no data', () => {});
+    context('Given data exists', () => {
+      seedAllTablesHook();
+    });
+  });
 
-  describe('POST /register', () => {});
+  describe('POST /login', () => {
+    context('Given no data', () => {});
+    context('Given data exists', () => {
+      seedAllTablesHook();
+    });
+  });
 
-  describe('DELETE /delete', () => {});
+  describe('POST /register', () => {
+    context('Given no data', () => {});
+    context('Given data exists', () => {
+      seedAllTablesHook();
+    });
+  });
+
+  describe('DELETE /delete', () => {
+    context('Given no data', () => {});
+    context('Given data exists', () => {
+      seedAllTablesHook();
+    });
+  });
 });

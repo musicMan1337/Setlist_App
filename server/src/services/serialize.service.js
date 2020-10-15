@@ -43,8 +43,7 @@ const SerializeService = {
       song_title: xss(song.song_title),
       composer: xss(song.composer),
       arranger: xss(song.arranger),
-      description: xss(song.description),
-      user_id: song.user_id
+      description: xss(song.description)
     };
   },
 
@@ -53,7 +52,6 @@ const SerializeService = {
       id: set.id,
       set_name: xss(set.set_name),
       description: xss(set.description),
-      user_id: set.user_id,
       songs: set.songs.map((song) => ({
         id: song.id,
         song_title: xss(song.song_title)
@@ -68,7 +66,6 @@ const SerializeService = {
       gig_date: gig.gig_date,
       start_time: gig.start_time,
       end_time: gig.end_time,
-      user_id: gig.user_id,
       sets: gig.sets.map((set) => ({
         id: set.id,
         set_name: xss(set.set_name),

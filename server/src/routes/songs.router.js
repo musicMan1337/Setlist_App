@@ -20,7 +20,13 @@ songsRouter
         SONGS_TABLE,
         res.user.id
       );
-      res.json(SerializeService.serializeData(SONGS_TABLE, songs));
+
+      if (songs.length === 0) {
+        res.status(502).json([]);
+        return
+      }
+
+      res.status(200).json(SerializeService.serializeData(SONGS_TABLE, songs));
     } catch (error) {
       next(error);
     }
@@ -52,8 +58,6 @@ songsRouter
         req.params.id,
         res.user.id
       );
-
-      if (!song) return res.status(404).json({ message: `Song doesn't exist` });
 
       res.song = song;
     } catch (error) {

@@ -1,10 +1,19 @@
+const {
+  USERS_TABLE,
+  SONGS_TABLE,
+  SETS_TABLE,
+  SONGS_SETS_TABLE,
+  GIGS_TABLE,
+  SETS_GIGS_TABLE
+} = require('../src/constants/table.constants');
+
 /*
 |--------------------------------------------------------------------------
 | Seed Data
 |--------------------------------------------------------------------------
 */
-const ADMIN_JWT =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2MDI3MDE4OTAsInN1YiI6ImFkbWluIn0.DYRu7tWbt9rNZStYmLb3LfStI39KUMfY7aLHobTHyu8';
+const JWT =
+  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2MDI3MDE4OTAsInN1YiI6ImFkbWluIn0.DYRu7tWbt9rNZStYmLb3LfStI39KUMfY7aLHobTHyu8';
 
 const USER_PASSWORDS = { admin: 'admin', user2: 'user2', maliciousUser: 'admin' };
 
@@ -48,6 +57,30 @@ const songs = [
   }
 ];
 
+const expectedSongs = [
+  {
+    id: 1,
+    song_title: 'Cool Song',
+    composer: 'Bok',
+    arranger: 'Some guy',
+    description: "It's a song!"
+  },
+  {
+    id: 2,
+    song_title: 'Cooler Song',
+    composer: 'Beatoven',
+    arranger: 'Some girl',
+    description: "It's another song!"
+  },
+  {
+    id: 3,
+    song_title: 'Meh Song',
+    composer: 'Katy Perry',
+    arranger: '',
+    description: 'It\'s a "song"!'
+  }
+];
+
 const sets = [
   {
     id: 1,
@@ -69,6 +102,112 @@ const sets = [
   }
 ];
 
+const expectedSets = [
+  {
+    id: 1,
+    set_name: 'Set 1',
+    description: "It's a set!",
+    songs: [
+      {
+        id: 1,
+        song_title: 'Cool Song'
+      },
+      {
+        id: 2,
+        song_title: 'Cooler Song'
+      }
+    ]
+  },
+  {
+    id: 2,
+    set_name: 'Set 2',
+    description: "It's another set!",
+    songs: [
+      {
+        id: 1,
+        song_title: 'Cool Song'
+      },
+      {
+        id: 3,
+        song_title: 'Meh Song'
+      }
+    ]
+  },
+  {
+    id: 3,
+    set_name: 'Set 3',
+    description: 'It\'s a "set"!',
+    songs: []
+  }
+];
+
+const gigs = [
+  {
+    id: 1,
+    venue: 'Venue 1',
+    gig_date: '2020-03-02',
+    start_time: '19:00:00',
+    end_time: '21:00:00',
+    user_id: 1
+  },
+  {
+    id: 2,
+    venue: 'Venue 2',
+    gig_date: '2020-11-19',
+    start_time: null,
+    end_time: null,
+    user_id: 1
+  }
+];
+
+const expectedGigs = [
+  {
+    id: 1,
+    venue: 'Venue 1',
+    gig_date: '2020-03-02T07:00:00.000Z',
+    start_time: '19:00:00',
+    end_time: '21:00:00',
+    sets: [
+      {
+        id: 1,
+        set_name: 'Set 1',
+        songs: [
+          {
+            id: 1,
+            song_title: 'Cool Song'
+          },
+          {
+            id: 2,
+            song_title: 'Cooler Song'
+          }
+        ]
+      },
+      {
+        id: 2,
+        set_name: 'Set 2',
+        songs: [
+          {
+            id: 1,
+            song_title: 'Cool Song'
+          },
+          {
+            id: 3,
+            song_title: 'Meh Song'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 2,
+    venue: 'Venue 2',
+    gig_date: '2020-11-19T07:00:00.000Z',
+    start_time: null,
+    end_time: null,
+    sets: []
+  }
+];
+
 const songs_sets = [
   {
     set_id: 1,
@@ -85,6 +224,17 @@ const songs_sets = [
   {
     set_id: 2,
     song_id: 3
+  }
+];
+
+const sets_gigs = [
+  {
+    gig_id: 1,
+    set_id: 1
+  },
+  {
+    gig_id: 1,
+    set_id: 2
   }
 ];
 
@@ -110,16 +260,18 @@ const maliciousSetSeed = {
   user_id: 1
 };
 
+const maliciousGigSeed = {
+  id: 3,
+  set_name: 'Naughty <script>alert("xss");</script>',
+  description: 'Naughty <script>alert("xss");</script>',
+  user_id: 1
+};
+
 /*
 |--------------------------------------------------------------------------
 | Client-side submission data
 |--------------------------------------------------------------------------
 */
-const headers = {
-  'content-type': 'application/json',
-  Authorization: `Bearer ${ADMIN_JWT}`
-};
-
 const safeUser = {
   request: {
     user_name: 'newUser',
@@ -212,9 +364,52 @@ const maliciousSet = {
   }
 };
 
+const safeGig = {
+  request: {
+    id: 3,
+    venue: 'Venue 3',
+    gig_date: '2020-03-02',
+    start_time: '19:00:00',
+    end_time: '21:00:00'
+  },
+
+  result: {
+    id: 3,
+    venue: 'Venue 3',
+    gig_date: '2020-03-02T07:00:00.000Z',
+    start_time: '19:00:00',
+    end_time: '21:00:00',
+    sets: []
+  }
+};
+
+const maliciousGig = {
+  request: {
+    id: 3,
+    venue: 'Naughty <script>alert("xss");</script>',
+    gig_date: '2020-03-02',
+    start_time: '19:00:00',
+    end_time: '21:00:00'
+  },
+
+  result: {
+    id: 3,
+    venue: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
+    gig_date: '2020-03-02T07:00:00.000Z',
+    start_time: '19:00:00',
+    end_time: '21:00:00',
+    sets: []
+  }
+};
+
 const newSongSet = {
   song_id: 1,
   set_id: 3
+};
+
+const newSetGig = {
+  gig_id: 2,
+  set_id: 1
 };
 
 /*
@@ -226,68 +421,106 @@ const cleanTables = (db) => {
   return db.raw(`TRUNCATE users RESTART IDENTITY CASCADE`);
 };
 
-const getSeedData = () => ({ users, songs, sets, songs_sets });
-const seedTables = (db, table, data) => db(table).insert(data);
+const getSeedData = () => ({ users, songs, sets, gigs, songs_sets, sets_gigs });
+const getExpectedData = () => ({ expectedSongs, expectedSets, expectedGigs });
+const seedTable = (db, table, data) => db(table).insert(data);
+const seedUsers = (db) => db(USERS_TABLE).insert(users);
+const seedAllTables = async (db) => {
+  await db(USERS_TABLE).insert(users);
+  await db(SONGS_TABLE).insert(songs);
+  await db(SETS_TABLE).insert(sets);
+  await db(GIGS_TABLE).insert(gigs);
+  await db(SONGS_SETS_TABLE).insert(songs_sets);
+  await db(SETS_GIGS_TABLE).insert(sets_gigs);
+};
 
 const getMaliciousSeedData = () => ({
   maliciousUserSeed,
   maliciousSongSeed,
-  maliciousSetSeed
+  maliciousSetSeed,
+  maliciousGigSeed
 });
-const seedMaliciousData = (db, table, data) => db(table).insert(data);
+const seedMaliciousTable = (db, table, data) => db(table).insert(data);
+const seedAllMaliciousTables = async (db) => {
+  await db(USERS_TABLE).insert(users);
+  await db(SONGS_TABLE).insert(songs);
+  await db(SETS_TABLE).insert(sets);
+  await db(SONGS_SETS_TABLE).insert(songs_sets);
+};
 
-const getClientSubmissions = () => ({ safeUser, safeSong, safeSet, newSongSet });
+const getClientSubmissions = () => ({
+  safeUser,
+  safeSong,
+  safeSet,
+  safeGig,
+  newSongSet,
+  newSetGig
+});
 const getMaliciousSubmissions = () => ({
   maliciousUser,
   maliciousSong,
-  maliciousSet
+  maliciousSet,
+  maliciousGig
 });
 
-const createFetchRequest = (method, table, malicious = false) => {
-  const endpoint = `${TEST_DB_URL}/${table}`;
-  const tags = {
-    method,
-    headers
-  };
+const createFetchBody = (table) => {
+  let safeReq;
+  let maliciousReq;
 
-  if (method !== 'GET') {
-    switch (table) {
-      case 'users':
-        tags.body = malicious ? maliciousUser : safeUser;
-        break;
+  switch (table) {
+    case USERS_TABLE:
+      safeReq = safeUser.request;
+      maliciousReq = maliciousUser.request;
+      break;
 
-      case 'songs':
-        tags.body = malicious ? maliciousSong : safeSong;
-        break;
+    case SONGS_TABLE:
+      safeReq = safeSong.request;
+      maliciousReq = maliciousSong.request;
+      break;
 
-      case 'sets':
-        tags.body = malicious ? maliciousSet : safeSet;
-        break;
+    case SETS_TABLE:
+      safeReq = safeSet.request;
+      maliciousReq = maliciousSet.request;
+      break;
 
-      case 'songs_sets':
-        tags.body = newSongSet;
-        break;
+    case GIGS_TABLE:
+      safeReq = safeGig.request;
+      maliciousReq = maliciousGig.request;
+      break;
 
-      default:
-        break;
-    }
+    case SONGS_SETS_TABLE:
+      safeReq = newSongSet;
+      break;
+
+    case SETS_GIGS_TABLE:
+      safeReq = newSetGig;
+      break;
+
+    default:
+      break;
   }
 
-  return { endpoint, tags };
+  const body = { safeReq, maliciousReq };
+  return body;
 };
 
 module.exports = {
-  ADMIN_JWT,
+  JWT,
   USER_PASSWORDS,
 
   cleanTables,
   getSeedData,
-  seedTables,
+  getExpectedData,
+  seedTable,
+  seedUsers,
+  seedAllTables,
+
   getMaliciousSeedData,
-  seedMaliciousData,
+  seedMaliciousTable,
+  seedAllMaliciousTables,
 
   getClientSubmissions,
   getMaliciousSubmissions,
 
-  createFetchRequest
+  createFetchBody
 };
