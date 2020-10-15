@@ -15,7 +15,7 @@ const {
 const JWT =
   'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2MDI3MDE4OTAsInN1YiI6ImFkbWluIn0.DYRu7tWbt9rNZStYmLb3LfStI39KUMfY7aLHobTHyu8';
 
-const USER_PASSWORDS = { admin: 'admin', user2: 'user2', maliciousUser: 'admin' };
+const USER_NAME_PASS = { user_name: 'admin', password: 'admin' };
 
 const users = [
   {
@@ -275,25 +275,21 @@ const maliciousGigSeed = {
 const safeUser = {
   request: {
     user_name: 'newUser',
-    password: 'password'
+    password: 'admin'
   },
 
   result: {
-    authToken:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE2MDI3MDQ1MzEsInN1YiI6Im5ld1VzZXIifQ.wSFQKHrQtj58q_VPMRLI7XtOKO3eyPJgXu1skvs52TE',
-    user_name: 'muser'
+    user_name: 'newUser'
   }
 };
 
 const maliciousUser = {
-  request: {
+  malRequest: {
     user_name: 'Naughty <script>alert("xss");</script>',
     password: 'Naughty <script>alert("xss");</script>'
   },
 
-  result: {
-    authToken:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJpYXQiOjE2MDI3MDU3MzMsInN1YiI6InVzZXIxIn0.y9LECOdoPiEEwVKaPxHqZ3MbHDiOtBsdk8NJenHe7Wk',
+  malResult: {
     user_name: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;'
   }
 };
@@ -306,31 +302,45 @@ const safeSong = {
     description: 'newDesc'
   },
 
-  result: {
+  postResult: {
     id: 4,
     song_title: 'Good Song',
     composer: 'newComp',
     arranger: 'newArr',
-    description: 'newDesc',
-    user_id: 1
+    description: 'newDesc'
+  },
+
+  patchResult: {
+    id: 1,
+    song_title: 'Good Song',
+    composer: 'newComp',
+    arranger: 'newArr',
+    description: 'newDesc'
   }
 };
 
 const maliciousSong = {
-  request: {
+  malRequest: {
     song_title: 'Naughty <script>alert("xss");</script>',
     composer: 'Naughty <script>alert("xss");</script>',
     arranger: 'Naughty <script>alert("xss");</script>',
     description: 'Naughty <script>alert("xss");</script>'
   },
 
-  result: {
+  malPostResult: {
     id: 4,
     song_title: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
     composer: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
     arranger: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
-    description: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
-    user_id: 1
+    description: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;'
+  },
+
+  malPatchResult: {
+    id: 1,
+    song_title: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
+    composer: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
+    arranger: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
+    description: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;'
   }
 };
 
@@ -340,26 +350,38 @@ const safeSet = {
     description: 'newDesc'
   },
 
-  result: {
+  postResult: {
     id: 4,
     set_name: 'Good Set',
     description: 'newDesc',
-    user_id: 1,
+    songs: []
+  },
+
+  patchResult: {
+    id: 1,
+    set_name: 'Good Set',
+    description: 'newDesc',
     songs: []
   }
 };
 
 const maliciousSet = {
-  request: {
+  malRequest: {
     set_name: 'Naughty <script>alert("xss");</script>',
     description: 'Naughty <script>alert("xss");</script>'
   },
 
-  result: {
+  malPostResult: {
     id: 4,
     set_name: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
     description: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
-    user_id: 1,
+    songs: []
+  },
+
+  malPatchResult: {
+    id: 1,
+    set_name: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
+    description: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
     songs: []
   }
 };
@@ -373,8 +395,17 @@ const safeGig = {
     end_time: '21:00:00'
   },
 
-  result: {
+  postResult: {
     id: 3,
+    venue: 'Venue 3',
+    gig_date: '2020-03-02T07:00:00.000Z',
+    start_time: '19:00:00',
+    end_time: '21:00:00',
+    sets: []
+  },
+
+  patchResult: {
+    id: 1,
     venue: 'Venue 3',
     gig_date: '2020-03-02T07:00:00.000Z',
     start_time: '19:00:00',
@@ -384,7 +415,7 @@ const safeGig = {
 };
 
 const maliciousGig = {
-  request: {
+  malRequest: {
     id: 3,
     venue: 'Naughty <script>alert("xss");</script>',
     gig_date: '2020-03-02',
@@ -392,8 +423,17 @@ const maliciousGig = {
     end_time: '21:00:00'
   },
 
-  result: {
+  malPostResult: {
     id: 3,
+    venue: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
+    gig_date: '2020-03-02T07:00:00.000Z',
+    start_time: '19:00:00',
+    end_time: '21:00:00',
+    sets: []
+  },
+
+  malPatchResult: {
+    id: 1,
     venue: 'Naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
     gig_date: '2020-03-02T07:00:00.000Z',
     start_time: '19:00:00',
@@ -418,7 +458,9 @@ const newSetGig = {
 |--------------------------------------------------------------------------
 */
 const cleanTables = (db) => {
-  return db.raw(`TRUNCATE users RESTART IDENTITY CASCADE`);
+  return db.raw(
+    `TRUNCATE sets_gigs, songs_sets, gigs, sets, songs, users RESTART IDENTITY CASCADE;`
+  );
 };
 
 const getSeedData = () => ({ users, songs, sets, gigs, songs_sets, sets_gigs });
@@ -506,7 +548,8 @@ const createFetchBody = (table) => {
 
 module.exports = {
   JWT,
-  USER_PASSWORDS,
+
+  USER_NAME_PASS,
 
   cleanTables,
   getSeedData,

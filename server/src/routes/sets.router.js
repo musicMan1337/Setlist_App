@@ -72,7 +72,7 @@ setsRouter
         req.params.id,
         res.user.id
       );
-      if (!set) return res.status(404).json({ message: `Set doesn't exist` });
+      if (!set) return res.status(404).json({ message: 'Data not found' });
 
       set.songs = await QueryService.getSetSongTitles(req.app.get('db'), set.id);
 
@@ -85,20 +85,8 @@ setsRouter
   })
 
   .get((_req, res) =>
-    res.status(201).json(SerializeService.serializeSet(res.setList))
+    res.status(200).json(SerializeService.serializeSet(res.setList))
   )
-
-  .delete(async (req, res) => {
-    await CRUDService.deleteById(
-      req.app.get('db'),
-      SETS_TABLE,
-      res.setList.id,
-      res.user.id
-    );
-
-    const { set_name } = res.setList;
-    res.status(204).json({ message: `Set "${set_name}" deleted` });
-  })
 
   .patch(validate.setBody, async (req, res) => {
     const [set] = await CRUDService.updateEntry(
@@ -109,7 +97,17 @@ setsRouter
       res.newSet
     );
 
-    return res.status(201).json(SerializeService.serializeSet(set));
+    res.status(201).json(SerializeService.serializeSet(set));
+  })
+
+  .delete(async (req, res) => {
+    await CRUDService.deleteById(
+      req.app.get('db'),
+      SETS_TABLE,
+      res.setList.id
+    );
+
+    res.status(201).json({ message: `Successfully deleted` });
   });
 
 module.exports = setsRouter;

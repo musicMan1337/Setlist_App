@@ -23,7 +23,7 @@ songsRouter
 
       if (songs.length === 0) {
         res.status(502).json([]);
-        return
+        return;
       }
 
       res.status(200).json(SerializeService.serializeData(SONGS_TABLE, songs));
@@ -59,29 +59,21 @@ songsRouter
         res.user.id
       );
 
+      if (!song) {
+        res.status(404).json({ message: 'Data not found' });
+        return;
+      }
+
       res.song = song;
+      next();
     } catch (error) {
       next(error);
     }
-
-    return next();
   })
 
   .get((_req, res) =>
-    res.status(201).json(SerializeService.serializeSong(res.song))
+    res.status(200).json(SerializeService.serializeSong(res.song))
   )
-
-  .delete(async (req, res) => {
-    await CRUDService.deleteById(
-      req.app.get('db'),
-      SONGS_TABLE,
-      res.song.id,
-      res.user.id
-    );
-
-    const { song_name } = res.song;
-    return res.status(204).json({ message: `Song "${song_name}" deleted` });
-  })
 
   .patch(validate.songBody, async (req, res) => {
     const [song] = await CRUDService.updateEntry(
@@ -92,7 +84,22 @@ songsRouter
       res.newSong
     );
 
-    return res.status(201).json(SerializeService.serializeSong(song));
+    res.status(201).json(SerializeService.serializeSong(song));
+  })
+
+  .delete(jsonBodyParser, async (req, res) => {
+    try {
+
+      await CRUDService.deleteById(
+        req.app.get('db'),
+        SONGS_TABLE,
+        res.song.id
+      );
+
+      res.status(201).json({ message: `Successfully deleted` });
+    } catch (error) {
+      console.log(error);
+    }
   });
 
 module.exports = songsRouter;

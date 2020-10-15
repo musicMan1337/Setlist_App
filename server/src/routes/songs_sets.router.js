@@ -54,7 +54,7 @@ songsSetsRouter
 songsSetsRouter.route('/:id').delete(parseParams, async (req, res, next) => {
   try {
     await CRUDService.deleteSSLink(req.app.get('db'), res.song_id, res.set_id);
-    res.status(204).json({ message: 'Linkage deleted!' });
+    res.status(201).json({ message: 'Linkage deleted!' });
   } catch (error) {
     next(error);
   }

@@ -25,7 +25,10 @@ const App = () => {
       try {
         const { username } = await UserService.authLogin(authToken);
 
-        if (!username) return TokenService.clearAuthToken();
+        if (!username) {
+          TokenService.clearAuthToken()
+          return setUserName('')
+        };
 
         return setUserName(username);
       } catch (error) {

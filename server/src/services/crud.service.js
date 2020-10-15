@@ -15,8 +15,8 @@ const CRUDService = {
     return db(table).where({ id, user_id }).update(newEntry, '*');
   },
 
-  deleteById(db, table, id, user_id) {
-    return db(table).where({ id, user_id }).del();
+  deleteById(db, table, id) {
+    return db(table).where({ id }).del();
   },
 
   // case for user login

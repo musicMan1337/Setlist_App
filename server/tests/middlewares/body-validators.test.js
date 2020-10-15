@@ -1,7 +1,7 @@
 const knex = require('knex');
 const app = require('../../src/app');
 
-describe('Middleware: Body Validators', () => {
+describe.skip('Middleware: Body Validators', () => {
   let db;
 
   before('make knex instance', () => {

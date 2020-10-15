@@ -1,7 +1,7 @@
 const knex = require('knex');
 const app = require('../../src/app');
 
-describe('Service: CRUD methods', () => {
+describe.skip('Service: CRUD methods', () => {
   let db;
 
   before('make knex instance', () => {

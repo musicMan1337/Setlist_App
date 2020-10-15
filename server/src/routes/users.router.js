@@ -32,8 +32,8 @@ userRouter.use(jsonBodyParser);
 
 userRouter
   .route('/login')
-  .get(auth.requireAuth, (req, res, next) =>
-    res.status(201).json({ username: res.user.user_name })
+  .get(auth.requireAuth, (_req, res) =>
+    res.status(200).json({ username: res.user.user_name })
   )
 
   .post(validate.loginBody, getUserMiddleware, auth.passwordCheck);
@@ -59,10 +59,10 @@ userRouter
 
 userRouter.route('/delete').delete(auth.requireAuth, async (req, res, next) => {
   try {
-    await CRUDService.deleteById(req.app.get('db'), USERS_TABLE, res.dbUser.id);
 
-    const { user_name } = res.dbUser;
-    res.status(204).json({ message: `User "${user_name}" deleted` });
+    await CRUDService.deleteById(req.app.get('db'), USERS_TABLE, res.user.id);
+
+    res.status(201).json({ message: `Successfully deleted` });
   } catch (error) {
     next(error);
   }

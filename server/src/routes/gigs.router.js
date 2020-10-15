@@ -90,7 +90,7 @@ gigsRouter
         res.user.id
       );
 
-      if (!gig) return res.status(404).json({ message: `Gig doesn't exist` });
+      if (!gig) return res.status(404).json({ message: 'Data not found' });
 
       gig.sets = await QueryService.getGigSetsTitles(req.app.get('db'), gig.id);
 
@@ -108,22 +108,11 @@ gigsRouter
     } catch (error) {
       next(error);
     }
+
     return next();
   })
 
-  .get((_req, res) => res.status(201).json(SerializeService.serializeGig(res.gig)))
-
-  .delete(async (req, res) => {
-    await CRUDService.deleteById(
-      req.app.get('db'),
-      GIGS_TABLE,
-      res.gig.id,
-      res.user.id
-    );
-
-    const { gig_name } = res.gig;
-    res.status(204).json({ message: `Gig "${gig_name}" deleted` });
-  })
+  .get((_req, res) => res.status(200).json(SerializeService.serializeGig(res.gig)))
 
   .patch(validate.gigBody, async (req, res) => {
     const [gig] = await CRUDService.updateEntry(
@@ -134,7 +123,17 @@ gigsRouter
       res.newgig
     );
 
-    return res.status(201).json(SerializeService.serializeGig(gig));
+    res.status(201).json(SerializeService.serializeGig(gig));
+  })
+
+  .delete(async (req, res) => {
+    await CRUDService.deleteById(
+      req.app.get('db'),
+      GIGS_TABLE,
+      res.gig.id
+    );
+
+    res.status(201).json({ message: `Successfully deleted` });
   });
 
 module.exports = gigsRouter;

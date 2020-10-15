@@ -1,7 +1,7 @@
 const knex = require('knex');
 const app = require('../../src/app');
 
-describe('Service: Serialize methods', () => {
+describe.skip('Service: Serialize methods', () => {
   let db;
 
   before('make knex instance', () => {

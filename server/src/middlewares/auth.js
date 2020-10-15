@@ -19,7 +19,7 @@ const passwordCheck = async (req, res, next) => {
   try {
     const plaintextPassword = req.body.password;
     const { password, user_name, id } = res.dbUser;
-console.log(res.dbUser)
+
     const passwordsMatch = await bcrypt.compare(plaintextPassword, password);
 
     if (!passwordsMatch)
@@ -61,11 +61,10 @@ const requireAuth = async (req, res, next) => {
 
     const user = await CRUDService.getByName(req.app.get('db'), payload.sub);
 
-    if (!user) return res.status(401).json({ error: 'Unauthorized request' });
+    if (!user) return res.status(404).json({ message: 'Data not found' });
 
     res.user = user;
   } catch (error) {
-    // error.message =
     next(error);
   }
 

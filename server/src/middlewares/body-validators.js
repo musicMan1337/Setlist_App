@@ -28,7 +28,7 @@ const loginBody = (req, res, next) => {
 };
 
 const songBody = (req, res, next) => {
-  const { song_title, composer, arranger, description } = req.body;
+  const { song_title, composer, arranger, description, id } = req.body;
   const rawSong = { song_title, composer, arranger, description };
 
   const keyError = ValidationMethods.checkFields(rawSong);
@@ -36,6 +36,7 @@ const songBody = (req, res, next) => {
 
   const newSong = SerializeService.body.song(rawSong)
 
+  if (id) newSong.id = id
   res.newSong = newSong;
   return next();
 };
@@ -52,7 +53,7 @@ const songSetBody = (req, res, next) => {
 };
 
 const setBody = (req, res, next) => {
-  const { set_name, description } = req.body;
+  const { set_name, description, id } = req.body;
   const rawSet = { set_name, description };
 
   const keyError = ValidationMethods.checkFields(rawSet);
@@ -60,13 +61,14 @@ const setBody = (req, res, next) => {
 
   const newSet = SerializeService.body.set(rawSet)
 
+  if (id) newSet.id = id
   res.newSet = newSet;
   return next();
 };
 
 // TODO - Feature request
 const gigBody = (req, res, next) => {
-  // const { song_title, composer, arranger } = req.body;
+  // const { song_title, composer, arranger, id } = req.body;
   // const rawGig = { song_title, composer, arranger };
 
   // const keyError = ValidationMethods.checkFields(rawGig);
@@ -74,6 +76,7 @@ const gigBody = (req, res, next) => {
 
   // const newGig = SerializeService.body.gig(rawGig)
 
+  // if (id) newGig.id = id
   // res.newGig = newGig;
   return next();
 };

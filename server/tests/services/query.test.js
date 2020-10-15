@@ -1,7 +1,7 @@
 const knex = require('knex');
 const app = require('../../src/app');
 
-describe('Service: Query methods', () => {
+describe.skip('Service: Query methods', () => {
   let db;
 
   before('make knex instance', () => {

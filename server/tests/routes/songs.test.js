@@ -4,12 +4,21 @@ const app = require('../../src/app');
 const { API, SONGS_TABLE } = require('../../src/constants/table.constants');
 
 const helpers = require('../test-helpers');
-const { Get, GetId } = require('./route-tests');
+const { Get, GetId, Post, Patch, Delete } = require('./route-CRUD-tests');
 
 describe('Route: Songs router', () => {
+  const ENDPOINT = `${API}/${SONGS_TABLE}`;
+
   const { expectedSongs } = helpers.getExpectedData();
 
-  const ENDPOINT = `${API}/${SONGS_TABLE}`;
+  // TODO - xss() testing
+  // const {
+  //   maliciousSong: { malRequest, malPostResult, malPatchResult }
+  // } = helpers.getMaliciousSubmissions();
+
+  const {
+    safeSong: { request, postResult, patchResult }
+  } = helpers.getClientSubmissions();
 
   let db;
   before('make knex instance', () => {
@@ -30,11 +39,11 @@ describe('Route: Songs router', () => {
   const seedUsersHook = () =>
     beforeEach('seed users', () => helpers.seedUsers(db));
 
-  describe.only('GET /songs', () => {
+  describe('GET /songs', () => {
     context('Given no data', () => {
       seedUsersHook();
 
-      it('responds with 502 and returns empty array', () =>
+      it('responds with 502 and returns an empty array', () =>
         Get.noData(app, ENDPOINT, expectedSongs));
     });
 
@@ -46,69 +55,37 @@ describe('Route: Songs router', () => {
     });
   });
 
-  describe.only('GET /songs/:id', () => {
+  describe('GET /songs/:id', () => {
     context('Given no data', () => {
       seedUsersHook();
 
-      it('responds with 404 and returns error message', () =>
-        GetId.noData(app, ENDPOINT, 2));
+      it('responds with 404 and returns an error message', () =>
+        GetId.noData(app, ENDPOINT, '/2'));
     });
 
     context('Given data exists', () => {
       seedAllTablesHook();
 
-      it(
-        'responds with 200 and returns all songs',
-        GetId.withData(app, ENDPOINT, 2, expectedSongs[1])
-      );
+      it('responds with 200 and returns a song', () =>
+        GetId.withData(app, ENDPOINT, '/2', expectedSongs[1]));
     });
   });
 
   describe('POST /songs', () => {
-    context('Given no data', () => {
-      seedUsersHook();
+    seedAllTablesHook();
 
-      it('responds with 502 and return empty array', () => {
-        return supertest(app)
-          .get(`${API}/${SONGS_TABLE}`)
-          .set('Authorization', JWT)
-          .expect(502, { message: 'No songs found' });
-      });
-    });
-
-    context('Given data exists', () => {
-      seedAllTablesHook();
-
-      it('responds with 200 and return all songs', () => {
-        return supertest(app)
-          .get(`${API}/${SONGS_TABLE}`)
-          .set('Authorization', JWT)
-          .expect(200, expectedSongs);
-      });
+    it('responds with 201 and returns created song', () => {
+      request.id = 4;
+      Post.safeData(app, ENDPOINT, request, postResult);
     });
   });
 
   describe('PATCH /songs/:id', () => {
-    context('Given no data', () => {
-      seedUsersHook();
+    seedAllTablesHook();
 
-      it('responds with 502 and return empty array', () => {
-        return supertest(app)
-          .get(`${API}/${SONGS_TABLE}`)
-          .set('Authorization', JWT)
-          .expect(502, { message: 'No songs found' });
-      });
-    });
-
-    context('Given data exists', () => {
-      seedAllTablesHook();
-
-      it('responds with 502 and return empty array', () => {
-        return supertest(app)
-          .get(`${API}/${SONGS_TABLE}`)
-          .set('Authorization', JWT)
-          .expect(200, expectedSongs);
-      });
+    it('responds with 201 and returns updated song', () => {
+      request.id = 1;
+      Patch.safeData(app, ENDPOINT, '/1', request, patchResult);
     });
   });
 
@@ -116,23 +93,15 @@ describe('Route: Songs router', () => {
     context('Given no data', () => {
       seedUsersHook();
 
-      it('responds with 502 and return empty array', () => {
-        return supertest(app)
-          .get(`${API}/${SONGS_TABLE}`)
-          .set('Authorization', JWT)
-          .expect(502, { message: 'No songs found' });
-      });
+      it('responds with 404 and returns an error message', () =>
+        Delete.noData(app, ENDPOINT, '/2'));
     });
 
     context('Given data exists', () => {
       seedAllTablesHook();
 
-      it('responds with 502 and return empty array', () => {
-        return supertest(app)
-          .get(`${API}/${SONGS_TABLE}`)
-          .set('Authorization', JWT)
-          .expect(200, expectedSongs);
-      });
+      it('responds with 201 and returns a confirmation message', () =>
+        Delete.withData(app, ENDPOINT, '/2'));
     });
   });
 });
