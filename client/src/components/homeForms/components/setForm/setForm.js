@@ -11,7 +11,7 @@ import { Button } from 'src/components/utils/';
 const SetForm = () => {
   const { handleUserUpdate } = useContext(DatabaseContext);
 
-  const { formFields, changeHandler } = useFormState({
+  const { formFields, setFormFields, changeHandler } = useFormState({
     set_name: '',
     description: ''
   });
@@ -21,6 +21,11 @@ const SetForm = () => {
 
     try {
       await PostService.createSomething(SETS[0], formFields);
+
+      setFormFields({
+        set_name: '',
+        description: ''
+      });
 
       handleUserUpdate();
     } catch (error) {

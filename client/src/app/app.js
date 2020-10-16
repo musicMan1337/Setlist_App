@@ -7,15 +7,8 @@ import DatabaseContextProvider from 'src/context/databaseContext';
 import { TokenService, UserService } from 'src/services';
 
 import { Header } from 'src/components';
-import {
-  LoginPage,
-  HomePage,
-  SongsPage,
-  SetsPage,
-  GigsPage,
-  PrivateRoute,
-  PublicRoute
-} from 'src/routes';
+import { PrivateRoute, PublicRoute } from 'src/routes/utils';
+import { LoginPage, HomePage, SongsPage, SetsPage, GigsPage } from 'src/routes';
 
 const App = () => {
   const [userName, setUserName] = useState('');
@@ -26,9 +19,9 @@ const App = () => {
         const { username } = await UserService.authLogin(authToken);
 
         if (!username) {
-          TokenService.clearAuthToken()
-          return setUserName('')
-        };
+          TokenService.clearAuthToken();
+          return setUserName('');
+        }
 
         return setUserName(username);
       } catch (error) {
@@ -39,7 +32,7 @@ const App = () => {
 
     const authToken = TokenService.getAuthToken();
     if (authToken) getUserName(authToken);
-    TokenService.clearAuthToken();
+    else setUserName('');
   }, []);
 
   const handleLoginSuccess = (user_name) => {

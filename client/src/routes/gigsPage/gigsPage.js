@@ -4,7 +4,7 @@ import React from 'react';
 
 // import { MobileView, SetGigView } from 'src/components';
 
-import PageNotFound from 'src/routes/utils/pageNotFound';
+import { PageNotFound } from 'src/routes/utils';
 
 const GigsPage = () => {
   // TODO - Feature: useState "expanded-card" (mobile) toggle

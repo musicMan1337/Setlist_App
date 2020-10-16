@@ -1,18 +1,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { SETS } from 'src/constants/routes.constants';
-
 import DatabaseContextProvider from 'src/context/databaseContext';
-import SetGigView from './setGigView';
+import GigForm from './gigForm';
 
-const userName = '';
+const userName = ''
 
-describe('SetGigView component:', () => {
+describe('GigForm component:', () => {
   it('renders without crashing', () => {
     shallow(
       <DatabaseContextProvider userName={userName}>
-        <SetGigView page={SETS} />
+        <GigForm />
       </DatabaseContextProvider>
     );
   });

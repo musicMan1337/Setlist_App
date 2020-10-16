@@ -11,7 +11,7 @@ import { Button } from 'src/components/utils/';
 const GigForm = () => {
   const { handleUserUpdate } = useContext(DatabaseContext);
 
-  const { formFields, changeHandler } = useFormState({
+  const { formFields, setFormFields, changeHandler } = useFormState({
     venue: '',
     gig_date: '',
     start_time: '',
@@ -23,6 +23,13 @@ const GigForm = () => {
 
     try {
       await PostService.createSomething(GIGS[0], formFields);
+
+      setFormFields({
+        venue: '',
+        gig_date: '',
+        start_time: '',
+        end_time: ''
+      });
 
       handleUserUpdate();
     } catch (error) {

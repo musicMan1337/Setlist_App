@@ -8,7 +8,7 @@ function useFormState(initialValues) {
     setFormFields((prev) => ({ ...prev, [key]: value }));
   };
 
-  return { formFields, changeHandler };
+  return { formFields, setFormFields, changeHandler };
 }
 
 export default useFormState

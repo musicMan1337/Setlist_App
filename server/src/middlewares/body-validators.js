@@ -68,16 +68,16 @@ const setBody = (req, res, next) => {
 
 // TODO - Feature request
 const gigBody = (req, res, next) => {
-  // const { song_title, composer, arranger, id } = req.body;
-  // const rawGig = { song_title, composer, arranger };
+  const { song_title, composer, arranger, id } = req.body;
+  const rawGig = { song_title, composer, arranger };
 
-  // const keyError = ValidationMethods.checkFields(rawGig);
-  // if (keyError) return ValidationMethods.errorResponse(res, keyError);
+  const keyError = ValidationMethods.checkFields(rawGig);
+  if (keyError) return ValidationMethods.errorResponse(res, keyError);
 
-  // const newGig = SerializeService.body.gig(rawGig)
+  const newGig = SerializeService.body.gig(rawGig)
 
-  // if (id) newGig.id = id
-  // res.newGig = newGig;
+  if (id) newGig.id = id
+  res.newGig = newGig;
   return next();
 };
 

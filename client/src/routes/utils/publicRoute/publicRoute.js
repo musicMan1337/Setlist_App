@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import TokenService from '../../services/token.service';
+import TokenService from 'src/services/token.service';
 
 const PublicRoute = ({ component, loginSuccess, path, ...props }) => {
   const Component = component;

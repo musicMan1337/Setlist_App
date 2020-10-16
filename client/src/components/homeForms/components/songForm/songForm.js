@@ -12,7 +12,7 @@ import { Button } from 'src/components/utils/';
 const SongForm = () => {
   const { handleUserUpdate } = useContext(DatabaseContext);
 
-  const { formFields, changeHandler } = useFormState({
+  const { formFields, setFormFields, changeHandler } = useFormState({
     song_title: '',
     composer: '',
     arranger: '',
@@ -25,28 +25,36 @@ const SongForm = () => {
     try {
       await PostService.createSomething(SONGS[0], formFields);
 
+      setFormFields({
+        song_title: '',
+        composer: '',
+        arranger: '',
+        description: ''
+      });
+
       handleUserUpdate();
     } catch (error) {
       console.log(error);
     }
   };
 
-  const renderFields = ['Title', 'Composer', 'Arranger', 'Description'].map(
-    (field) => (
-      <label key={field} className="form-label" htmlFor="field">
-        {field}:
-        <input
-          type="text"
-          id={field}
-          placeholder={field}
-          value={formFields[field.toLowerCase()]}
-          onChange={changeHandler(
-            field === 'Title' ? 'song_title' : field.toLowerCase()
-          )}
-        />
-      </label>
-    )
-  );
+  const renderFields = [
+    'song_title',
+    'Composer',
+    'Arranger',
+    'Description'
+  ].map((field) => (
+    <label key={field} className="form-label" htmlFor="field">
+      {field === 'song_title' ? 'Title' : field}:
+      <input
+        type="text"
+        id={field}
+        placeholder={field === 'song_title' ? 'Title' : field}
+        value={formFields[field.toLowerCase()]}
+        onChange={changeHandler(field.toLowerCase())}
+      />
+    </label>
+  ));
 
   return (
     <div className="home-form-container">
