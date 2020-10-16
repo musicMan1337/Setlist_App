@@ -5,7 +5,7 @@ const dev = {
 };
 
 const prod = {
-  API_ENDPOINT: 'https://',
+  API_ENDPOINT: 'https://glacial-basin-85263.herokuapp.com/setapp/v1',
   TOKEN_KEY: 'authToken'
 };
 
