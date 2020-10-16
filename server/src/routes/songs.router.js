@@ -87,18 +87,13 @@ songsRouter
     res.status(201).json(SerializeService.serializeSong(song));
   })
 
-  .delete(jsonBodyParser, async (req, res) => {
+  .delete(jsonBodyParser, async (req, res, next) => {
     try {
-
-      await CRUDService.deleteById(
-        req.app.get('db'),
-        SONGS_TABLE,
-        res.song.id
-      );
+      await CRUDService.deleteById(req.app.get('db'), SONGS_TABLE, res.song.id);
 
       res.status(201).json({ message: `Successfully deleted` });
     } catch (error) {
-      console.log(error);
+      next(error);
     }
   });
 

@@ -127,11 +127,7 @@ gigsRouter
   })
 
   .delete(async (req, res) => {
-    await CRUDService.deleteById(
-      req.app.get('db'),
-      GIGS_TABLE,
-      res.gig.id
-    );
+    await CRUDService.deleteById(req.app.get('db'), GIGS_TABLE, res.gig.id);
 
     res.status(201).json({ message: `Successfully deleted` });
   });

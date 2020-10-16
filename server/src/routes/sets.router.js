@@ -101,11 +101,7 @@ setsRouter
   })
 
   .delete(async (req, res) => {
-    await CRUDService.deleteById(
-      req.app.get('db'),
-      SETS_TABLE,
-      res.setList.id
-    );
+    await CRUDService.deleteById(req.app.get('db'), SETS_TABLE, res.setList.id);
 
     res.status(201).json({ message: `Successfully deleted` });
   });
