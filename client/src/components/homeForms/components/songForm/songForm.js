@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext, useLayoutEffect } from 'react';
 
 import { DatabaseContext } from 'src/context/databaseContext';
 import { SONGS } from 'src/constants/routes.constants';
@@ -10,6 +10,7 @@ import { PostService } from 'src/services';
 import { Button } from 'src/components/utils/';
 
 const SongForm = () => {
+  const [activeSubmit, setActiveSubmit] = useState(false);
   const { handleUserUpdate } = useContext(DatabaseContext);
 
   const { formFields, setFormFields, changeHandler } = useFormState({
@@ -18,6 +19,18 @@ const SongForm = () => {
     arranger: '',
     description: ''
   });
+
+  useLayoutEffect(() => {
+    const validForm = () => {
+      const { song_title } = formFields;
+      const title = song_title.length >= 3 && song_title.length <= 50;
+
+      if (title) setActiveSubmit(true);
+      else setActiveSubmit(false);
+    };
+
+    validForm();
+  }, [formFields]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,7 +62,7 @@ const SongForm = () => {
       <input
         type="text"
         id={field}
-        placeholder={field === 'song_title' ? 'Title' : field}
+        placeholder={field === 'song_title' ? 'Title (required)' : field}
         value={formFields[field.toLowerCase()]}
         onChange={changeHandler(field.toLowerCase())}
       />
@@ -61,7 +74,9 @@ const SongForm = () => {
       <h2>New Song</h2>
       <form className="home-form" onSubmit={(e) => handleSubmit(e)}>
         {renderFields}
-        <Button type="submit">Create!</Button>
+        <Button type="submit" disabled={!activeSubmit}>
+          Create!
+        </Button>
       </form>
     </div>
   );

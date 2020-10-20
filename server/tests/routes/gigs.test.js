@@ -1,7 +1,7 @@
 const knex = require('knex');
 
-const app = require('../../src/app');
-const { API, GIGS_TABLE } = require('../../src/constants/table.constants');
+const app = require('../../dist/app');
+const { API, GIGS_TABLE } = require('../../dist/constants/table.constants');
 
 const helpers = require('../test-helpers');
 const { Get, GetId, Post, Patch, Delete } = require('./route-CRUD-tests');

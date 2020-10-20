@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext, useLayoutEffect } from 'react';
 
 import { DatabaseContext } from 'src/context/databaseContext';
 import { SETS } from 'src/constants/routes.constants';
@@ -9,12 +9,25 @@ import { PostService } from 'src/services';
 import { Button } from 'src/components/utils/';
 
 const SetForm = () => {
+  const [activeSubmit, setActiveSubmit] = useState(false);
   const { handleUserUpdate } = useContext(DatabaseContext);
 
   const { formFields, setFormFields, changeHandler } = useFormState({
     set_name: '',
     description: ''
   });
+
+  useLayoutEffect(() => {
+    const validForm = () => {
+      const { set_name } = formFields;
+      const name = set_name.length >= 3 && set_name.length <= 50;
+
+      if (name) setActiveSubmit(true);
+      else setActiveSubmit(false);
+    };
+
+    validForm();
+  }, [formFields]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +66,7 @@ const SetForm = () => {
       <h2>New Set</h2>
       <form className="home-form" onSubmit={(e) => handleSubmit(e)}>
         {renderFields}
-        <Button type="submit">Create!</Button>
+        <Button type="submit" disabled={!activeSubmit}>Create!</Button>
       </form>
     </div>
   );

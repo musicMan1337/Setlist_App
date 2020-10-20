@@ -5,7 +5,7 @@ const {
   SONGS_SETS_TABLE,
   GIGS_TABLE,
   SETS_GIGS_TABLE
-} = require('../src/constants/table.constants');
+} = require('../dist/constants/table.constants');
 
 /*
 |--------------------------------------------------------------------------

@@ -44,7 +44,7 @@ const DatabaseContextProvider = ({ userName, ...props }) => {
       setSets(allSets);
     };
 
-    fetcher();
+    if (userName !== '') fetcher();
   }, [userName, update]);
 
   const handleUserUpdate = () => setUpdate(!update);

@@ -12,10 +12,11 @@ import { Button } from 'src/components/utils';
 const LoginForm = ({ loginSuccess }) => {
   const [activeSubmit, setActiveSubmit] = useState(false);
 
-  const { formFields, changeHandler } = useFormState({
+  const { formFields, setFormFields, changeHandler } = useFormState({
     user_name: '',
     password: '',
-    submitType: ''
+    submitType: '',
+    invalidCreds: false
   });
 
   useLayoutEffect(() => {
@@ -38,17 +39,20 @@ const LoginForm = ({ loginSuccess }) => {
       if (formFields.submitType === 'Login') {
         data = await UserService.userLogin(formFields);
       } else {
-        data = await UserService.userRegistration(
-          formFields
-        );
+        data = await UserService.userRegistration(formFields);
       }
 
-      const { authToken, user_name } = data
+      if (!data) {
+        setFormFields({ ...formFields, invalidCreds: true });
+        return;
+      }
+
+      const { authToken, user_name } = data;
 
       TokenService.saveAuthToken(authToken);
       loginSuccess(user_name);
     } catch (error) {
-      console.log(error);
+      setFormFields({ ...formFields, invalidCreds: true });
     }
   };
 
@@ -67,11 +71,11 @@ const LoginForm = ({ loginSuccess }) => {
   return (
     <form className="login-form" onSubmit={(e) => handleSubmit(e)}>
       <label className="form-label" htmlFor="user_name">
-        User_name:
+        Username:
         <input
           type="text"
           id="user_name"
-          placeholder="User_name"
+          placeholder="Username"
           value={formFields.user_name}
           onChange={changeHandler('user_name')}
         />
@@ -79,13 +83,14 @@ const LoginForm = ({ loginSuccess }) => {
       <label className="form-label" htmlFor="password">
         Password:
         <input
-          type="text"
+          type="password"
           id="password"
           placeholder="Password"
           value={formFields.password}
           onChange={changeHandler('password')}
         />
       </label>
+      <p>{formFields.invalidCreds && 'Invalid Login'}</p>
       {submitButtons}
     </form>
   );

@@ -6,7 +6,7 @@ import { SongForm, SetForm } from './components';
 
 const HomeForms = () => {
   return (
-    <div className="temp-style-until-gigs-implementation" style={{ alignItems: "flex-start" }}>
+    <div className="temp-style-until-gigs-implementation">
       <SongForm />
       <SetForm />
     </div>

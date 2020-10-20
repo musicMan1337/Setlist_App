@@ -1,8 +1,3 @@
-/*
-|---------------------------------------------------
-| DATABASE export Types
-|---------------------------------------------------
-*/
 declare namespace Express {
   export type NewUser = {
     id?: number | null;

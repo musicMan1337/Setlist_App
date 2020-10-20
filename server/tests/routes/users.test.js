@@ -1,12 +1,12 @@
 const knex = require('knex');
 
-const app = require('../../src/app');
+const app = require('../../dist/app');
 const {
   API,
   LOGIN,
   REGISTER,
   USERS_TABLE
-} = require('../../src/constants/table.constants');
+} = require('../../dist/constants/table.constants');
 
 const helpers = require('../test-helpers');
 const { Delete } = require('./route-CRUD-tests');

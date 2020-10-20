@@ -11,7 +11,7 @@ import { PrivateRoute, PublicRoute } from 'src/routes/utils';
 import { LoginPage, HomePage, SongsPage, SetsPage, GigsPage } from 'src/routes';
 
 const App = () => {
-  const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState('login');
 
   useEffect(() => {
     const getUserName = async (authToken) => {

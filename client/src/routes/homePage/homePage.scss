@@ -1,5 +1,9 @@
 @import 'src/styles/mixins/breakpoint';
 
+.directions > * {
+  text-align: center;
+}
+
 .home-page-container {
   justify-content: center;
   align-content: center;
@@ -12,5 +16,9 @@
 @include breakpoint(tablet) {
   .home-page-container {
     width: 100%;
+  }
+
+  .temp-style-until-gigs-implementation {
+    align-items: flex-start;
   }
 }

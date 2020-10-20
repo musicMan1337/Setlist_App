@@ -34,11 +34,20 @@ const SGList = ({ listTable, boardTable, buttonText, handleUserUpdate }) => {
           <p>{song.description}</p>
           <form onSubmit={(e) => handleSubmit(e, song.id)}>
             <select id="sets">
-              {sets.map((set) => (
-                <option key={set.id} value={set.id}>
-                  {set.set_name}
-                </option>
-              ))}
+              {sets.map((set) => {
+                // TODO - breakout logic into separate file
+                const checkSongs = set.songs.find(
+                  (check) => check.song_title === song.song_title
+                );
+
+                if (checkSongs) return null;
+
+                return (
+                  <option key={set.id} value={set.id}>
+                    {set.set_name}
+                  </option>
+                );
+              })}
             </select>
             <Button type="submit">{buttonText}</Button>
           </form>
@@ -48,18 +57,9 @@ const SGList = ({ listTable, boardTable, buttonText, handleUserUpdate }) => {
     // }
 
     // TODO - Feature: Gigs
+    // if (buttonText.includes('Gig')) {
     // const set = item;
-    // return (
-    //   <li key={set.id} className="set-gig-card">
-    //     <h3>{set.set_name}</h3>
-    //     <CardHr />
-    //     <article className="expanded-card">
-    //       <h5>Description:</h5>
-    //       <p>{set.description}</p>
-    //       <Button>{buttonText}</Button>
-    //     </article>
-    //   </li>
-    // );
+    // }
   });
 
   return <ul className="set-gig-list">{renderListItems}</ul>;

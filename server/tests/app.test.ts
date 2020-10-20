@@ -1,6 +1,7 @@
-const app = require('../src/app')
+import supertest from 'supertest'
+import app from '../src/app'
 
-describe('App', () => {
+describe.only('App', () => {
   it('GET / responds with 200 containing "Express boilerplate initialized!"', () => {
     return supertest(app)
       .get('/')
