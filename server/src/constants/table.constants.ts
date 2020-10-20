@@ -1,0 +1,12 @@
+export const API = '/setapp/v1';
+export const LOGIN = 'users/login';
+export const REGISTER = 'users/register';
+export const USERS_TABLE = 'users';
+export const SONGS_TABLE = 'songs';
+export const SETS_TABLE = 'sets';
+export const GIGS_TABLE = 'gigs';
+export const SONGS_SETS_TABLE = 'songs_sets';
+export const SETS_GIGS_TABLE = 'sets_gigs';
+export const SOLOS_TABLE = 'solos';
+export const COMPOSERS_TABLE = 'composers';
+export const ARRANGER_TABLE = 'arranger';

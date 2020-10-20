@@ -172,3 +172,14 @@
 // if (!songs) {
 //   console.log('bool');
 // }
+
+function checkFields(rawObject) {
+  const fields = Object.entries(rawObject)
+  const [keyError] = fields.find(([key, value]) =>
+    key === 'id' ? false : value === undefined
+  )
+  return keyError
+}
+
+const keyError = checkFields({ val: undefined })
+if (keyError) console.log(keyError)
