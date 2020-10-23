@@ -188,15 +188,15 @@
 
 // console.log(num);
 
-const fieldDisplayText = {
-  song_title: 'Title (required)',
-  composer: 'Composer',
-  arranger: 'Arranger',
-  description: 'Description',
-}
+// const fieldDisplayText = {
+//   song_title: 'Title (required)',
+//   composer: 'Composer',
+//   arranger: 'Arranger',
+//   description: 'Description',
+// }
 
-const field = 'composer'
+// const field = 'composer'
 
-const test = fieldDisplayText[field].split(' ')[0]
+// const test = fieldDisplayText[field].split(' ')[0]
 
-console.log(test);
+// console.log(test);
