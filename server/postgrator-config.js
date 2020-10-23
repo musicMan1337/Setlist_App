@@ -1,4 +1,4 @@
-const { NODE_ENV, TEST_DB_URL, DATABASE_URL } = require('./src/config');
+const { NODE_ENV, TEST_DB_URL, DATABASE_URL } = require('./dist/config');
 
 module.exports = {
   migrationDirectory: __dirname + '/db/migrations',
