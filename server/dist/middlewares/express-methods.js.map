@@ -1,1 +1,0 @@
-{"version":3,"file":"express-methods.js","sourceRoot":"","sources":["../../src/middlewares/express-methods.ts"],"names":[],"mappings":";;;;;;AAAA,sDAA8B;AAE9B,MAAM,GAAG,GAAwB,iBAAO,EAAE,CAAC;AAIlC,kBAAG;AAHZ,MAAM,EAAE,MAAM,EAAE,GAAG,iBAAO,CAAC;AAGb,wBAAM;AAFpB,MAAM,cAAc,GAAG,iBAAO,CAAC,IAAI,EAAE,CAAC;AAEhB,wCAAc"}

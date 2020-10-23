@@ -1,7 +1,7 @@
 const dev = {
   API_ENDPOINT: 'http://localhost:8000/setapp/v1',
-  API_KEY: 'so_secret',
-  TOKEN_KEY: 'authToken'
+  TOKEN_KEY: 'authToken',
+  API_KEY: 'so_secret'
 };
 
 const prod = {
