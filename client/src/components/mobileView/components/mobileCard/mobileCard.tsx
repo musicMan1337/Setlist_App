@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import './mobileCard.scss';
 
@@ -7,6 +6,32 @@ import { SONGS, SETS, SONGS_SETS_LINK } from 'src/constants/routes.constants';
 import { DeleteService, PostService } from 'src/services';
 
 import { Button, CardHr } from 'src/components/utils';
+
+import { Song } from 'src/context/databaseContext';
+
+type MobileCardProps = {
+  id: number;
+  title: string;
+  description: string;
+  handleUserUpdate(): void;
+  isSong?: boolean;
+  composer?: string;
+  arranger?: string;
+  isSet?: boolean;
+  songs?: Song[];
+  allSongs?: Song[];
+};
+
+type DeleteFunc = (
+  table: typeof SONGS[0] | typeof SETS[0] | typeof SONGS_SETS_LINK,
+  itemId: number,
+  linkId?: number
+) => Promise<void>;
+
+type SubmitFunc = (
+  e: React.BaseSyntheticEvent,
+  linkId: number
+) => Promise<void>;
 
 const MobileCard = ({
   id,
@@ -19,14 +44,14 @@ const MobileCard = ({
   isSet,
   songs,
   allSongs
-}) => {
-  const handleDelete = async (table, itemId, linkId) => {
+}: MobileCardProps) => {
+  const handleDelete: DeleteFunc = async (table, itemId, linkId) => {
     await DeleteService.deleteSomething(table, itemId, linkId);
 
     handleUserUpdate();
   };
 
-  const handleSubmit = async (e, secondId) => {
+  const handleSubmit: SubmitFunc = async (e, secondId) => {
     e.preventDefault();
     const { song, set } = e.target;
 
@@ -43,7 +68,7 @@ const MobileCard = ({
     </p>
   );
 
-  const renderSongTitles = songs.map((song) => (
+  const renderSongTitles = songs && songs.map((song) => (
     <div key={song.id} className="mobile-song-title">
       <p className="song-title">{song.song_title}</p>
       <Button onClick={() => handleDelete(SONGS_SETS_LINK, song.id, id)}>
@@ -55,7 +80,7 @@ const MobileCard = ({
   const renderAddSong = (
     <form className="add-song" onSubmit={(e) => handleSubmit(e, id)}>
       <select id="song">
-        {allSongs.map((song) => (
+        {allSongs && allSongs.map((song) => (
           <option key={song.id} value={song.id}>
             {song.song_title}
           </option>
@@ -86,25 +111,3 @@ const MobileCard = ({
 };
 
 export default MobileCard;
-
-MobileCard.defaultProps = {
-  isSong: false,
-  composer: null,
-  arranger: null,
-  isSet: false,
-  songs: [],
-  allSongs: []
-};
-
-MobileCard.propTypes = {
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  handleUserUpdate: PropTypes.func.isRequired,
-  isSong: PropTypes.bool,
-  composer: PropTypes.string,
-  arranger: PropTypes.string,
-  isSet: PropTypes.bool,
-  songs: PropTypes.arrayOf(PropTypes.object),
-  allSongs: PropTypes.arrayOf(PropTypes.object)
-};

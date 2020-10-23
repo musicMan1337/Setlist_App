@@ -30,9 +30,9 @@ const loginBody: RequestHandler = (req, res, next) => {
 
   const loginUser = SerializeService.body.user(rawUser);
 
-  if (id) loginUser.id = id;
+  if (id !== null) loginUser.id = id;
   res.loginUser = loginUser;
-  return next();
+  next();
 };
 
 const songBody: RequestHandler = (req, res, next) => {
@@ -44,9 +44,9 @@ const songBody: RequestHandler = (req, res, next) => {
 
   const newSong = SerializeService.body.song(rawSong);
 
-  if (id) newSong.id = id;
+  if (id !== null) newSong.id = id;
   res.newSong = newSong;
-  return next();
+  next();
 };
 
 const songSetBody: RequestHandler = (req, res, next) => {
@@ -57,7 +57,7 @@ const songSetBody: RequestHandler = (req, res, next) => {
   if (keyError) return ValidationMethods.errorResponse(res, keyError);
 
   res.songSet = songSet;
-  return next();
+  next();
 };
 
 const setBody: RequestHandler = (req, res, next) => {
@@ -69,9 +69,9 @@ const setBody: RequestHandler = (req, res, next) => {
 
   const newSet = SerializeService.body.set(rawSet);
 
-  if (id) newSet.id = id;
+  if (id !== null) newSet.id = id;
   res.newSet = newSet;
-  return next();
+  next();
 };
 
 // TODO - Feature request
@@ -84,9 +84,9 @@ const gigBody: RequestHandler = (req, res, next) => {
 
   const newGig = SerializeService.body.gig(rawGig);
 
-  if (id) newGig.id = id;
+  if (id !== null) newGig.id = id;
   res.newGig = newGig;
-  return next();
+  next();
 };
 
 export default {

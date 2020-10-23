@@ -63,16 +63,16 @@ setsRouter
         Number(req.params.id),
         res.user.id
       );
+
       if (!set) return res.status(404).json({ message: 'Data not found' });
 
       set.songs = await QueryService.getSetSongTitles(req.app.get('db'), set.id);
 
       res.setList = set;
+      next();
     } catch (error) {
       next(error);
     }
-
-    return next();
   })
 
   .get((_req, res) =>

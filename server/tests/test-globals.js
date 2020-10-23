@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'test'
 const { expect } = require('chai');
 const supertest = require('supertest');
 
-const { NODE_ENV, TEST_DB_URL } = require('../src/config');
+const { NODE_ENV, TEST_DB_URL } = require('../dist/config');
 
 
 global.expect = expect;

@@ -1,32 +1,40 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 
-import './setGigView.scss'
+import './setGigView.scss';
 
-import { DatabaseContext } from 'src/context/databaseContext';
+import {
+  DatabaseContext,
+  SGComponentsProps
+} from 'src/context/databaseContext';
 import { SETS, GIGS } from 'src/constants/routes.constants';
 
 import { SGList, SGBoards } from './components';
 
-const SetGigView = ({ page }) => {
+type SetGigViewProps = {
+  page: typeof SETS | typeof GIGS;
+};
+
+const SetGigView = ({ page }: SetGigViewProps) => {
   // TODO - useState "expanded-card" toggle
 
   const { songs, sets, handleUserUpdate } = useContext(DatabaseContext);
 
-  let context;
+  let context: SGComponentsProps = {
+    buttonText: 'Add to Set',
+    handleUserUpdate
+  };
   switch (page) {
     case SETS:
       context = {
-        listTable: songs,
-        boardTable: sets,
-        buttonText: 'Add to Set',
-        handleUserUpdate
+        ...context,
+        songsList: songs,
+        setsBoard: sets
       };
       break;
 
     // TODO - Feature: Gigs
     // case GIGS:
-    //   context = { listTable: sets, boardTable: gigs, buttonText: 'Add to Gig', handleUserUpdate };
+    //   context = { ...context, setsList: sets, gigsBoard: gigs, buttonText: 'Add to Gig' };
     //   break;
 
     default:
@@ -42,7 +50,3 @@ const SetGigView = ({ page }) => {
 };
 
 export default SetGigView;
-
-SetGigView.propTypes = {
-  page: PropTypes.oneOf([SETS, GIGS]).isRequired
-};

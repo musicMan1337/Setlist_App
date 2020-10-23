@@ -86,7 +86,7 @@ _As an aside, it's actually faster (from a runtime perspective) to import fonts 
 
 ## styles:
 
-Fairly straight-forward Sass setup, with a simple reset and global stylesheet imported into the root index file. I won't get into Sass here, but know that I broke-out individual mixins to be used as imports in isolated [ .scss ] files
+Fairly straight-forward Sass setup, with a simple reset and global stylesheet imported into the root index file. I won't get into Sass here, but know that I broke-out individual mixins to be used as imports in isolated **[ .scss ]** files
 
 ---
 
@@ -199,6 +199,38 @@ There's not much to say here, these essentially just import and render component
 
 **1. Private/Public-Routes**: This serves as a UX enhancement, both preventing users not logged in from accessing the app, and already logged in users from accessing the Login page.
 **1. PageNotFound**: Standard inclusion, and in the case of this version, you can access this page vie the "Gigs" page as this is a feature not yet implemented.
+
+#### Login Page:
+
+- _Users are sent here by default if no auth-token is saved in memory_
+
+<div align="center">
+  <img src="images/login-page.png" alt="Logo" width="300">
+</div>
+
+#### Home Page:
+
+- _Basic forms to create songs and sets_
+
+<div align="center">
+  <img src="images/home-page.png" alt="Logo" width="400">
+</div>
+
+#### Songs Page:
+
+- _View and delete created songs_
+
+<div align="center">
+  <img src="images/songs-page.png" alt="Logo" width="400">
+</div>
+
+#### Sets Page:
+
+- _View and delete created sets, and assign songs to sets_
+
+<div align="center">
+	<img src="images/sets-page.png" alt="Logo" width="400">
+</div>
 
 ---
 

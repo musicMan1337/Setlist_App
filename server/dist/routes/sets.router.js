@@ -43,11 +43,11 @@ setsRouter
             return res.status(404).json({ message: 'Data not found' });
         set.songs = await services_1.QueryService.getSetSongTitles(req.app.get('db'), set.id);
         res.setList = set;
+        next();
     }
     catch (error) {
         next(error);
     }
-    return next();
 })
     .get((_req, res) => res.status(200).json(services_1.SerializeService.serializeSet(res.setList)))
     .patch(middlewares_1.validate.setBody, async (req, res) => {

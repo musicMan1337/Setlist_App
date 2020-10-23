@@ -3,12 +3,14 @@ import { LOGIN, REGISTER } from 'src/constants/routes.constants';
 
 const { API_ENDPOINT } = config;
 
+type loginObject = { user_name: string; password: string };
+
 const headers = {
   'content-type': 'application/json'
 };
 
 const UserService = {
-  async authLogin(authToken) {
+  async authLogin(authToken: string) {
     const user = await fetch(API_ENDPOINT + LOGIN, {
       method: 'GET',
       headers: {
@@ -19,8 +21,7 @@ const UserService = {
     return user.json();
   },
 
-  async userLogin({ user_name, password }) {
-    let data;
+  async userLogin({ user_name, password }: loginObject) {
     try {
       const res = await fetch(API_ENDPOINT + LOGIN, {
         method: 'POST',
@@ -30,16 +31,15 @@ const UserService = {
 
       if (!res.ok) throw Error;
 
-      data = await res.json();
+      const data = await res.json();
+      return data;
     } catch (error) {
       console.log(error);
     }
-
-    return data;
   },
 
-  async userRegistration({ user_name, password }) {
-    const res = await fetch(API_ENDPOINT + REGISTER[0], {
+  async userRegistration({ user_name, password }: loginObject) {
+    const res = await fetch(API_ENDPOINT + REGISTER, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
@@ -47,7 +47,7 @@ const UserService = {
       body: JSON.stringify({ user_name, password })
     });
 
-    return !res.ok ? res.json().then((e) => Promise.reject(e)) : res.json();
+    return !res.ok ? res.json().then(Promise.reject) : res.json();
   }
 };
 

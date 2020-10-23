@@ -19,6 +19,7 @@ songsSetsRouter
         req.app.get('db'),
         SONGS_SETS_TABLE
       );
+
       res.status(200).json(linkages);
     } catch (error) {
       next(error);
@@ -32,6 +33,7 @@ songsSetsRouter
         SONGS_SETS_TABLE,
         res.songSet
       );
+
       res.status(201).json({ linkage });
     } catch (error) {
       next(error);
@@ -48,6 +50,7 @@ songsSetsRouter.route('/:id').delete(async (req, res, next) => {
       });
 
     await CRUDService.deleteSSLink(req.app.get('db'), +song_id, +set_id);
+
     res.status(201).json({ message: 'Linkage deleted!' });
   } catch (error) {
     next(error);

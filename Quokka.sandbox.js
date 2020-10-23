@@ -173,13 +173,30 @@
 //   console.log('bool');
 // }
 
-function checkFields(rawObject) {
-  const fields = Object.entries(rawObject)
-  const [keyError] = fields.find(([key, value]) =>
-    key === 'id' ? false : value === undefined
-  )
-  return keyError
+// function checkFields(rawObject) {
+//   const fields = Object.entries(rawObject)
+//   const [keyError] = fields.find(([key, value]) =>
+//     key === 'id' ? false : value === undefined
+//   )
+//   return keyError
+// }
+
+// const keyError = checkFields({ val: undefined })
+// if (keyError) console.log(keyError)
+
+// const num = [undefined, undefined].filter(Boolean).length
+
+// console.log(num);
+
+const fieldDisplayText = {
+  song_title: 'Title (required)',
+  composer: 'Composer',
+  arranger: 'Arranger',
+  description: 'Description',
 }
 
-const keyError = checkFields({ val: undefined })
-if (keyError) console.log(keyError)
+const field = 'composer'
+
+const test = fieldDisplayText[field].split(' ')[0]
+
+console.log(test);

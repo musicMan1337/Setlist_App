@@ -20,10 +20,10 @@ const loginBody = (req, res, next) => {
     if (keyError)
         return ValidationMethods.errorResponse(res, keyError);
     const loginUser = services_1.SerializeService.body.user(rawUser);
-    if (id)
+    if (id !== null)
         loginUser.id = id;
     res.loginUser = loginUser;
-    return next();
+    next();
 };
 const songBody = (req, res, next) => {
     const { song_title, composer, arranger, description, id } = req.body;
@@ -32,10 +32,10 @@ const songBody = (req, res, next) => {
     if (keyError)
         return ValidationMethods.errorResponse(res, keyError);
     const newSong = services_1.SerializeService.body.song(rawSong);
-    if (id)
+    if (id !== null)
         newSong.id = id;
     res.newSong = newSong;
-    return next();
+    next();
 };
 const songSetBody = (req, res, next) => {
     const { song_id, set_id } = req.body;
@@ -44,7 +44,7 @@ const songSetBody = (req, res, next) => {
     if (keyError)
         return ValidationMethods.errorResponse(res, keyError);
     res.songSet = songSet;
-    return next();
+    next();
 };
 const setBody = (req, res, next) => {
     const { set_name, description, id } = req.body;
@@ -53,10 +53,10 @@ const setBody = (req, res, next) => {
     if (keyError)
         return ValidationMethods.errorResponse(res, keyError);
     const newSet = services_1.SerializeService.body.set(rawSet);
-    if (id)
+    if (id !== null)
         newSet.id = id;
     res.newSet = newSet;
-    return next();
+    next();
 };
 const gigBody = (req, res, next) => {
     const { venue, gig_date, start_time, end_time, id } = req.body;
@@ -65,10 +65,10 @@ const gigBody = (req, res, next) => {
     if (keyError)
         return ValidationMethods.errorResponse(res, keyError);
     const newGig = services_1.SerializeService.body.gig(rawGig);
-    if (id)
+    if (id !== null)
         newGig.id = id;
     res.newGig = newGig;
-    return next();
+    next();
 };
 exports.default = {
     loginBody,

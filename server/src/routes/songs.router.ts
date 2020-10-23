@@ -16,10 +16,7 @@ songsRouter
         res.user.id
       );
 
-      if (songs.length === 0) {
-        res.status(502).json([]);
-        return;
-      }
+      if (songs.length === 0) return res.status(502).json([]);
 
       res.status(200).json(SerializeService.serializeData(SONGS_TABLE, songs));
     } catch (error) {
@@ -54,10 +51,7 @@ songsRouter
         res.user.id
       );
 
-      if (!song) {
-        res.status(404).json({ message: 'Data not found' });
-        return;
-      }
+      if (!song) return res.status(404).json({ message: 'Data not found' });
 
       res.song = song;
       next();

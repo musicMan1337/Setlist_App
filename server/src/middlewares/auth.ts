@@ -30,22 +30,22 @@ const passwordCheck: RequestHandler = async (req, res, next) => {
     let token;
     if (id) token = createJwtService(user_name, id);
 
-    return res.status(200).json({ authToken: token, user_name });
+    res.status(200).json({ authToken: token, user_name });
   } catch (error) {
-    return next(error);
+    next(error);
   }
 };
 
-const hashPassword: RequestHandler = async (req, res, next) => {
+const hashPassword: RequestHandler = async (_req, res, next) => {
   try {
-    const { password } = req.body;
+    const { password } = res.loginUser;
 
     const hash = await bcrypt.hash(password, SALT_ROUNDS);
 
     res.loginUser.password = hash;
-    return next();
+    next();
   } catch (error) {
-    return next(error);
+    next(error);
   }
 };
 
@@ -67,11 +67,10 @@ const requireAuth: RequestHandler = async (req, res, next) => {
     if (!user) return res.status(404).json({ message: 'Data not found' });
 
     res.user = user;
+    next();
   } catch (error) {
     next(error);
   }
-
-  return next();
 };
 
 export default { createJwtService, passwordCheck, hashPassword, requireAuth };

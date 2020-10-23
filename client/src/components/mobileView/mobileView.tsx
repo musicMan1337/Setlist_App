@@ -1,14 +1,18 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 
-import './mobileView.scss'
+import './mobileView.scss';
 
 import { DatabaseContext } from 'src/context/databaseContext';
 import { SONGS, SETS, GIGS } from 'src/constants/routes.constants';
 
+import { PageNotFound } from 'src/routes/utils';
 import MobileCard from './components/mobileCard/mobileCard';
 
-const MobileView = ({ page }) => {
+type MobileViewProps = {
+  page: typeof SONGS | typeof SETS | typeof GIGS;
+};
+
+const MobileView = ({ page }: MobileViewProps) => {
   const { songs, sets, handleUserUpdate } = useContext(DatabaseContext);
 
   let renderCards;
@@ -54,8 +58,7 @@ const MobileView = ({ page }) => {
     //   break;
 
     default:
-      // TODO - Component: PageNotFound
-      // renderCards = <PageNotFound />
+      renderCards = <PageNotFound />;
       break;
   }
 
@@ -67,7 +70,3 @@ const MobileView = ({ page }) => {
 };
 
 export default MobileView;
-
-MobileView.propTypes = {
-  page: PropTypes.oneOf([SONGS, SETS, GIGS]).isRequired
-};

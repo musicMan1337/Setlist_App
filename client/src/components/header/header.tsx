@@ -1,12 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import './header.scss';
 
 import { TokenService } from 'src/services';
 
-const Header = ({ userName, logout }) => {
+import { Logout } from 'src/app/app';
+
+type HeaderProps = {
+  userName: string;
+  logout: Logout
+}
+
+const Header = ({ userName, logout }: HeaderProps) => {
   // TODO - clear auth and name in app.js state
   const clearUser = () => {
     TokenService.clearAuthToken();
@@ -46,8 +52,3 @@ const Header = ({ userName, logout }) => {
 };
 
 export default Header;
-
-Header.propTypes = {
-  userName: PropTypes.string.isRequired,
-  logout: PropTypes.func.isRequired
-};

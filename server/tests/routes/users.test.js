@@ -1,6 +1,6 @@
 const knex = require('knex');
 
-const app = require('../../dist/app');
+const application = require('../../dist/app');
 const {
   API,
   LOGIN,
@@ -10,6 +10,8 @@ const {
 
 const helpers = require('../test-helpers');
 const { Delete } = require('./route-CRUD-tests');
+
+const app = application.default
 
 describe('Route: Users router', () => {
   const { JWT, USER_NAME_PASS } = helpers;

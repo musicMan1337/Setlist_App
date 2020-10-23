@@ -10,10 +10,8 @@ gigsRouter
     .get(async (req, res, next) => {
     try {
         const emptyGigs = await services_1.CRUDService.getAllData(req.app.get('db'), table_constants_1.GIGS_TABLE, res.user.id);
-        if (emptyGigs.length === 0) {
-            res.status(502).json([]);
-            return;
-        }
+        if (emptyGigs.length === 0)
+            return res.status(502).json([]);
         const halfGigs = await Promise.all(emptyGigs.map(async (gig) => {
             gig.sets = await services_1.QueryService.getGigSetsTitles(req.app.get('db'), gig.id);
             return gig;
@@ -54,11 +52,11 @@ gigsRouter
             return set;
         }));
         res.gig = gig;
+        next();
     }
     catch (error) {
         next(error);
     }
-    return next();
 })
     .get((_req, res) => res.status(200).json(services_1.SerializeService.serializeGig(res.gig)))
     .patch(middlewares_1.validate.gigBody, async (req, res) => {

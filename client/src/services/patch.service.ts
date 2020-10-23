@@ -13,15 +13,15 @@ const getHeaders = () => {
   };
 };
 
-const DeleteService = {
-  async deleteSomething(table, id, linkId = null) {
-    if (linkId) id = `${id}-${linkId}`;
+const PatchService = {
+  async updateSomething(table: string, body: object) {
     try {
       const headers = getHeaders();
 
-      await fetch(`${API_ENDPOINT}${table}/${id}`, {
-        method: 'DELETE',
-        headers
+      await fetch(API_ENDPOINT + table, {
+        method: 'PATCH',
+        headers,
+        body: JSON.stringify(body)
       });
     } catch (error) {
       console.log(error);
@@ -29,4 +29,4 @@ const DeleteService = {
   }
 };
 
-export default DeleteService;
+export default PatchService;

@@ -25,21 +25,21 @@ const passwordCheck = async (req, res, next) => {
         let token;
         if (id)
             token = createJwtService(user_name, id);
-        return res.status(200).json({ authToken: token, user_name });
+        res.status(200).json({ authToken: token, user_name });
     }
     catch (error) {
-        return next(error);
+        next(error);
     }
 };
-const hashPassword = async (req, res, next) => {
+const hashPassword = async (_req, res, next) => {
     try {
-        const { password } = req.body;
+        const { password } = res.loginUser;
         const hash = await bcryptjs_1.default.hash(password, config_1.SALT_ROUNDS);
         res.loginUser.password = hash;
-        return next();
+        next();
     }
     catch (error) {
-        return next(error);
+        next(error);
     }
 };
 const requireAuth = async (req, res, next) => {
@@ -55,11 +55,11 @@ const requireAuth = async (req, res, next) => {
         if (!user)
             return res.status(404).json({ message: 'Data not found' });
         res.user = user;
+        next();
     }
     catch (error) {
         next(error);
     }
-    return next();
 };
 exports.default = { createJwtService, passwordCheck, hashPassword, requireAuth };
 //# sourceMappingURL=auth.js.map

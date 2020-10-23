@@ -16,10 +16,7 @@ gigsRouter
         res.user.id
       );
 
-      if (emptyGigs.length === 0) {
-        res.status(502).json([]);
-        return;
-      }
+      if (emptyGigs.length === 0) return res.status(502).json([]);
 
       // get sets assigned to gigs
       const halfGigs = await Promise.all(
@@ -96,11 +93,10 @@ gigsRouter
       );
 
       res.gig = gig;
+      next();
     } catch (error) {
       next(error);
     }
-
-    return next();
   })
 
   .get((_req, res) => res.status(200).json(SerializeService.serializeGig(res.gig)))

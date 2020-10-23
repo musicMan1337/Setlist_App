@@ -10,10 +10,8 @@ songsRouter
     .get(async (req, res, next) => {
     try {
         const songs = await services_1.CRUDService.getAllData(req.app.get('db'), table_constants_1.SONGS_TABLE, res.user.id);
-        if (songs.length === 0) {
-            res.status(502).json([]);
-            return;
-        }
+        if (songs.length === 0)
+            return res.status(502).json([]);
         res.status(200).json(services_1.SerializeService.serializeData(table_constants_1.SONGS_TABLE, songs));
     }
     catch (error) {
@@ -35,10 +33,8 @@ songsRouter
     .all(async (req, res, next) => {
     try {
         const song = await services_1.CRUDService.getById(req.app.get('db'), table_constants_1.SONGS_TABLE, Number(req.params.id), res.user.id);
-        if (!song) {
-            res.status(404).json({ message: 'Data not found' });
-            return;
-        }
+        if (!song)
+            return res.status(404).json({ message: 'Data not found' });
         res.song = song;
         next();
     }

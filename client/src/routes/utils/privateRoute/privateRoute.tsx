@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import TokenService from 'src/services/token.service';
 
-const PrivateRoute = ({ component, path, ...props }) => {
+type PrivateRouteProps = {
+  component: FC<any>,
+  path: string,
+  exact?: boolean
+}
+
+const PrivateRoute: FC<PrivateRouteProps> = ({ component, path, ...props }) => {
   const Component = component;
 
   return (
@@ -28,8 +33,3 @@ const PrivateRoute = ({ component, path, ...props }) => {
 };
 
 export default PrivateRoute;
-
-PrivateRoute.propTypes = {
-  component: PropTypes.func.isRequired,
-  path: PropTypes.string.isRequired
-};

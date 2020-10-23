@@ -4,7 +4,7 @@ import { USERS_TABLE } from '../constants/table.constants';
 import { CRUDService } from '../services';
 import { auth, validate, Router, jsonBodyParser } from '../middlewares';
 
-const userRouter = Router();
+const usersRouter = Router();
 
 const getUserMiddleware: RequestHandler = async (req, res, next) => {
   try {
@@ -13,21 +13,18 @@ const getUserMiddleware: RequestHandler = async (req, res, next) => {
       res.loginUser.user_name
     );
 
-    if (!dbUser) {
-      return res.status(400).json({ error: `Incorrect 'User Name'` });
-    }
+    if (!dbUser) return res.status(400).json({ error: `Incorrect 'User Name'` });
 
     res.dbUser = dbUser;
+    next();
   } catch (error) {
     next(error);
   }
-
-  return next();
 };
 
-userRouter.use(jsonBodyParser);
+usersRouter.use(jsonBodyParser);
 
-userRouter
+usersRouter
   .route('/login')
   .get(auth.requireAuth, (_req, res) =>
     res.status(200).json({ username: res.user.user_name })
@@ -35,7 +32,7 @@ userRouter
 
   .post(validate.loginBody, getUserMiddleware, auth.passwordCheck);
 
-userRouter
+usersRouter
   .route('/register')
   .post(validate.loginBody, auth.hashPassword, async (req, res, next) => {
     try {
@@ -54,7 +51,7 @@ userRouter
     }
   });
 
-userRouter.route('/delete').delete(auth.requireAuth, async (req, res, next) => {
+usersRouter.route('/delete').delete(auth.requireAuth, async (req, res, next) => {
   try {
     await CRUDService.deleteById(req.app.get('db'), USERS_TABLE, res.user.id);
 
@@ -64,4 +61,4 @@ userRouter.route('/delete').delete(auth.requireAuth, async (req, res, next) => {
   }
 });
 
-export default userRouter;
+export default usersRouter;

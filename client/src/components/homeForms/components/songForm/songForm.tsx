@@ -3,11 +3,11 @@ import React, { useState, useContext, useLayoutEffect } from 'react';
 import { DatabaseContext } from 'src/context/databaseContext';
 import { SONGS } from 'src/constants/routes.constants';
 
-import useFormState from 'src/hooks/useFormState';
-
 import { PostService } from 'src/services';
 
 import { Button } from 'src/components/utils/';
+
+import useFormState, { SongField } from 'src/hooks/useFormState';
 
 const SongForm = () => {
   const [activeSubmit, setActiveSubmit] = useState(false);
@@ -23,16 +23,18 @@ const SongForm = () => {
   useLayoutEffect(() => {
     const validForm = () => {
       const { song_title } = formFields;
-      const title = song_title.length >= 3 && song_title.length <= 50;
 
-      if (title) setActiveSubmit(true);
-      else setActiveSubmit(false);
+      if (song_title)
+        if (song_title.length >= 3 && song_title.length <= 50)
+          return setActiveSubmit(true);
+
+      setActiveSubmit(false);
     };
 
     validForm();
   }, [formFields]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
 
     try {
@@ -51,20 +53,29 @@ const SongForm = () => {
     }
   };
 
-  const renderFields = [
+  const fields: SongField[] = [
     'song_title',
-    'Composer',
-    'Arranger',
-    'Description'
-  ].map((field) => (
+    'composer',
+    'arranger',
+    'description'
+  ];
+
+  const fieldDisplayText: Record<SongField, string> = {
+    song_title: 'Title (required)',
+    composer: 'Composer',
+    arranger: 'Arranger',
+    description: 'Description'
+  };
+
+  const renderFields = fields.map((field) => (
     <label key={field} className="form-label" htmlFor="field">
-      {field === 'song_title' ? 'Title' : field}:
+      {fieldDisplayText[field].split(' ')[0]}:
       <input
         type="text"
         id={field}
-        placeholder={field === 'song_title' ? 'Title (required)' : field}
-        value={formFields[field.toLowerCase()]}
-        onChange={changeHandler(field.toLowerCase())}
+        placeholder={fieldDisplayText[field]}
+        value={formFields[field]}
+        onChange={changeHandler(field)}
       />
     </label>
   ));
@@ -72,7 +83,7 @@ const SongForm = () => {
   return (
     <div className="home-form-container">
       <h2>New Song</h2>
-      <form className="home-form" onSubmit={(e) => handleSubmit(e)}>
+      <form className="home-form" onSubmit={handleSubmit}>
         {renderFields}
         <Button type="submit" disabled={!activeSubmit}>
           Create!

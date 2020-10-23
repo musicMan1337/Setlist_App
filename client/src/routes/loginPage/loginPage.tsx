@@ -1,9 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { LoginForm } from 'src/components';
 
-const LoginPage = ({ loginSuccess }) => {
+import { LoginSuccess } from 'src/app/app';
+
+type LoginPageProps = {
+  loginSuccess: LoginSuccess;
+};
+
+const LoginPage = ({ loginSuccess }: LoginPageProps) => {
   return (
     <div>
       <p>Demo user:</p>
@@ -15,7 +20,3 @@ const LoginPage = ({ loginSuccess }) => {
 };
 
 export default LoginPage;
-
-LoginPage.propTypes = {
-  loginSuccess: PropTypes.func.isRequired
-};

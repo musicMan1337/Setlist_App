@@ -1,10 +1,12 @@
 const knex = require('knex');
 
-const app = require('../../dist/app');
+const application = require('../../dist/app');
 const { API, SETS_TABLE } = require('../../dist/constants/table.constants');
 
 const helpers = require('../test-helpers');
 const { Get, GetId, Post, Patch, Delete } = require('./route-CRUD-tests');
+
+const app = application.default
 
 describe('Route: Sets router', () => {
   const ENDPOINT = `${API}/${SETS_TABLE}`;

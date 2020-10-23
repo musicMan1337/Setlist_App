@@ -10,11 +10,15 @@ import { Header } from 'src/components';
 import { PrivateRoute, PublicRoute } from 'src/routes/utils';
 import { LoginPage, HomePage, SongsPage, SetsPage, GigsPage } from 'src/routes';
 
+export type LoginSuccess = (user_name: string) => void;
+
+export type Logout = () => void;
+
 const App = () => {
-  const [userName, setUserName] = useState('login');
+  const [userName, setUserName] = useState('x');
 
   useEffect(() => {
-    const getUserName = async (authToken) => {
+    const getUserName = async (authToken: string) => {
       try {
         const { username } = await UserService.authLogin(authToken);
 
@@ -35,11 +39,11 @@ const App = () => {
     else setUserName('');
   }, []);
 
-  const handleLoginSuccess = (user_name) => {
+  const handleLoginSuccess: LoginSuccess = (user_name) => {
     setUserName(user_name);
   };
 
-  const handleLogout = () => {
+  const handleLogout: Logout = () => {
     setUserName('');
   };
 

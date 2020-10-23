@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import TokenService from 'src/services/token.service';
 
-const PublicRoute = ({ component, loginSuccess, path, ...props }) => {
+import { LoginSuccess } from 'src/app/app';
+
+type PublicRouteProps = {
+  component: FC<any>,
+  loginSuccess: LoginSuccess
+  path: string
+}
+
+const PublicRoute: FC<PublicRouteProps> = ({ component, loginSuccess, path, ...children }) => {
   const Component = component;
 
   return (
     <Route
-      {...props}
+      {...children}
       path={path}
       render={(routeProps) =>
         TokenService.hasAuthToken() ? (
@@ -28,9 +35,3 @@ const PublicRoute = ({ component, loginSuccess, path, ...props }) => {
 };
 
 export default PublicRoute;
-
-PublicRoute.propTypes = {
-  component: PropTypes.func.isRequired,
-  loginSuccess: PropTypes.func.isRequired,
-  path: PropTypes.string.isRequired
-};

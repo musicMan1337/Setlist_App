@@ -18,7 +18,7 @@ const getHeaders = () => {
 };
 
 const PostService = {
-  async createSomething(table, body) {
+  async createSomething(table: string, body: object) {
     try {
       const headers = getHeaders();
 
@@ -32,7 +32,7 @@ const PostService = {
     }
   },
 
-  async updateSongSet(song_id, set_id) {
+  async updateSongSet(song_id: number, set_id: number) {
     try {
       const headers = getHeaders();
 
@@ -46,7 +46,7 @@ const PostService = {
     }
   },
 
-  async updateSetGig(set_id, gig_id) {
+  async updateSetGig(set_id: number, gig_id: number) {
     try {
       const headers = getHeaders();
 
