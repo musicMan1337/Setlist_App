@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 
 import CRUDService from '../services/crud.service';
 
-import { JWT_SECRET, SALT_ROUNDS } from '../config';
+import { JWT_SECRET, JWT_EXPIRY, SALT_ROUNDS } from '../config';
 
 const createJwtService = (user_name: string, id: number): String => {
   const subject = user_name;
@@ -13,6 +13,7 @@ const createJwtService = (user_name: string, id: number): String => {
 
   return jwt.sign(payload, JWT_SECRET, {
     subject,
+    expiresIn: JWT_EXPIRY,
     algorithm: 'HS256'
   });
 };

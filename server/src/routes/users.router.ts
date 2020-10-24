@@ -51,6 +51,13 @@ usersRouter
     }
   });
 
+usersRouter.route('/refresh').post(auth.requireAuth, (_req, res, _next) => {
+  const { user_name, id } = res.user;
+  const token = auth.createJwtService(user_name, id);
+
+  res.status(201).json({ authToken: token });
+});
+
 usersRouter.route('/delete').delete(auth.requireAuth, async (req, res, next) => {
   try {
     await CRUDService.deleteById(req.app.get('db'), USERS_TABLE, res.user.id);
