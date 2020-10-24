@@ -44,14 +44,14 @@ const MobileView = ({ page }: Types.MobileViewProps) => {
       break;
 
     // TODO - Feature: Gigs
-    // case GIGS:
+    case GIGS:
     //   renderCards = gigs.map((gig) => (
     //     <MobileCard
     //       key={gig.id}
     //       handleUserUpdate={handleUserUpdate}
     //     />
     //   ));
-    //   break;
+      break;
 
     default:
       renderCards = <PageNotFound />;

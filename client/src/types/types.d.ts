@@ -2,15 +2,16 @@ declare namespace Types {
   type LoginSuccess = (user_name: string) => void;
 
   type DeleteFunc = (
-    table: Constants.SONGS[0] | Constants.SETS[0] | Constants.GIGS[0] | Constants.SONGS_SETS_LINK,
+    table:
+      | Constants.SONGS[0]
+      | Constants.SETS[0]
+      | Constants.GIGS[0]
+      | Constants.SONGS_SETS_LINK,
     itemId: number,
     linkId?: number
   ) => Promise<void>;
 
-  type SubmitFunc = (
-    e: React.BaseSyntheticEvent,
-    id: number
-  ) => Promise<void>;
+  type SubmitFunc = (e: React.BaseSyntheticEvent, id: number) => Promise<void>;
 
   // ComponentProps
   type DatabaseContextProviderProps = {

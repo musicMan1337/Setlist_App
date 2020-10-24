@@ -26,9 +26,9 @@ const SetGigView = ({ page }: Types.SetGigViewProps) => {
       break;
 
     // TODO - Feature: Gigs
-    // case GIGS:
+    case GIGS:
     //   context = { ...context, setsList: sets, gigsBoard: gigs, buttonText: 'Add to Gig' };
-    //   break;
+      break;
 
     default:
       break;
