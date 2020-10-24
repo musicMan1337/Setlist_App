@@ -6,14 +6,9 @@ import { UserService, TokenService } from 'src/services';
 
 import { Button } from 'src/components/utils';
 
-import useFormState, { SubmitTypes, LoginField } from 'src/hooks/useFormState';
-import { LoginSuccess } from 'src/app/app';
+import useFormState, { SubmitTypes, LoginFields } from 'src/hooks/useFormState';
 
-type LoginFormProps = {
-  loginSuccess: LoginSuccess;
-};
-
-const LoginForm = ({ loginSuccess }: LoginFormProps) => {
+const LoginForm = ({ loginSuccess }: Types.LoginFormProps) => {
   const [activeSubmit, setActiveSubmit] = useState(false);
 
   const { formFields, setFormFields, changeHandler } = useFormState({
@@ -62,14 +57,14 @@ const LoginForm = ({ loginSuccess }: LoginFormProps) => {
     }
   };
 
-  const fields: LoginField[] = ['user_name', 'password'];
+  const fields: LoginFields[] = ['user_name', 'password'];
 
-  const fieldDisplayText: Record<LoginField, string> = {
+  const fieldDisplayText: Record<LoginFields, string> = {
     user_name: 'Username:',
     password: 'Password:'
   };
 
-  const inputType: Record<LoginField, string> = {
+  const inputType: Record<LoginFields, string> = {
     user_name: 'text',
     password: 'password'
   };

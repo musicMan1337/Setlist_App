@@ -7,7 +7,7 @@ import { PostService } from 'src/services';
 
 import { Button } from 'src/components/utils/';
 
-import useFormState, { SetField } from 'src/hooks/useFormState';
+import useFormState, { SetFields } from 'src/hooks/useFormState';
 
 const SetForm = () => {
   const [activeSubmit, setActiveSubmit] = useState(false);
@@ -49,9 +49,9 @@ const SetForm = () => {
     }
   };
 
-  const fields: SetField[] = ['set_name', 'description'];
+  const fields: SetFields[] = ['set_name', 'description'];
 
-  const fieldDisplayText: Record<SetField, string> = {
+  const fieldDisplayText: Record<SetFields, string> = {
     set_name: 'Name (required)',
     description: 'Description'
   };

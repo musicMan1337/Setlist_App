@@ -7,7 +7,7 @@ import { PostService } from 'src/services';
 
 import { Button } from 'src/components/utils/';
 
-import useFormState, { GigField } from 'src/hooks/useFormState';
+import useFormState, { GigFields } from 'src/hooks/useFormState';
 
 const GigForm = () => {
   const [activeSubmit, setActiveSubmit] = useState(false);
@@ -53,9 +53,9 @@ const GigForm = () => {
     }
   };
 
-  const fields: GigField[] = ['venue', 'gig_date', 'start_time', 'end_time'];
+  const fields: GigFields[] = ['venue', 'gig_date', 'start_time', 'end_time'];
 
-  const fieldDisplayText: Record<GigField, string> = {
+  const fieldDisplayText: Record<GigFields, string> = {
     venue: 'Venue (required)',
     gig_date: 'Gig Date',
     start_time: 'Start Time',

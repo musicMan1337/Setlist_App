@@ -2,24 +2,17 @@ import React, { useContext } from 'react';
 
 import './setGigView.scss';
 
-import {
-  DatabaseContext,
-  SGComponentsProps
-} from 'src/context/databaseContext';
+import { DatabaseContext } from 'src/context/databaseContext';
 import { SETS, GIGS } from 'src/constants/routes.constants';
 
 import { SGList, SGBoards } from './components';
 
-type SetGigViewProps = {
-  page: typeof SETS | typeof GIGS;
-};
-
-const SetGigView = ({ page }: SetGigViewProps) => {
+const SetGigView = ({ page }: Types.SetGigViewProps) => {
   // TODO - useState "expanded-card" toggle
 
   const { songs, sets, handleUserUpdate } = useContext(DatabaseContext);
 
-  let context: SGComponentsProps = {
+  let context: Types.SGComponentsProps = {
     buttonText: 'Add to Set',
     handleUserUpdate
   };

@@ -6,13 +6,6 @@ import { PostService } from 'src/services';
 
 import { CardHr, Button } from 'src/components/utils';
 
-import { SGComponentsProps } from 'src/context/databaseContext';
-
-type SubmitFunc = (
-  e: React.BaseSyntheticEvent,
-  firstId: number
-) => Promise<void>;
-
 const SGList = ({
   songsList,
   setsList,
@@ -20,8 +13,8 @@ const SGList = ({
   gigsBoard,
   buttonText,
   handleUserUpdate
-}: SGComponentsProps) => {
-  const handleSubmit: SubmitFunc = async (e, firstId) => {
+}: Types.SGComponentsProps) => {
+  const handleSubmit: Types.SubmitFunc = async (e, firstId) => {
     e.preventDefault();
     const { sets, gigs } = e.target;
 

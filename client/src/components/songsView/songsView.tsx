@@ -9,12 +9,10 @@ import { DeleteService } from 'src/services';
 
 import { CardHr, Button } from 'src/components/utils';
 
-type DeleteFunc = (table: typeof SONGS[0], id: number) => Promise<void>;
-
 const SongView = () => {
   const { songs, handleUserUpdate } = useContext(DatabaseContext);
 
-  const handleDelete: DeleteFunc = async (table, id) => {
+  const handleDelete: Types.DeleteFunc = async (table, id) => {
     try {
       await DeleteService.deleteSomething(table, id);
 

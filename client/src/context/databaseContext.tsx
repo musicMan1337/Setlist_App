@@ -5,50 +5,7 @@ import { SONGS, SETS } from 'src/constants/routes.constants';
 
 import TokenService from 'src/services/token.service';
 
-type DatabaseContextProviderProps = {
-  userName: string;
-};
-
-export type Song = {
-  id: number;
-  song_title: string;
-  composer: string;
-  arranger: string;
-  description: string;
-};
-
-export type Set = {
-  id: number;
-  set_name: string;
-  description: string;
-  songs: Song[]
-};
-
-export type Gig = {
-  id: number;
-  venue: string;
-  gig_date: string;
-  start_time: string;
-  end_time: string;
-  sets: Set[];
-};
-
-export type SGComponentsProps = {
-  songsList?: Song[];
-  setsList?: Set[];
-  setsBoard?: Set[];
-  gigsBoard?: Gig[];
-  buttonText: 'Add to Set' | 'Add to Gig';
-  handleUserUpdate(): void;
-};
-
-type createContextProps = {
-  songs: Song[];
-  sets: Set[];
-  handleUserUpdate(): void;
-};
-
-const initialContext: createContextProps = {
+const initialContext: Context.createContextProps = {
   songs: [],
   sets: [],
   handleUserUpdate: () => null
@@ -56,12 +13,12 @@ const initialContext: createContextProps = {
 
 export const DatabaseContext = createContext(initialContext);
 
-const DatabaseContextProvider: FC<DatabaseContextProviderProps> = ({
+const DatabaseContextProvider: FC<Types.DatabaseContextProviderProps> = ({
   userName,
   ...props
 }) => {
-  const [songs, setSongs] = useState<Song[]>([]);
-  const [sets, setSets] = useState<Set[]>([]);
+  const [songs, setSongs] = useState<Context.Song[]>([]);
+  const [sets, setSets] = useState<Context.Set[]>([]);
   const [update, setUpdate] = useState(false);
 
   useEffect(() => {

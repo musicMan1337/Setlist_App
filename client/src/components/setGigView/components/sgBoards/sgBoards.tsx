@@ -8,20 +8,12 @@ import { DeleteService } from 'src/services';
 
 import { Button } from 'src/components/utils';
 
-import { SGComponentsProps } from 'src/context/databaseContext';
-
-type DeleteFunc = (
-  table: typeof SETS[0] | typeof GIGS[0] | typeof SONGS_SETS_LINK,
-  itemId: number,
-  linkId?: number
-) => Promise<void>;
-
 const SGBoards = ({
   setsBoard,
   gigsBoard,
   handleUserUpdate
-}: SGComponentsProps) => {
-  const handleDelete: DeleteFunc = async (table, id, linkId) => {
+}: Types.SGComponentsProps) => {
+  const handleDelete: Types.DeleteFunc = async (table, id, linkId) => {
     try {
       await DeleteService.deleteSomething(table, id, linkId);
 

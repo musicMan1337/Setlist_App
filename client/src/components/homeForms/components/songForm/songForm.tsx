@@ -7,7 +7,7 @@ import { PostService } from 'src/services';
 
 import { Button } from 'src/components/utils/';
 
-import useFormState, { SongField } from 'src/hooks/useFormState';
+import useFormState, { SongFields } from 'src/hooks/useFormState';
 
 const SongForm = () => {
   const [activeSubmit, setActiveSubmit] = useState(false);
@@ -53,14 +53,14 @@ const SongForm = () => {
     }
   };
 
-  const fields: SongField[] = [
+  const fields: SongFields[] = [
     'song_title',
     'composer',
     'arranger',
     'description'
   ];
 
-  const fieldDisplayText: Record<SongField, string> = {
+  const fieldDisplayText: Record<SongFields, string> = {
     song_title: 'Title (required)',
     composer: 'Composer',
     arranger: 'Arranger',

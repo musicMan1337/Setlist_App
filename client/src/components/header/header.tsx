@@ -5,14 +5,7 @@ import './header.scss';
 
 import { TokenService } from 'src/services';
 
-import { Logout } from 'src/app/app';
-
-type HeaderProps = {
-  userName: string;
-  logout: Logout
-}
-
-const Header = ({ userName, logout }: HeaderProps) => {
+const Header = ({ userName, logout }: Types.HeaderProps) => {
   // TODO - clear auth and name in app.js state
   const clearUser = () => {
     TokenService.clearAuthToken();

@@ -7,32 +7,6 @@ import { DeleteService, PostService } from 'src/services';
 
 import { Button, CardHr } from 'src/components/utils';
 
-import { Song } from 'src/context/databaseContext';
-
-type MobileCardProps = {
-  id: number;
-  title: string;
-  description: string;
-  handleUserUpdate(): void;
-  isSong?: boolean;
-  composer?: string;
-  arranger?: string;
-  isSet?: boolean;
-  songs?: Song[];
-  allSongs?: Song[];
-};
-
-type DeleteFunc = (
-  table: typeof SONGS[0] | typeof SETS[0] | typeof SONGS_SETS_LINK,
-  itemId: number,
-  linkId?: number
-) => Promise<void>;
-
-type SubmitFunc = (
-  e: React.BaseSyntheticEvent,
-  linkId: number
-) => Promise<void>;
-
 const MobileCard = ({
   id,
   title,
@@ -44,14 +18,14 @@ const MobileCard = ({
   isSet,
   songs,
   allSongs
-}: MobileCardProps) => {
-  const handleDelete: DeleteFunc = async (table, itemId, linkId) => {
+}: Types.MobileCardProps) => {
+  const handleDelete: Types.DeleteFunc = async (table, itemId, linkId) => {
     await DeleteService.deleteSomething(table, itemId, linkId);
 
     handleUserUpdate();
   };
 
-  const handleSubmit: SubmitFunc = async (e, secondId) => {
+  const handleSubmit: Types.SubmitFunc = async (e, secondId) => {
     e.preventDefault();
     const { song, set } = e.target;
 

@@ -1,17 +1,8 @@
-import React, { FC, MouseEventHandler } from 'react';
+import React, { FC } from 'react';
 
 import './utils.scss';
 
-type ButtonProps = {
-  type?: 'button' | 'submit';
-  className?: string;
-  value?: string;
-  onClick?: MouseEventHandler;
-  onChange?: MouseEventHandler;
-  disabled?: boolean;
-};
-
-export const Button: FC<ButtonProps> = ({
+export const Button: FC<Types.ButtonProps> = ({
   type = 'button',
   className,
   value,

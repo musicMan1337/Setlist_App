@@ -8,11 +8,7 @@ import { SONGS, SETS, GIGS } from 'src/constants/routes.constants';
 import { PageNotFound } from 'src/routes/utils';
 import MobileCard from './components/mobileCard/mobileCard';
 
-type MobileViewProps = {
-  page: typeof SONGS | typeof SETS | typeof GIGS;
-};
-
-const MobileView = ({ page }: MobileViewProps) => {
+const MobileView = ({ page }: Types.MobileViewProps) => {
   const { songs, sets, handleUserUpdate } = useContext(DatabaseContext);
 
   let renderCards;
