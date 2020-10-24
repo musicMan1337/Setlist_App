@@ -1,11 +1,11 @@
 declare namespace Express {
-  export type NewUser = {
+  type NewUser = {
     id?: number | null;
     user_name: string;
     password: string;
   };
 
-  export type NewSong = {
+  type NewSong = {
     id?: number | null;
     song_title: string;
     composer: string;
@@ -14,14 +14,14 @@ declare namespace Express {
     user_id?: number;
   };
 
-  export type NewSetList = {
+  type NewSetList = {
     id?: number | null;
     set_name: string;
     description: string;
     user_id?: number;
   };
 
-  export type NewGig = {
+  type NewGig = {
     id?: number | null;
     venue: string;
     gig_date: string;
@@ -30,13 +30,13 @@ declare namespace Express {
     user_id?: number;
   };
 
-  export type User = {
+  type User = {
     id: number;
     user_name: string;
     password: string;
   };
 
-  export type Song = {
+  type Song = {
     id: number;
     song_title: string;
     composer: string;
@@ -45,7 +45,7 @@ declare namespace Express {
     user_id: number;
   };
 
-  export type SetList = {
+  type SetList = {
     id: number;
     set_name: string;
     description: string;
@@ -53,7 +53,7 @@ declare namespace Express {
     songs: Song[];
   };
 
-  export type Gig = {
+  type Gig = {
     id: number;
     venue: string;
     gig_date: string;
@@ -63,28 +63,27 @@ declare namespace Express {
     sets: SetList[];
   };
 
-  export type SongSet = {
+  type SongSet = {
     song_id: number;
     set_id: number;
   };
 
-  export type SetGig = {
+  type SetGig = {
     set_id: number;
     gig_id: number;
   };
 
   /*
   |---------------------------------------------------
-  | EXPRESS Custom export Types
+  | EXPRESS Custom/Extended Types
   |---------------------------------------------------
   */
 
   type ErrorName =
     | 'ValidationError'
-    | 'UniqueViolationError'
     | 'UniqueViolationError';
 
-  export type ExtError = {
+  type ExtError = {
     name: ErrorName;
     status: number;
     message: string;
@@ -92,9 +91,9 @@ declare namespace Express {
     errors: string;
   };
 
-  // export interface Request {}
+  // interface Request {}
 
-  export interface Response {
+  interface Response {
     user: User;
     dbUser: User;
     loginUser: NewUser;
