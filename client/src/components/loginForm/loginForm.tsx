@@ -14,7 +14,7 @@ const LoginForm = ({ loginSuccess }: Types.LoginFormProps) => {
   const { formFields, setFormFields, changeHandler } = useFormState({
     user_name: '',
     password: '',
-    submitType: 'Login',
+    submitType: '',
     invalidCreds: false
   });
 
@@ -35,7 +35,8 @@ const LoginForm = ({ loginSuccess }: Types.LoginFormProps) => {
 
   const handleSubmit = async (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
-    try {
+    try {console.log(e.target.submit);
+
       let data;
       if (formFields.user_name && formFields.password) {
         const { user_name, password } = formFields;

@@ -78,7 +78,7 @@ declare namespace Types {
     className: string;
     value: string;
     onClick: React.MouseEventHandler;
-    onChange: React.MouseEventHandler;
+    onChange: React.FormEventHandler;
     disabled: boolean;
   }>;
 }

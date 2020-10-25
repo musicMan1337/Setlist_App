@@ -2,14 +2,15 @@ version: '3.8'
 services:
   db:
     container_name: postgres
-    image: postgres:9.6-alpine
+    image: postgres
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: setlist_app
+      PGPORT: 5432
     volumes:
-      - ./pg_data:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
 
@@ -40,9 +41,15 @@ services:
       context: ./server
       dockerfile: Dockerfile.dev
     restart: on-failure
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/setlist_app
     ports:
       - 8000:8000
     volumes:
       - ./server:/app
       - /app/node_modules
     # command: npm run migrate
+
+volumes:
+  pg_data:

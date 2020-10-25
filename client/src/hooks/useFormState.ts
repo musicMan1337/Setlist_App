@@ -4,7 +4,7 @@ type FormStateValues = Partial<{
   // LoginForm
   user_name: string;
   password: string;
-  submitType: 'Login' | 'Register';
+  submitType: 'Login' | 'Register' | '';
   invalidCreds: boolean;
   // HomeForms
   song_title: string;

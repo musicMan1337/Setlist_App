@@ -14,6 +14,10 @@ export const Button: FC<Types.ButtonProps> = ({
   <button
     type={type}
     className={['button', className].join(' ')}
+    value={value}
+    onClick={onClick}
+    onChange={onChange}
+    disabled={disabled}
     {...children}
   />
 );
