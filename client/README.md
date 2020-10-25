@@ -49,6 +49,79 @@
 
 ---
 
+# Typescript:
+
+## tsconfig.tsxon:
+
+Not much to it here - I opted for '`strict`' mode and '`ESNext`' - don't forget to add `'DOM'` to lib!
+
+I wanted to utilize path aliases, but React doesn't support the `"paths"` option. That said, you can still "alias" the root directory { `"baseUrl": "."` } which will make any import url without ' ./ ' default to the root folder, allowing you to import like this:
+
+```ts
+import { Header } from 'src/components';
+```
+
+> _This style of destructured import uses "Barrel" exporting, covered at the bottom of the "src:" section of the README!_
+
+## styles.d.tsx:
+
+As a whole, I prefer using namespaces for typing. Because I only needed minimal custom typing, I decided to use the 'Types' namespace to also hold the component 'Props' types. The naming convention I prefer is [ComponentName]Props:
+
+```ts
+type HeaderProps = {};
+type LoginFormProps = {};
+```
+
+I feel this is a good naming convention that prevents confusion as the app grows. Also, there are some other 'namespaced' types used within 'Types' - essentially I approached the typing by funnelling namespaces into a centralized '.d.tsx' that's _actually_ utilized throughout the app.
+
+## constants.d.tsx
+
+While technically redundant, I decided to use 'constants' in the app to prevent typos and overall make the client more tight-knit. I actually use this namespace in '`.../types.d.tsx`' as well as '`.../constants.tsx`' (which iscovered briefly in the 'src:' section below)
+
+## context.d.tsx
+
+Since the context hook is the only place where I need the types, **and** all those types would clutter the actual '`.../context.tsx`', **and** I may want to create more context files, I decided to break these out into their own namespace! Basically, they're types for objects fetched from the Database.
+
+## src/hooks/useFormatState.tsx
+
+This is the only place where I made a conscious decision the declare types in a .tsx file. Here's why:
+
+- All of the types declared here only make sense within the context of the custom hook itself.
+- Having the types here helps bring context and comprehension to how the hook actually works (for fresh-eyes or returning to it after an extended time).
+  > _The exported types are used in their respective forms. More explanation on how this hook works can be found in the 'Forms' section!_
+
+## React.FC<>
+I only put this here because there's been some debate on the built-in React type. TL;DR you only **need** to use this on props that will accept *children* in their return. Here's an example within this app:
+```tsx
+// ...components/utils.tsx
+export const Button: FC<Types.ButtonProps> = ({...}) => (
+  <button
+    type={type}
+    className={['button', className].join(' ')}
+    {...children}
+  />
+);
+
+// ...components/header.tsx
+const Header = ({ userName, logout }: Types.HeaderProps) => {
+  ...
+  return (
+    <header className="main-header">
+      <nav className="nav-bar">
+        {userName ? renderNav : <Link to="/login">Login</Link>}
+      </nav>
+
+      <Link to="/">
+        <h1 className="headline">SET-LIST APP</h1>
+      </Link>
+    </header>
+  );
+}
+```
+The main takeaway should be that the 'FC' type isn't needed if there won't be rendered child elements ***passed via props***. Though it won't break the typing just throwing it onto every component, consider that the typing will technically be misleading/incorrect, which somewhat dismisses the whole point of using Typescript in the first place 😎
+
+---
+
 ## public
 
 The Public folder is nothing special, besides the custom favicon and (as I'll note later) some imported CDNs in the head of index.html for a few Google Fonts.
@@ -59,9 +132,9 @@ _As an aside, it's actually faster (from a runtime perspective) to import fonts 
 
 # src:
 
-## config.js, index.js, and setupTests.js
+## config.tsx, index.ts, and setupTests.tsx
 
-**[ config.js ]** - this is essentially where I store "environment" variables. One important thing to know is that React has a built-in `NODE_ENV` variable that is set automatically when running scripts:
+**[ config.tsx ]** - this is essentially where I store "environment" variables. One important thing to know is that React has a built-in `NODE_ENV` variable that is set automatically when running scripts:
 
 1. Run **Start**: `NODE_ENV = developement`
 1. Run **Build**: `NODE_ENV = production`
@@ -74,13 +147,13 @@ _As an aside, it's actually faster (from a runtime perspective) to import fonts 
    > ... you can access variables like this...
    >
    > ```javascript
-   > import config from '.../config.js';
+   > import config from '.../config.tsx';
    > ...
    >   await fetch(config.API_ENDPOINT)
    > ```
    >
-   > **[ index.js ]** - bog-standard React App-wrapper using BrowserRouter
-   > **[ setupTests.js ]** - configuration for Enzyme testing
+   > **[ index.ts ]** - bog-standard React App-wrapper using BrowserRouter
+   > **[ setupTests.tsx ]** - configuration for Enzyme testing
 
 ---
 
@@ -92,12 +165,12 @@ Fairly straight-forward Sass setup, with a simple reset and global stylesheet im
 
 ###### _I'll briefly cover some global-level stuff before breaking down the App itself_
 
-### jsconfig.js:
+### jsconfig.tsx:
 
 This is actually at the root level, but it's use is important in understanding the syntax used throughout the app. I won't go too in-depth, but essentially what's goig on is it's creating a global alias for the **[ src/ ]** file directory. The side effect is you can re-factor local imports:
 
 ```javascript
-// sgList.js
+// sgList.tsx
 import { PostService } from '../../../../../src/services';
 ...to...
 import { PostService } from 'src/services';
@@ -109,7 +182,7 @@ Not strictly necessary, but this can help prevent typos, along with making chang
 
 ### services:
 
-This is where the logic for interfacing with the server lives. Each "method" has been broken-out into it's own file. [ token.service.js ] is for handling Auth-token processes.
+This is where the logic for interfacing with the server lives. Each "method" has been broken-out into it's own file. [ token.service.tsx ] is for handling Auth-token processes.
 
 ### hooks:
 
@@ -152,7 +225,7 @@ const { data, functions, andMore } = useContext(DatabaseContext);
 
 ### Barrels...
 
-You may have already noticed that there are actually many [ index.js ] files peppered throughout the app. These are known as "barrel" exports, and have a few advantages when dealing with a complex file-directory. The index file in the [ components ] folder has a short explanation, but I'll also put it here:
+You may have already noticed that there are actually many [ index.ts ] files peppered throughout the app. These are known as "barrel" exports, and have a few advantages when dealing with a complex file-directory. The index file in the [ components ] folder has a short explanation, but I'll also put it here:
 
 ```javascript
 /*
@@ -160,7 +233,7 @@ You may have already noticed that there are actually many [ index.js ] files pep
 | BARREL EXPORT FILE
 |------------------------------------------------------
 | How-To barrel-export components:
-| export { default as Comp1 } from './comp1/comp1.js' (omit .js)
+| export { default as Comp1 } from './comp1/comp1.tsx' (omit .tsx)
 |
 | Why? Readability and (to an extent) testing:
 | import { Comp1, Comp2, Comp3, Comp4 } from './components'
@@ -171,13 +244,13 @@ export { default as Header } from './header/header'
 etc...
 ```
 
-You can see this in action in **[ app.js ]**:
+You can see this in action in **[ app.tsx ]**:
 
 ```javascript
 import { LoginPage, HomePage, SongsPage, SetsPage, GigsPage } from 'src/routes';
 ```
 
-> _Note that the import doesn't point to the index file. Node perceives **[ index.js ]** files as points of entry and the default file to grab exports from, essentially making it an implicit file in import statements_
+> _Note that the import doesn't point to the index file. Node perceives **[ index.ts ]** files as points of entry and the default file to grab exports from, essentially making it an implicit file in import statements_
 
 ---
 

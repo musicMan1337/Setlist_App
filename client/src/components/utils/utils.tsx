@@ -10,15 +10,13 @@ export const Button: FC<Types.ButtonProps> = ({
   onChange,
   disabled,
   ...children
-}) => {
-  return (
-    <button
-      type={type}
-      className={['button', className].join(' ')}
-      {...children}
-    />
-  );
-};
+}) => (
+  <button
+    type={type}
+    className={['button', className].join(' ')}
+    {...children}
+  />
+);
 
 export const CardHr = () => {
   return <hr className="card-hr" />;
