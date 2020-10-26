@@ -1,5 +1,18 @@
 version: '3.8'
 services:
+  client:
+    container_name: react-app
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    restart: on-failure
+    ports:
+      - 3000:3000
+    stdin_open: true
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+
   db:
     container_name: postgres
     image: postgres
@@ -20,19 +33,6 @@ services:
     ports:
       - 8080:8080
 
-  client:
-    container_name: react-app
-    build:
-      context: ./client
-      dockerfile: Dockerfile.dev
-    restart: on-failure
-    ports:
-      - 3000:3000
-    stdin_open: true
-    volumes:
-      - ./client:/app
-      - /app/node_modules
-
   server:
     container_name: express-api
     depends_on:
@@ -50,6 +50,19 @@ services:
       - ./server:/app
       - /app/node_modules
     # command: npm run migrate
+
+  migration:
+    container_name: postgrator
+    depends_on:
+      - server
+    build:
+      context: ./server
+      dockerfile: Dockerfile.migrate
+    restart: on-failure
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/setlist_app
+    command: npm run migrate
 
 volumes:
   pg_data:

@@ -1,0 +1,11 @@
+FROM node:alpine
+
+WORKDIR /postgrator
+
+COPY package.json ./
+RUN npm install postgrator dotenv
+
+COPY postgrator-config.js ./
+COPY ./db ./
+
+CMD ["npm", "run", "migrate"]
