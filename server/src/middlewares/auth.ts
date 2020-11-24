@@ -1,13 +1,13 @@
 import { RequestHandler } from 'express';
 
-import jwt from 'jsonwebtoken';
+import jwt, { VerifiedObject } from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 import CRUDService from '../services/crud.service';
 
 import { JWT_SECRET, JWT_EXPIRY, SALT_ROUNDS } from '../config';
 
-const createJwtService = (user_name: string, id: number): String => {
+const createJwtService = (user_name: string, id: number): string => {
   const subject = user_name;
   const payload = { user_id: id };
 
@@ -59,11 +59,14 @@ const requireAuth: RequestHandler = async (req, res, next) => {
   const token = authToken.split(' ')[1];
 
   try {
-    const payload = jwt.verify(token, JWT_SECRET, {
+    const payload = jwt.verify<VerifiedObject>(token, JWT_SECRET, {
       algorithms: ['HS256']
     });
 
-    const user = await CRUDService.getByName(req.app.get('db'), payload.sub);
+    let user;
+    if (payload.sub) {
+      user = await CRUDService.getByName(req.app.get('db'), payload.sub);
+    }
 
     if (!user) return res.status(404).json({ message: 'Data not found' });
 

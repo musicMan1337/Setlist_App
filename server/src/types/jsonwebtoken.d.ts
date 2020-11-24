@@ -184,12 +184,23 @@ declare module 'jsonwebtoken' {
    * [options] - Options for the verification
    * returns - The decoded token.
    */
-  type VerifiedObject = { sub: string };
-  export function verify(
+  type VerifiedObject = {
+    [key: string]: unknown;
+    iat: number;
+    exp?: number;
+    aud?: string;
+    iss?: string;
+    sub?: string;
+    jti?: string;
+  }
+
+  type VerifyReturn = VerifiedObject | string
+
+  export function verify<T extends VerifyReturn>(
     token: string,
     secretOrPublicKey: Secret,
     options?: VerifyOptions
-  ): VerifiedObject;
+  ): T
 
   /**
    * Asynchronously verify given token using a secret or a public key to get a decoded token

@@ -13,9 +13,9 @@ const initialContext: Context.createContextProps = {
 
 export const DatabaseContext = createContext(initialContext);
 
-const DatabaseContextProvider: FC<Types.DatabaseContextProviderProps> = ({
+const DatabaseContextProvider: Types.DatabaseContextProviderProps = ({
   userName,
-  ...props
+  children
 }) => {
   const [songs, setSongs] = useState<Context.Song[]>([]);
   const [sets, setSets] = useState<Context.Set[]>([]);
@@ -61,7 +61,7 @@ const DatabaseContextProvider: FC<Types.DatabaseContextProviderProps> = ({
 
   return (
     <DatabaseContext.Provider value={value}>
-      {props.children}
+      {children && children}
     </DatabaseContext.Provider>
   );
 };

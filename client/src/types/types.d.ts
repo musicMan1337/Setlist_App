@@ -14,9 +14,10 @@ declare namespace Types {
   type SubmitFunc = (e: React.BaseSyntheticEvent, id: number) => Promise<void>;
 
   // ComponentProps
-  type DatabaseContextProviderProps = {
+  type DatabaseContextProviderProps = (props: {
     userName: string;
-  };
+    children?: React.ReactNode;
+  }) => JSX.Element;
 
   type HeaderProps = {
     userName: string;
